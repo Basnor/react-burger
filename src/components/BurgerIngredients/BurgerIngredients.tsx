@@ -1,34 +1,46 @@
-import React, { useState, useRef, useEffect, forwardRef } from 'react';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useState, useRef, useEffect } from 'react';
+import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const ingredientTypes = [
+import { ingredients } from '../../utils/data';
+
+type ingredientTypeProps = {
+    name: string,
+    value: string
+}
+
+const ingredientTypes: ingredientTypeProps[] = [
     {
-        title: "Булки",
+        name: "Булки",
         value: 'bun'
     },
     {
-        title: "Соусы",
+        name: "Соусы",
         value: 'sauce'
     },
     {
-        title: "Начинки",
+        name: "Начинки",
         value: 'main'
     },
 ]
 
-const Tabs = (props: any) => {
-    const [current, setCurrent] = useState(ingredientTypes[0].value);
+function IngredientTabs(props: {ingredientTypes: ingredientTypeProps[], onToggle: (tab: string) => void}) {
+    const {
+        ingredientTypes,
+        onToggle
+    } = props;
+
+    const [current, setCurrent] = useState<string>(ingredientTypes[0].value);
 
     useEffect(() => {
-        props.onChange(current);
-    });
+        onToggle(current);
+    }, [current]);
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} className="mb-10">
             {
                 ingredientTypes.map(tab => {
                     return <Tab value={tab.value} active={current === tab.value} onClick={setCurrent}>
-                        {tab.title}
+                        {tab.name}
                     </Tab>
                 })
             }
@@ -36,37 +48,72 @@ const Tabs = (props: any) => {
     )
 }
 
+function IngredientItem(props: {ingredient: any, amount?: number}) {
+    const {
+        ingredient,
+        amount
+    } = props;
+
+    return (
+        <div 
+            style={{
+                position: 'relative',
+                width: '272px',
+                height: '208px',
+                textAlign: 'center'
+            }} 
+        >
+            {
+                amount && <Counter count={amount} size="default" extraClass="m-1" />
+            }
+            <img src={ingredient.image} className="pl-4 pr-4" alt={ingredient.name} />
+            <div className="mt-1 mb-1" style={{display: 'inline-flex'}}>
+                <span className="text text_type_digits-default mr-2">{ingredient.price}</span>
+                <CurrencyIcon type="primary" />
+            </div>
+            <p className="text text_type_main-default">{ingredient.name}</p>
+        </div>
+    );
+}
+
 function BurgerIngredients() {
-    const [ingredients, setIngredients] = useState();
+    const ingredientsRef = useRef<HTMLDivElement>(null);
 
-    const ref = useRef(null);
-
-    const handleScroll = (ch: any) => {
-        let arr  : any = ref.current;
-
-        if (arr.children) {
-            let ref1: any = Array.from(arr.childNodes).find((r : any)=> r.id === ch)
-
-            ref1.scrollIntoView() 
+    const handleTabToggle = (tab : string) => {
+        if (!ingredientsRef.current) {
+            return;
         }
+
+        Array.from(ingredientsRef.current.children).find((section)=> section.id === tab)?.scrollIntoView();
     }
 
     return (
-        <>
-            <h1>Соберите бургер</h1>
+        <div style={{
+            maxWidth: '600px',
+            margin: 'auto'
+        }} >
+            <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
 
-            <Tabs onChange={handleScroll}/>
+            <IngredientTabs ingredientTypes={ingredientTypes} onToggle={handleTabToggle}/>
 
-            <div ref={ref} style={{maxHeight: '800px', overflowY: "scroll"}}>
+            <div ref={ingredientsRef} style={{maxHeight: '800px', overflowY: "scroll"}}>
                 {
                     ingredientTypes.map(type => {
-                        return <section id={type.value} style={{height: '2000px'}}>
-                            {type.title}
+                        return <section id={type.value}>
+                            <h2 className="text text_type_main-medium">{type.name}</h2>
+
+                            <div className="mr-4 ml-4 mt-6 mb-10" style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', columnGap: '24px', rowGap: '32px'}}>
+                                {
+                                    ingredients.filter(ingredient => ingredient.type === type.value).map((ingredient => {
+                                        return <IngredientItem ingredient={ingredient}/>
+                                    }))
+                                }
+                            </div>
                         </section>
                     })
                 }
             </div>
-        </>
+        </div>
     );
 }
 
