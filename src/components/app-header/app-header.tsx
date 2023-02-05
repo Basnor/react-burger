@@ -1,14 +1,14 @@
-import './AppHeader.css';
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import AppHeaderButton from './AppHeaderButton';
+import AppHeaderButton from './app-header-button';
+import styles from './app-header.module.css';
 
 function AppHeader() {
     return (
-        <header>
-            <nav>
-                <ul style={{textAlign: 'start'}}>
-                    <li>
+        <header className={styles.header}>
+            <nav className={styles.navigation}>
+                <ul className={styles.links} style={{textAlign: 'start'}}>
+                    <li className={styles.link}>
                         <AppHeaderButton 
                             name="Конструктор" 
                             icon={<BurgerIcon type="primary"/>}
@@ -18,7 +18,7 @@ function AppHeader() {
                             }}
                         />
                     </li>
-                    <li>
+                    <li className={styles.link}>
                         <AppHeaderButton 
                             disabled
                             name="Лента заказов" 
@@ -26,13 +26,13 @@ function AppHeader() {
                         />
                     </li>
                 </ul>
-                <ul style={{textAlign: 'center'}}>
-                    <li>
+                <ul className={styles.links} style={{textAlign: 'center'}}>
+                    <li className={styles.link}>
                         <Logo />
                     </li>
                 </ul>
-                <ul style={{textAlign: 'end'}}>
-                    <li>
+                <ul className={styles.links} style={{textAlign: 'end'}}>
+                    <li className={styles.link}>
                         <AppHeaderButton 
                             disabled
                             name="Личный кабинет" 

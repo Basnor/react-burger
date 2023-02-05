@@ -1,7 +1,7 @@
 import './App.css';
-import AppHeader from './components/AppHeader/AppHeader';
-import BurgerConstructor from './components/BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from './components/BurgerIngredients/BurgerIngredients';
+import AppHeader from './components/app-header/app-header';
+import BurgerConstructor from './components/burger-constructor/burger-constructor';
+import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 
 function App() {
   return (
