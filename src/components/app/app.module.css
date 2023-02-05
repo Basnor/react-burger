@@ -1,4 +1,4 @@
-main {
+.app > main {
     display: flex;
     column-gap: 40px;
     justify-content: center;
