@@ -1,14 +1,14 @@
 @import-normalize;
 
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--background-element);
+  background: var(--background-element);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--text-inactive-color);
-    border: 3px solid var(--text-inactive-color);
+  background-color: var(--text-inactive-color);
+  border: 3px solid var(--text-inactive-color);
 }
