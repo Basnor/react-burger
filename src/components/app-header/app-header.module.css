@@ -24,7 +24,3 @@
 .link {
   display: contents;
 }
-
-.link > svg {
-  max-height: 40px;
-}

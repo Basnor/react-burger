@@ -6,8 +6,8 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import AppHeaderButton from "./app-header-button";
 import styles from "./app-header.module.css";
+import AppHeaderButton from "./app-header-button";
 
 function AppHeader() {
   return (
@@ -15,14 +15,16 @@ function AppHeader() {
       <nav className={styles.navigation}>
         <ul className={styles.links} style={{ textAlign: "start" }}>
           <li className={styles.link}>
-            <AppHeaderButton
-              name="Конструктор"
-              icon={<BurgerIcon type="primary" />}
-              extraClass="mr-2"
-              style={{
-                color: "white",
-              }}
-            />
+            <a href="#" style={{ display: "contents" }}>
+              <AppHeaderButton
+                name="Конструктор"
+                icon={<BurgerIcon type="primary" />}
+                extraClass="mr-2"
+                style={{
+                  color: "white",
+                }}
+              />
+            </a>
           </li>
           <li className={styles.link}>
             <AppHeaderButton
@@ -34,16 +36,20 @@ function AppHeader() {
         </ul>
         <ul className={styles.links} style={{ textAlign: "center" }}>
           <li className={styles.link}>
-            <Logo />
+            <a href="#" style={{ display: "contents" }}>
+              <Logo />
+            </a>
           </li>
         </ul>
         <ul className={styles.links} style={{ textAlign: "end" }}>
           <li className={styles.link}>
-            <AppHeaderButton
-              disabled
-              name="Личный кабинет"
-              icon={<ProfileIcon type="secondary" />}
-            />
+            <a href="#" style={{ display: "contents" }}>
+              <AppHeaderButton
+                disabled
+                name="Личный кабинет"
+                icon={<ProfileIcon type="secondary" />}
+              />
+            </a>
           </li>
         </ul>
       </nav>
