@@ -6,25 +6,28 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-ingredients.module.css";
-import { ingredients } from "../../utils/data";
+//import { ingredients } from "../../utils/data";
+import { IngredientType } from "../../utils/enums";
 
-type ingredientTypeProps = {
+import IngredientsService, { Ingredient } from "../../services/ingredients";
+
+export type ingredientTypeProps = {
   name: string;
-  value: string;
+  value: IngredientType;
 };
 
-const ingredientTypes: ingredientTypeProps[] = [
+export const ingredientTypes: ingredientTypeProps[] = [
   {
     name: "Булки",
-    value: "bun",
+    value: IngredientType.Bun,
   },
   {
     name: "Соусы",
-    value: "sauce",
+    value: IngredientType.Sause,
   },
   {
     name: "Начинки",
-    value: "main",
+    value: IngredientType.Main,
   },
 ];
 
@@ -76,6 +79,26 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
 
 function BurgerIngredients() {
   const ingredientsRef = useRef<HTMLDivElement>(null);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    const getDataList = async () => {
+      try {
+        setIsLoading(true);
+        const res = await IngredientsService.getIngredientsList();
+        
+        setIngredients(res);
+        setIsLoading(false);
+      } catch (e) {
+        setIsError(true);
+        console.log(e);
+      }
+    };
+
+    getDataList();
+  }, []);
 
   const handleTabToggle = (tab: string) => {
     if (!ingredientsRef.current) {
@@ -92,7 +115,7 @@ function BurgerIngredients() {
       <IngredientTabs ingredientTypes={ingredientTypes} onToggle={handleTabToggle} />
 
       <div ref={ingredientsRef} className={styles.ingredients}>
-        {ingredientTypes.map((type) => {
+        {!isError && !isLoading && ingredientTypes.map((type) => {
           return (
             <section id={type.value} key={type.value}>
               <h2 className="text text_type_main-medium">{type.name}</h2>
