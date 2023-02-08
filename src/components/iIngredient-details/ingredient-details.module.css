@@ -8,6 +8,10 @@
   line-height: 64px;
 }
 
+.name {
+  text-align: center;
+}
+
 .nutrients {
   width: 100%;
   display: flex;

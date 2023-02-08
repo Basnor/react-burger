@@ -41,13 +41,13 @@ function IngredientDetails(props: IngredientDetailsProps) {
           src={ingredient?.image_large}
           alt={ingredient?.name}
         />
-        <h2 className="text text_type_main-medium mt-4">{ingredient?.name}</h2>
+        <h2 className={`${styles.name} text text_type_main-medium mt-4`}>{ingredient?.name}</h2>
         <ul className={`${styles.nutrients} mt-8 mb-15`}>
-          {details.map((detail) => {
+          {details.map((detail, index) => {
             return (
               <li
                 className={`${styles.nutrient} text text_type_main-default text_color_inactive`}
-                key={ingredient._id}
+                key={index}
               >
                 {detail.name}
                 <span className="text text_type_digits-default text_color_inactive">
