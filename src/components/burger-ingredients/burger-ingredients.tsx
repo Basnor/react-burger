@@ -46,7 +46,7 @@ function IngredientTabs(props: {
   };
 
   return (
-    <div className={`mb-10 ${styles.tabs}`}>
+    <div className={`${styles.tabs} mb-10`}>
       {ingredientTypes.map((tab) => {
         return (
           <Tab
@@ -85,7 +85,7 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
           className="pl-4 pr-4"
           alt={ingredient.name}
         />
-        <div className={`mt-1 mb-1 ${styles.price}`}>
+        <div className={`${styles.price} mt-1 mb-1`}>
           <span className="text text_type_digits-default mr-2">
             {ingredient.price}
           </span>
@@ -139,7 +139,7 @@ function BurgerIngredients() {
             <section id={type.value} key={type.value}>
               <h2 className="text text_type_main-medium">{type.name}</h2>
 
-              <div className={`mr-4 ml-4 mt-6 mb-10 ${styles.group}`}>
+              <div className={`${styles.group} mr-4 ml-4 mt-6 mb-10`}>
                 {filteredIngredients(type.value).map((ingredient) => {
                   return (
                     <IngredientItem

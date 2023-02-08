@@ -31,7 +31,7 @@ function AppHeaderButton(props: AppHeaderButtonProps) {
         ...style,
         display: "inline-flex",
       }}
-      extraClass={`pl-5 pr-4 pb-5 pt-4 mb-4 mt-4 ${extraClass}`}
+      extraClass={`${extraClass} pl-5 pr-4 pb-5 pt-4 mb-4 mt-4`}
     >
       {icon}
       <span className="pl-2">{name}</span>

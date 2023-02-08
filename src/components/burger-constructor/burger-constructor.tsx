@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -7,6 +7,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-constructor.module.css";
+import Modal from "../modal/modal";
+import { OrderDetails } from "../order-details/order-details";
 import { IIngredient, IngredientType } from "../../utils/types";
 import { INGREDIENTS_URL } from "../../utils/contants";
 import useFetch from "../../hooks/useFetch";
@@ -41,9 +43,19 @@ function BurgerConstructorBuns(props: { ingredient: IIngredient|undefined; child
 
 function BurgerConstructor() {
   const { isLoading, data, error } = useFetch<IIngredient>(INGREDIENTS_URL);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   
   return (
-    <div className={`ml-4 mr-4 mt-25 ${styles.wrapper}`}>
+    <>
+    <div className={`${styles.wrapper} ml-4 mr-4 mt-25`}>
       <div className={styles.layers}>
         <BurgerConstructorBuns ingredient={data.find(({type}) => type as IngredientType === IngredientType.Bun)}>
           <ul className={styles.toppings}>
@@ -63,7 +75,7 @@ function BurgerConstructor() {
           </ul>
         </BurgerConstructorBuns>
 
-        <div className={`mt-10 mb-10 mr-4 ${styles.pricing}`}>
+        <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
           <span className="text text_type_digits-medium mr-2">12390</span>
           <CurrencyIcon type="primary" />
           <Button
@@ -71,12 +83,19 @@ function BurgerConstructor() {
             type="primary"
             size="large"
             extraClass="ml-10"
+            onClick={handleModalOpen}
           >
             Нажми на меня
           </Button>
         </div>
       </div>
     </div>
+    {isModalOpen && (
+      <Modal onClose={handleModalClose}>
+        <OrderDetails />
+      </Modal>
+    )}
+    </>
   );
 }
 
