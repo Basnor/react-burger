@@ -6,17 +6,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-ingredients.module.css";
-//import { ingredients } from "../../utils/data";
-import { IngredientType } from "../../utils/enums";
+import useFetch from "../../hooks/useFetch";
+import { INGREDIENTS_URL } from "../../utils/contants";
+import { IIngredient, IngredientType } from "../../utils/types";
 
-import IngredientsService, { Ingredient } from "../../services/ingredients";
-
-export type ingredientTypeProps = {
+type IngredientTypeProps = {
   name: string;
   value: IngredientType;
 };
 
-export const ingredientTypes: ingredientTypeProps[] = [
+export const availableIngredientTabs: IngredientTypeProps[] = [
   {
     name: "Булки",
     value: IngredientType.Bun,
@@ -31,7 +30,7 @@ export const ingredientTypes: ingredientTypeProps[] = [
   },
 ];
 
-function IngredientTabs(props: { ingredientTypes: ingredientTypeProps[]; onToggle: (tab: string) => void; }) {
+function IngredientTabs(props: { ingredientTypes: IngredientTypeProps[]; onToggle: (tab: string) => void; }) {
   const { ingredientTypes, onToggle } = props;
 
   const [current, setCurrent] = useState<string>(ingredientTypes[0].value);
@@ -78,27 +77,8 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
 }
 
 function BurgerIngredients() {
+  const { isLoading, data: ingredients, error } = useFetch<IIngredient>(INGREDIENTS_URL);
   const ingredientsRef = useRef<HTMLDivElement>(null);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-
-  React.useEffect(() => {
-    const getDataList = async () => {
-      try {
-        setIsLoading(true);
-        const res = await IngredientsService.getIngredientsList();
-        
-        setIngredients(res);
-        setIsLoading(false);
-      } catch (e) {
-        setIsError(true);
-        console.log(e);
-      }
-    };
-
-    getDataList();
-  }, []);
 
   const handleTabToggle = (tab: string) => {
     if (!ingredientsRef.current) {
@@ -108,23 +88,27 @@ function BurgerIngredients() {
     Array.from(ingredientsRef.current.children).find((section) => section.id === tab)?.scrollIntoView();
   };
 
+  const filteredIngredients = (type: IngredientType) => {
+    return ingredients.filter((ingredient) => ingredient.type === type);
+  };
+
   return (
     <div className={styles.wrapper}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
 
-      <IngredientTabs ingredientTypes={ingredientTypes} onToggle={handleTabToggle} />
+      <IngredientTabs ingredientTypes={availableIngredientTabs} onToggle={handleTabToggle} />
 
       <div ref={ingredientsRef} className={styles.ingredients}>
-        {!isError && !isLoading && ingredientTypes.map((type) => {
+        {availableIngredientTabs.map((type) => {
           return (
             <section id={type.value} key={type.value}>
               <h2 className="text text_type_main-medium">{type.name}</h2>
 
               <div className={`mr-4 ml-4 mt-6 mb-10 ${styles.group}`}>
-                {ingredients.filter((ingredient) => ingredient.type === type.value).map((ingredient) => {
-                    return (
-                      <IngredientItem key={ingredient._id} ingredient={ingredient} />
-                    );
+                {filteredIngredients(type.value).map((ingredient) => {
+                  return (
+                    <IngredientItem key={ingredient._id} ingredient={ingredient} />
+                  );
                 })}
               </div>
             </section>
