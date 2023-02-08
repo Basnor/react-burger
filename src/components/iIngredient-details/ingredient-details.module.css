@@ -1,0 +1,24 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  line-height: 64px;
+}
+
+.nutrients {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 0;
+}
+
+.nutrient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 8px;
+}
