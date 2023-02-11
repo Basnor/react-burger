@@ -10,7 +10,7 @@ import useFetch from "../../hooks/useFetch";
 import { INGREDIENTS_URL } from "../../utils/contants";
 import { IIngredient, IngredientType } from "../../utils/types";
 import Modal from "../modal/modal";
-import IngredientDetails from "../iIngredient-details/ingredient-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 type IngredientTypeProps = {
   name: string;

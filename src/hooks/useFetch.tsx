@@ -9,12 +9,18 @@ function useFetch<T>(url: string) {
     setIsLoading(true);
 
     try {
-      const response = await fetch(url).then((res) => res.json());
-      const data = await response?.data;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Ошибка получения данных. Статус: ${response.status}`)
+      }
 
-      setData(data);
+      const data = await response?.json();
+
+      setData(data.data);
       setIsLoading(false);
     } catch (error: any) {
+      console.warn(error);
+
       setError(error);
       setIsLoading(false);
     }
