@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { useContext, useEffect, useMemo, useReducer, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -7,43 +7,64 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-constructor.module.css";
+import BurgerConstructorBuns from "./burger-constructor-buns";
 import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { IIngredient, IngredientType } from "../../utils/types";
-import { INGREDIENTS_URL } from "../../utils/contants";
-import useFetch from "../../hooks/useFetch";
+import { IngredientsContext } from "../../services/appContext";
 
-function BurgerConstructorBuns(props: { ingredient: IIngredient|undefined; children: ReactNode; }) {
-  const { ingredient, children } = props;
+function reducer(
+  state: { price: number },
+  action: { type: string; payload?: { type: IngredientType; price: number } }
+) {
+  switch (action.type) {
+    case "add":
+      if (!action.payload) {
+        return { price: state.price };
+      }
 
-  return (
-      ingredient
-      ? <>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${ingredient.name} (верх)`}
-          price={ingredient.price}
-          thumbnail={ingredient.image}
-          extraClass="ml-8 mr-2"
-        />
-        {children} 
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${ingredient.name} (низ)`}
-          price={ingredient.price}
-          thumbnail={ingredient.image}
-          extraClass="ml-8 mr-2"
-        />
-      </>
-      : <>{children}</>
-  );
+      if (action.payload.type === IngredientType.Bun) {
+        return { price: state.price + action.payload.price * 2 };
+      }
+
+      return { price: state.price + action.payload.price };
+
+    case 'clear':
+      return { price: 0 };
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
 }
 
 function BurgerConstructor() {
-  const { isLoading, data, error } = useFetch<IIngredient>(INGREDIENTS_URL);
+  const data = useContext<IIngredient[]>(IngredientsContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, {
+    price: 0
+  });
+
+  const ingredients = useMemo(
+    () => data.filter(
+      ({ _id }) =>
+      _id === "60d3b41abdacab0026a733c6" ||
+      _id === "60d3b41abdacab0026a733c8" ||
+      _id === "60d3b41abdacab0026a733cd"
+    ),
+    [data]
+  );
+
+  const bun = ingredients.find(
+    ({ type }) => (type as IngredientType) === IngredientType.Bun
+  );
+  const toppings = ingredients.filter(({ type }) => type !== IngredientType.Bun);
+
+  useEffect(() => {
+    totalPriceDispatcher({ type: "clear" });
+
+    ingredients.map(({ type, price }) => {
+      totalPriceDispatcher({ type: "add", payload: { type, price } });
+    });
+  }, [ingredients]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -52,14 +73,14 @@ function BurgerConstructor() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-  
+
   return (
     <>
-    <div className={`${styles.wrapper} ml-4 mr-4 mt-25`}>
-      <div className={styles.layers}>
-        <BurgerConstructorBuns ingredient={data.find(({type}) => type as IngredientType === IngredientType.Bun)}>
-          <ul className={styles.toppings}>
-            {data.filter(({type}) => type !== IngredientType.Bun).map((ingredient) => {
+      <div className={`${styles.wrapper} ml-4 mr-4 mt-25`}>
+        <div className={styles.layers}>
+          <BurgerConstructorBuns ingredient={bun}>
+            <ul className={styles.toppings}>
+              {toppings.map((ingredient) => {
                 return (
                   <li key={ingredient._id} className={styles.topping}>
                     <DragIcon type="primary" />
@@ -72,29 +93,31 @@ function BurgerConstructor() {
                   </li>
                 );
               })}
-          </ul>
-        </BurgerConstructorBuns>
+            </ul>
+          </BurgerConstructorBuns>
 
-        <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
-          <span className="text text_type_digits-medium mr-2">12390</span>
-          <CurrencyIcon type="primary" />
-          <Button
-            htmlType="button"
-            type="primary"
-            size="large"
-            extraClass="ml-10"
-            onClick={handleModalOpen}
-          >
-            Нажми на меня
-          </Button>
+          <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
+            <span className="text text_type_digits-medium mr-2">
+              {totalPriceState.price}
+            </span>
+            <CurrencyIcon type="primary" />
+            <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              extraClass="ml-10"
+              onClick={handleModalOpen}
+            >
+              Оформить заказ
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-    {isModalOpen && (
-      <Modal onClose={handleModalClose}>
-        <OrderDetails />
-      </Modal>
-    )}
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <OrderDetails />
+        </Modal>
+      )}
     </>
   );
 }
