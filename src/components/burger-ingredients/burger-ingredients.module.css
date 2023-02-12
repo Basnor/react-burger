@@ -27,6 +27,7 @@
   width: 272px;
   height: 208px;
   text-align: center;
+  cursor: pointer;
 }
 
 .price {
