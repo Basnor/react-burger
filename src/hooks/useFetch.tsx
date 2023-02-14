@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { BASE_URL } from "../utils/contants";
 
 const HEADERS = {
   Accept: "application/json",
@@ -39,7 +40,7 @@ function useFetch<T>(endpoint: string) {
   }, [endpoint]);
 
   const get = () => {
-    return fetchData(endpoint);
+    return fetchData(BASE_URL + endpoint);
   };
 
   const post = (body?: object) => {
@@ -47,7 +48,7 @@ function useFetch<T>(endpoint: string) {
       return Promise.reject(new Error("Тело POST запроса не указано."));
     }
 
-    return fetchData(endpoint, Method.POST, body);
+    return fetchData(BASE_URL + endpoint, Method.POST, body);
   };
 
   return { get, post };

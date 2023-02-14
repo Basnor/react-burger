@@ -18,7 +18,7 @@ import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { IngredientsContext } from "../../services/appContext";
 import useFetch from "../../hooks/useFetch";
-import { ORDERS_API_URL } from "../../utils/contants";
+import { endpoints } from "../../utils/contants";
 import {
   IIngredient,
   IngredientType,
@@ -69,7 +69,7 @@ function totalPriceReducer(state: TotalPriceStateProps, action: TotalPriceAction
 function BurgerConstructor() {
   const data = useContext<IIngredient[]>(IngredientsContext);
 
-  const { post } = useFetch<IResponse & IOrder>(ORDERS_API_URL);
+  const { post } = useFetch<IResponse & IOrder>(endpoints.orders);
   const [orderNumber, setOrderNumber] = useState<number | undefined>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [totalPriceState, totalPriceDispatcher] = useReducer(totalPriceReducer, totlPriceInitialState);

@@ -5,12 +5,12 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { IngredientsContext } from "../../services/appContext";
-import { INGREDIENTS_URL } from "../../utils/contants";
+import { endpoints } from "../../utils/contants";
 import { IIngredient, IResponse } from "../../utils/types";
 import useFetch from "../../hooks/useFetch";
 
 function App() {
-  const { get } = useFetch<IResponse & { data: IIngredient[] }>(INGREDIENTS_URL);
+  const { get } = useFetch<IResponse & { data: IIngredient[] }>(endpoints.ingredients);
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
 
   useEffect(() => {
