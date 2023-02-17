@@ -1,5 +1,4 @@
 import React, {
-  useContext,
   useEffect,
   useMemo,
   useReducer,
@@ -16,14 +15,9 @@ import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./burger-constructor-buns";
 import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
-import { IngredientsContext } from "../../services/appContext";
-import useFetch from "../../hooks/useFetch";
-import { endpoints } from "../../utils/contants";
 import {
   IIngredient,
   IngredientType,
-  IOrder,
-  IResponse,
 } from "../../utils/types";
 
 enum Action {
@@ -67,31 +61,26 @@ function totalPriceReducer(state: TotalPriceStateProps, action: TotalPriceAction
 }
 
 function BurgerConstructor() {
-  const data = useContext<IIngredient[]>(IngredientsContext);
+  const ingredients = {} as IIngredient[];
 
-  const { post } = useFetch<IResponse & IOrder>(endpoints.orders);
   const [orderNumber, setOrderNumber] = useState<number | undefined>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [totalPriceState, totalPriceDispatcher] = useReducer(totalPriceReducer, totlPriceInitialState);
 
-  const ingredients = useMemo(() => {
-    return data.filter(({ _id }) => _id === "60d3b41abdacab0026a733c6" || _id === "60d3b41abdacab0026a733c8" || _id === "60d3b41abdacab0026a733cd");
-  }, [data]);
-
   const bun = useMemo(() => {
-    return ingredients.find(({ type }) => (type as IngredientType) === IngredientType.Bun);
+    return undefined//ingredients.find(({ type }) => (type as IngredientType) === IngredientType.Bun);
   }, [ingredients]);
 
   const toppings = useMemo(() => {
-    return ingredients.filter(({ type }) => type !== IngredientType.Bun);
+    return undefined//ingredients.filter(({ type }) => type !== IngredientType.Bun);
   }, [ingredients]);
 
   useEffect(() => {
     totalPriceDispatcher({ type: Action.CLEAR });
 
-    ingredients.map(({ type, price }) => {
-      totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
-    });
+    // ingredients?.map(({ type, price }) => {
+    //   totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
+    // });
   }, [ingredients]);
 
   const handleModalOpen = () => {
@@ -105,13 +94,14 @@ function BurgerConstructor() {
   const createOrder = () => {
     const postOrder = async () => {
       try {
-        const response = await post({
-          ingredients: ingredients.map(({ _id }) => {
-            return _id;
-          }),
-        });
+        // const response = await post({
+        //   ingredients: ingredients.map(({ _id }) => {
+        //     return _id;
+        //   }),
+        // });
 
-        setOrderNumber(response.order.number);
+
+        //setOrderNumber(response.order.number);
 
         handleModalOpen();
       } catch (e: any) {
@@ -128,7 +118,7 @@ function BurgerConstructor() {
         <div className={styles.layers}>
           <BurgerConstructorBuns ingredient={bun}>
             <ul className={styles.toppings}>
-              {toppings.map((ingredient) => {
+              {/* {toppings.map((ingredient) => {
                 return (
                   <li key={ingredient._id} className={styles.topping}>
                     <DragIcon type="primary" />
@@ -140,7 +130,7 @@ function BurgerConstructor() {
                     />
                   </li>
                 );
-              })}
+              })} */}
             </ul>
           </BurgerConstructorBuns>
 

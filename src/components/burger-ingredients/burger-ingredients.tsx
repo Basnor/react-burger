@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Tab,
   Counter,
@@ -6,10 +6,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-ingredients.module.css";
-import { IIngredient, IngredientType } from "../../utils/types";
+import { IngredientType } from "../../utils/types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { IngredientsContext } from "../../services/appContext";
+import { useAppSelector } from "../../hooks";
+import { RootState } from "../../services";
 
 type IngredientTypeProps = {
   name: string;
@@ -42,7 +43,7 @@ function IngredientTabs(props: {
 
   useEffect(() => {
     setCurrent(activeTab);
-  }, [activeTab])
+  }, [activeTab]);
 
   const handleClick = (tab: string) => {
     setCurrent(tab);
@@ -107,24 +108,30 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
 }
 
 function BurgerIngredients() {
-  const ingredients = useContext<IIngredient[]>(IngredientsContext);
   const ingredientsRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<IngredientType>(IngredientType.Bun);
+  const { ingredients } = useAppSelector(
+    (store: RootState) => store.burgerIngredientsReducer
+  );
+  const [activeTab, setActiveTab] = useState<IngredientType>(
+    IngredientType.Bun
+  );
 
   useEffect(() => {
     if (!ingredientsRef.current) {
       return;
     }
 
-    const tabs : Array<HTMLElement> = Array.from(ingredientsRef.current?.querySelectorAll('section[id]'));
-    const observer = new IntersectionObserver(entries => {
-      for (let i = 0, len = entries.length; i < len; i++) {
-        if (entries[i].isIntersecting) {
-          setActiveTab(entries[i].target.id as IngredientType);
+    const tabs: Array<HTMLElement> = Array.from(ingredientsRef.current?.querySelectorAll("section[id]"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (let i = 0, len = entries.length; i < len; i++) {
+          if (entries[i].isIntersecting) {
+            setActiveTab(entries[i].target.id as IngredientType);
+          }
         }
-      }
-    },
-    {rootMargin: '0px 0px -75% 0px'});
+      },
+      { rootMargin: "0px 0px -75% 0px" }
+    );
 
     for (let i = 0, len = tabs.length; i < len; i++) {
       observer.observe(tabs[i]);
@@ -134,8 +141,8 @@ function BurgerIngredients() {
       for (let i = 0, len = tabs.length; i < len; i++) {
         observer.unobserve(tabs[i]);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const handleTabToggle = (tab: string) => {
     if (!ingredientsRef.current) {

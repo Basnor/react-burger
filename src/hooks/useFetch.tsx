@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { BASE_URL } from "../utils/contants";
 
 const HEADERS = {
@@ -11,8 +10,8 @@ enum Method {
   POST = "POST",
 }
 
-function useFetch<T>(endpoint: string) {
-  const fetchData = useCallback(async (
+function useFetch<T, K>(endpoint: string) {
+  const _fetchData = async (
     url: string,
     method: Method = Method.GET,
     body?: object
@@ -37,18 +36,18 @@ function useFetch<T>(endpoint: string) {
     const data = await response.json();
 
     return data;
-  }, [endpoint]);
-
-  const get = () => {
-    return fetchData(BASE_URL + endpoint);
   };
 
-  const post = (body?: object) => {
+  const get = () => {
+    return _fetchData(BASE_URL + endpoint);
+  };
+
+  const post = (body?: K) => {
     if (!body) {
       return Promise.reject(new Error("Тело POST запроса не указано."));
     }
 
-    return fetchData(BASE_URL + endpoint, Method.POST, body);
+    return _fetchData(BASE_URL + endpoint, Method.POST, body);
   };
 
   return { get, post };
