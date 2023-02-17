@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import {
   Tab,
   Counter,
@@ -33,11 +33,16 @@ const availableIngredientTabs: IngredientTypeProps[] = [
 
 function IngredientTabs(props: {
   ingredientTypes: IngredientTypeProps[];
+  activeTab: IngredientType;
   onToggle: (tab: string) => void;
 }) {
-  const { ingredientTypes, onToggle } = props;
+  const { ingredientTypes, activeTab, onToggle } = props;
 
   const [current, setCurrent] = useState<string>(ingredientTypes[0].value);
+
+  useEffect(() => {
+    setCurrent(activeTab);
+  }, [activeTab])
 
   const handleClick = (tab: string) => {
     setCurrent(tab);
@@ -104,6 +109,33 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
 function BurgerIngredients() {
   const ingredients = useContext<IIngredient[]>(IngredientsContext);
   const ingredientsRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState<IngredientType>(IngredientType.Bun);
+
+  useEffect(() => {
+    if (!ingredientsRef.current) {
+      return;
+    }
+
+    const tabs : Array<HTMLElement> = Array.from(ingredientsRef.current?.querySelectorAll('section[id]'));
+    const observer = new IntersectionObserver(entries => {
+      for (let i = 0, len = entries.length; i < len; i++) {
+        if (entries[i].isIntersecting) {
+          setActiveTab(entries[i].target.id as IngredientType);
+        }
+      }
+    },
+    {rootMargin: '0px 0px -75% 0px'});
+
+    for (let i = 0, len = tabs.length; i < len; i++) {
+      observer.observe(tabs[i]);
+    }
+
+    return () => {
+      for (let i = 0, len = tabs.length; i < len; i++) {
+        observer.unobserve(tabs[i]);
+      }
+    }
+  }, [])
 
   const handleTabToggle = (tab: string) => {
     if (!ingredientsRef.current) {
@@ -125,6 +157,7 @@ function BurgerIngredients() {
 
       <IngredientTabs
         ingredientTypes={availableIngredientTabs}
+        activeTab={activeTab}
         onToggle={handleTabToggle}
       />
 
@@ -152,4 +185,4 @@ function BurgerIngredients() {
   );
 }
 
-export default BurgerIngredients;
+export default React.memo(BurgerIngredients);
