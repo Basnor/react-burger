@@ -1,24 +1,21 @@
-import React, {
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useReducer, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { v4 as uuidv4 } from "uuid";
 
 import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./burger-constructor-buns";
 import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
-import {
-  IIngredient,
-  IngredientType,
-} from "../../utils/types";
+import { IIngredient, IngredientType } from "../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useDrop } from "react-dnd";
+import { addBurgerIngredient } from "../../services/actions/burger-constructor";
+import { RootState } from "../../services";
 
 enum Action {
   ADD = "ADD",
@@ -33,13 +30,16 @@ type TotalPriceActionProps = {
   type: Action;
   payload?: {
     type: IngredientType;
-    price: number
-  }
+    price: number;
+  };
 };
 
-const totlPriceInitialState : TotalPriceStateProps = { price: 0 }; 
+const totlPriceInitialState: TotalPriceStateProps = { price: 0 };
 
-function totalPriceReducer(state: TotalPriceStateProps, action: TotalPriceActionProps) {
+function totalPriceReducer(
+  state: TotalPriceStateProps,
+  action: TotalPriceActionProps
+) {
   switch (action.type) {
     case Action.ADD:
       if (!action.payload) {
@@ -61,26 +61,56 @@ function totalPriceReducer(state: TotalPriceStateProps, action: TotalPriceAction
 }
 
 function BurgerConstructor() {
-  const ingredients = {} as IIngredient[];
+  const dispatch = useAppDispatch();
+
+  const ingredients = useAppSelector(
+    (store: RootState) => store.burgerConstructorReducer.chosenIngredients
+  );
 
   const [orderNumber, setOrderNumber] = useState<number | undefined>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [totalPriceState, totalPriceDispatcher] = useReducer(totalPriceReducer, totlPriceInitialState);
+  const [totalPriceState, totalPriceDispatcher] = useReducer(
+    totalPriceReducer,
+    totlPriceInitialState
+  );
 
   const bun = useMemo(() => {
-    return undefined//ingredients.find(({ type }) => (type as IngredientType) === IngredientType.Bun);
+    if (!ingredients) {
+      return;
+    }
+
+    return ingredients.find(
+      ({ type }) => (type as IngredientType) === IngredientType.Bun
+    );
   }, [ingredients]);
 
   const toppings = useMemo(() => {
-    return undefined//ingredients.filter(({ type }) => type !== IngredientType.Bun);
+    if (!ingredients) {
+      return;
+    }
+
+    return ingredients.filter(({ type }) => type !== IngredientType.Bun);
   }, [ingredients]);
+
+  const [, dropRef] = useDrop({
+    accept: "ingredient",
+    drop: (ingredient: IIngredient) =>
+      dispatch(
+        addBurgerIngredient({
+          ingredient: {
+            ...ingredient,
+            uid: uuidv4(),
+          },
+        })
+      ),
+  });
 
   useEffect(() => {
     totalPriceDispatcher({ type: Action.CLEAR });
 
-    // ingredients?.map(({ type, price }) => {
-    //   totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
-    // });
+    ingredients.map(({ type, price }) => {
+      totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
+    });
   }, [ingredients]);
 
   const handleModalOpen = () => {
@@ -100,7 +130,6 @@ function BurgerConstructor() {
         //   }),
         // });
 
-
         //setOrderNumber(response.order.number);
 
         handleModalOpen();
@@ -114,23 +143,24 @@ function BurgerConstructor() {
 
   return (
     <>
-      <div className={`${styles.wrapper} ml-4 mr-4 mt-25`}>
+      <div className={`${styles.wrapper} ml-4 mr-4 mt-25`} ref={dropRef}>
         <div className={styles.layers}>
           <BurgerConstructorBuns ingredient={bun}>
             <ul className={styles.toppings}>
-              {/* {toppings.map((ingredient) => {
-                return (
-                  <li key={ingredient._id} className={styles.topping}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={ingredient.name}
-                      price={ingredient.price}
-                      thumbnail={ingredient.image}
-                      extraClass="mr-2"
-                    />
-                  </li>
-                );
-              })} */}
+              {toppings &&
+                toppings.map((ingredient) => {
+                  return (
+                    <li key={ingredient._id} className={styles.topping}>
+                      <DragIcon type="primary" />
+                      <ConstructorElement
+                        text={ingredient.name}
+                        price={ingredient.price}
+                        thumbnail={ingredient.image}
+                        extraClass="mr-2"
+                      />
+                    </li>
+                  );
+                })}
             </ul>
           </BurgerConstructorBuns>
 

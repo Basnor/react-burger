@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IIngredient } from "../../utils/types";
 import { getIngredients } from "../actions/burger-ingredients";
 
-export interface BurgerIngredientsState {
+interface BurgerIngredientsState {
   ingredients: IIngredient[];
   ingredientsRequest: boolean;
   ingredientsError: boolean;

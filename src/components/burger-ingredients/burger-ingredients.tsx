@@ -11,6 +11,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
+import { useDrag } from "react-dnd";
 
 type IngredientTypeProps = {
   name: string;
@@ -81,9 +82,21 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
     setIsModalOpen(false);
   };
 
+
+  const [, dragRef] = useDrag(
+    () => ({
+        type: 'ingredient',
+        item: ingredient,
+        collect: (monitor) => ({
+          opacity: monitor.isDragging() ? 0.5 : 1
+        })
+    }),
+    []
+)
+
   return (
     <>
-      <div className={styles.item} onClick={handleModalOpen}>
+      <div className={styles.item} onClick={handleModalOpen} ref={dragRef}>
         {amount && <Counter count={amount} size="default" extraClass="m-1" />}
         <img
           src={ingredient.image}
