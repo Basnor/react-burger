@@ -1,33 +1,38 @@
 import React, { ReactNode } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IIngredient } from "../../utils/types";
+import { IngredientType } from "../../utils/types";
+import { RootState } from "../../services";
+import { useAppSelector } from "../../hooks";
 
 interface BurgerConstructorBunsProps {
-  ingredient: IIngredient | undefined;
   children: ReactNode;
 }
 
 function BurgerConstructorBuns(props: BurgerConstructorBunsProps) {
-  const { ingredient, children } = props;
+  const { children } = props;
 
-  return ingredient ? (
+  const bun = useAppSelector(
+    (store: RootState) => store.burgerConstructorReducer.chosenIngredients
+  ).find(({ type }) => (type as IngredientType) === IngredientType.Bun);
+
+  return bun ? (
     <>
       <ConstructorElement
         type="top"
         isLocked={true}
-        text={`${ingredient.name} (верх)`}
-        price={ingredient.price}
-        thumbnail={ingredient.image}
+        text={`${bun.name} (верх)`}
+        price={bun.price}
+        thumbnail={bun.image}
         extraClass="ml-8 mr-2"
       />
       {children}
       <ConstructorElement
         type="bottom"
         isLocked={true}
-        text={`${ingredient.name} (низ)`}
-        price={ingredient.price}
-        thumbnail={ingredient.image}
+        text={`${bun.name} (низ)`}
+        price={bun.price}
+        thumbnail={bun.image}
         extraClass="ml-8 mr-2"
       />
     </>

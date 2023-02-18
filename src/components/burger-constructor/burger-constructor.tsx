@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import {
-  ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useDrop } from "react-dnd";
 import { addBurgerIngredient } from "../../services/actions/burger-constructor";
 import { RootState } from "../../services";
+import BurgerConstructorToppings from "./burger-constructor-toppings";
 
 enum Action {
   ADD = "ADD",
@@ -74,24 +73,6 @@ function BurgerConstructor() {
     totlPriceInitialState
   );
 
-  const bun = useMemo(() => {
-    if (!ingredients) {
-      return;
-    }
-
-    return ingredients.find(
-      ({ type }) => (type as IngredientType) === IngredientType.Bun
-    );
-  }, [ingredients]);
-
-  const toppings = useMemo(() => {
-    if (!ingredients) {
-      return;
-    }
-
-    return ingredients.filter(({ type }) => type !== IngredientType.Bun);
-  }, [ingredients]);
-
   const [, dropRef] = useDrop({
     accept: "ingredient",
     drop: (ingredient: IIngredient) =>
@@ -145,23 +126,8 @@ function BurgerConstructor() {
     <>
       <div className={`${styles.wrapper} ml-4 mr-4 mt-25`} ref={dropRef}>
         <div className={styles.layers}>
-          <BurgerConstructorBuns ingredient={bun}>
-            <ul className={styles.toppings}>
-              {toppings &&
-                toppings.map((ingredient) => {
-                  return (
-                    <li key={ingredient._id} className={styles.topping}>
-                      <DragIcon type="primary" />
-                      <ConstructorElement
-                        text={ingredient.name}
-                        price={ingredient.price}
-                        thumbnail={ingredient.image}
-                        extraClass="mr-2"
-                      />
-                    </li>
-                  );
-                })}
-            </ul>
+          <BurgerConstructorBuns>
+            <BurgerConstructorToppings />
           </BurgerConstructorBuns>
 
           <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
@@ -190,4 +156,4 @@ function BurgerConstructor() {
   );
 }
 
-export default BurgerConstructor;
+export default React.memo(BurgerConstructor);
