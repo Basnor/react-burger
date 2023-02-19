@@ -13,7 +13,7 @@ function BurgerConstructorBuns(props: BurgerConstructorBunsProps) {
   const { children } = props;
 
   const bun = useAppSelector(
-    (store: RootState) => store.burgerConstructorReducer.chosenIngredients
+    (store: RootState) => store.burgerConstructor.ingredients
   ).find(({ type }) => (type as IngredientType) === IngredientType.Bun);
 
   return bun ? (

@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IIngredient } from "../../utils/types";
-import { getIngredients } from "../actions/burger-ingredients";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+
+import useFetch from "../hooks/useFetch";
+import { endpoints } from "../utils/contants";
+import { IIngredient, IngredientType, IResponse } from "../utils/types";
 
 interface BurgerIngredientsState {
   ingredients: IIngredient[];
@@ -14,7 +16,7 @@ const initialState: BurgerIngredientsState = {
   ingredientsError: false,
 };
 
-const burgerIngredientsSlice = createSlice({
+export const burgerIngredientsSlice = createSlice({
   name: "burgerIngredients",
   initialState,
   reducers: {},
@@ -37,4 +39,13 @@ const burgerIngredientsSlice = createSlice({
   },
 });
 
-export default burgerIngredientsSlice.reducer;
+export const getIngredients = createAsyncThunk<
+  IResponse & { data: IIngredient[] }
+>("burgerIngredients/getIngredients", async () => {
+  const { get } = useFetch<IResponse & { data: IIngredient[] }, unknown>(
+    endpoints.ingredients
+  );
+  const response = await get();
+
+  return response;
+});

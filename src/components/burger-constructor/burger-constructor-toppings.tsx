@@ -5,13 +5,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-constructor.module.css";
-import { IngredientType } from "../../utils/types";
+import { IIngredient, IngredientType } from "../../utils/types";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 
 function BurgerConstructorToppings() {
   const toppings = useAppSelector(
-    (store: RootState) => store.burgerConstructorReducer.chosenIngredients
+    (store: RootState) => store.burgerConstructor.ingredients
   ).filter(({ type }) => type !== IngredientType.Bun);
 
   return (

@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import burgerIngredientsReducer from "./reducers/burger-ingredients";
-import burgerConstructorReducer from "./reducers/burger-constructor";
+import { burgerIngredientsSlice } from "./burger-ingredients";
+import { burgerConstructorSlice } from "./burger-constructor";
 
 export const rootReducer = combineReducers({
-  burgerIngredientsReducer,
-  burgerConstructorReducer,
+  burgerIngredients: burgerIngredientsSlice.reducer,
+  burgerConstructor: burgerConstructorSlice.reducer,
 });
 
 export const store = configureStore({
