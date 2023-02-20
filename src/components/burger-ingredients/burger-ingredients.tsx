@@ -123,7 +123,7 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
 function BurgerIngredients() {
   const ingredientsRef = useRef<HTMLDivElement>(null);
   const { ingredients } = useAppSelector(
-    (store: RootState) => store.burgerIngredientsReducer
+    (store: RootState) => store.burgerIngredients
   );
   const [activeTab, setActiveTab] = useState<IngredientType>(
     IngredientType.Bun

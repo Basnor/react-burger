@@ -7,7 +7,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { useAppDispatch } from "../../hooks";
-import { getIngredients } from "../../services/actions/burger-ingredients";
+import { getIngredients } from "../../services/burger-ingredients";
 
 function App() {
   const dispatch = useAppDispatch();

@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from 'nanoid';
 
 import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./burger-constructor-buns";
@@ -12,9 +12,9 @@ import { OrderDetails } from "../order-details/order-details";
 import { IIngredient, IngredientType } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useDrop } from "react-dnd";
-import { addBurgerIngredient } from "../../services/actions/burger-constructor";
 import { RootState } from "../../services";
 import BurgerConstructorToppings from "./burger-constructor-toppings";
+import { addBurgerIngredient } from "../../services/burger-constructor";
 
 enum Action {
   ADD = "ADD",
@@ -62,8 +62,8 @@ function totalPriceReducer(
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
 
-  const ingredients = useAppSelector(
-    (store: RootState) => store.burgerConstructorReducer.chosenIngredients
+  const { ingredients } = useAppSelector(
+    (store: RootState) => store.burgerConstructor
   );
 
   const [orderNumber, setOrderNumber] = useState<number | undefined>();
@@ -80,7 +80,7 @@ function BurgerConstructor() {
         addBurgerIngredient({
           ingredient: {
             ...ingredient,
-            uid: uuidv4(),
+            uid: nanoid(),
           },
         })
       ),
