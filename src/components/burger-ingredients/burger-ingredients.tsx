@@ -1,17 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   Tab,
-  Counter,
-  CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-ingredients.module.css";
 import { IngredientType } from "../../utils/types";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
-import { useDrag } from "react-dnd";
+import BurgerIngredientsDraggableItem from "./burger-ingredients-draggable-item";
 
 type IngredientTypeProps = {
   name: string;
@@ -69,57 +65,6 @@ function IngredientTabs(props: {
   );
 }
 
-function IngredientItem(props: { ingredient: any; amount?: number }) {
-  const { ingredient, amount } = props;
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-
-  const [, dragRef] = useDrag(
-    () => ({
-        type: 'ingredient',
-        item: ingredient,
-        collect: (monitor) => ({
-          opacity: monitor.isDragging() ? 0.5 : 1
-        })
-    }),
-    []
-)
-
-  return (
-    <>
-      <div className={styles.item} onClick={handleModalOpen} ref={dragRef}>
-        {amount && <Counter count={amount} size="default" extraClass="m-1" />}
-        <img
-          src={ingredient.image}
-          className="pl-4 pr-4"
-          alt={ingredient.name}
-        />
-        <div className={`${styles.price} mt-1 mb-1`}>
-          <span className="text text_type_digits-default mr-2">
-            {ingredient.price}
-          </span>
-          <CurrencyIcon type="primary" />
-        </div>
-        <p className="text text_type_main-default">{ingredient.name}</p>
-      </div>
-      {isModalOpen && (
-        <Modal onClose={handleModalClose}>
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
-    </>
-  );
-}
-
 function BurgerIngredients() {
   const ingredientsRef = useRef<HTMLDivElement>(null);
   const { ingredients } = useAppSelector(
@@ -134,7 +79,9 @@ function BurgerIngredients() {
       return;
     }
 
-    const tabs: Array<HTMLElement> = Array.from(ingredientsRef.current?.querySelectorAll("section[id]"));
+    const tabs: Array<HTMLElement> = Array.from(
+      ingredientsRef.current?.querySelectorAll("section[id]")
+    );
     const observer = new IntersectionObserver(
       (entries) => {
         for (let i = 0, len = entries.length; i < len; i++) {
@@ -190,7 +137,7 @@ function BurgerIngredients() {
               <div className={`${styles.group} mr-4 ml-4 mt-6 mb-10`}>
                 {filteredIngredients(type.value).map((ingredient) => {
                   return (
-                    <IngredientItem
+                    <BurgerIngredientsDraggableItem 
                       key={ingredient._id}
                       ingredient={ingredient}
                     />

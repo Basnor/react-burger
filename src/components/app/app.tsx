@@ -8,6 +8,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { useAppDispatch } from "../../hooks";
 import { getIngredients } from "../../services/burger-ingredients";
+import CustomDragLayer from "../custom-drag-layer/custom-drag-layer";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ function App() {
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
           <BurgerConstructor />
+          <CustomDragLayer />
         </DndProvider>
       </main>
     </div>
