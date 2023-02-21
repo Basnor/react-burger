@@ -31,15 +31,20 @@ export const burgerConstructorSlice = createSlice({
     },
     moveBurgerIngredient: (
       state,
-      action: PayloadAction<{ newIndex: number; oldIndex: number }>
+      action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
     ) => {
-      const { newIndex, oldIndex } = action.payload;
+      const { dragIndex, hoverIndex } = action.payload;
 
-      state.ingredients.splice(
-        newIndex,
-        0,
-        state.ingredients.splice(oldIndex, 1)[0]
-      );
+      const dragIngredient = state.ingredients[dragIndex];
+      const newIngredients = [...state.ingredients];
+
+      // Удаляем перетаскиваемый элемент из массива
+      newIngredients.splice(dragIndex, 1);
+
+      // Вставляем элемент на место того элемента, над которым мы навели мышку с "перетаскиванием"
+      newIngredients.splice(hoverIndex, 0, dragIngredient);
+
+      state.ingredients = newIngredients;
     },
     resetBurgerIngredients: () => {
       return initialState;

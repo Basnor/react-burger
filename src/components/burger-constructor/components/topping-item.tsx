@@ -3,15 +3,20 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IIngredient } from "../../utils/types";
 
-function BurgerConstructorToppingsItem(props: {
-  ingredient: IIngredient & {uid: string};
-}) {
+import styles from "../burger-constructor.module.css";
+import { IIngredient } from "../../../utils/types";
+
+export interface ToppingItemProps {
+  ingredient: IIngredient & { uid: string };
+  index: number;
+}
+
+function ToppingItem(props: ToppingItemProps) {
   const { ingredient } = props;
 
   return (
-    <>
+    <div className={styles.topping}>
       <DragIcon type="primary" />
       <ConstructorElement
         text={ingredient.name}
@@ -19,8 +24,8 @@ function BurgerConstructorToppingsItem(props: {
         thumbnail={ingredient.image}
         extraClass="mr-2"
       />
-    </>
+    </div>
   );
 }
 
-export default BurgerConstructorToppingsItem;
+export default ToppingItem;

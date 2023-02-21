@@ -6,14 +6,14 @@ import {
 import { nanoid } from 'nanoid';
 
 import styles from "./burger-constructor.module.css";
-import BurgerConstructorBuns from "./burger-constructor-buns";
+import BurgerConstructorBuns from "./components/burger-constructor-buns";
 import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { IIngredient, IngredientType } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useDrop } from "react-dnd";
 import { RootState } from "../../services";
-import BurgerConstructorToppings from "./burger-constructor-toppings";
+import BurgerConstructorToppings from "./components/burger-constructor-toppings";
 import { addBurgerIngredient } from "../../services/burger-constructor";
 
 enum Action {

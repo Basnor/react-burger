@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IngredientType } from "../../utils/types";
-import { RootState } from "../../services";
-import { useAppSelector } from "../../hooks";
+import { IngredientType } from "../../../utils/types";
+import { RootState } from "../../../services";
+import { useAppSelector } from "../../../hooks";
 
 interface BurgerConstructorBunsProps {
   children: ReactNode;
