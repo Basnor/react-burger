@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
-import BurgerIngredientsItem, { BurgerIngredientsItemProps } from "./burger-ingredients-item";
 
-function BurgerIngredientsDraggableItem(props: BurgerIngredientsItemProps) {
+import { IngredientItemProps } from "./ingredient-item";
+
+// eslint-disable-next-line react/display-name
+const draggable = (WrappedComponent: React.ElementType<IngredientItemProps>) => (props: IngredientItemProps) => {
   const { ingredient } = props;
 
   const [{ isDragging }, dragRef, preview] = useDrag(
@@ -25,10 +26,10 @@ function BurgerIngredientsDraggableItem(props: BurgerIngredientsItemProps) {
   return (
     <>
       <div ref={dragRef} style={{ opacity: isDragging ? 0 : 1 }}>
-        <BurgerIngredientsItem {...props} />
+        <WrappedComponent {...props} />
       </div>
     </>
   );
 }
 
-export default BurgerIngredientsDraggableItem;
+export default draggable;

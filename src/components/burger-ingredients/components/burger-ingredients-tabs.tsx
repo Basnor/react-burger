@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./burger-ingredients.module.css";
-import { IngredientType } from "../../utils/types";
-import { IngredientTypeProps } from "./burger-ingredients";
+import styles from "../burger-ingredients.module.css";
+import { IngredientType } from "../../../utils/types";
+import { IngredientTypeProps } from "../burger-ingredients";
 
 interface BurgerIngredientsTabsProps {
   ingredientTypes: IngredientTypeProps[];

@@ -4,16 +4,16 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./burger-ingredients.module.css";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import styles from "../burger-ingredients.module.css";
+import Modal from "../../modal/modal";
+import IngredientDetails from "../../ingredient-details/ingredient-details";
 
-export interface BurgerIngredientsItemProps {
+export interface IngredientItemProps {
   ingredient: any;
   amount?: number;
 }
 
-function BurgerIngredientsItem(props: BurgerIngredientsItemProps) {
+function IngredientItem(props: IngredientItemProps) {
   const { ingredient, amount } = props;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -52,4 +52,4 @@ function BurgerIngredientsItem(props: BurgerIngredientsItemProps) {
   );
 }
 
-export default BurgerIngredientsItem;
+export default IngredientItem;

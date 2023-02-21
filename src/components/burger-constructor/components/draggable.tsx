@@ -4,6 +4,7 @@ import { getEmptyImage } from "react-dnd-html5-backend";
 
 import { useAppDispatch } from "../../../hooks";
 import { moveBurgerIngredient } from "../../../services/burger-constructor";
+import { IIngredient } from "../../../utils/types";
 import { ToppingItemProps } from "./topping-item";
 
 // eslint-disable-next-line react/display-name
@@ -13,7 +14,7 @@ const draggable = (WrappedComponent: React.ElementType<ToppingItemProps>) => (pr
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
-  const [, drop] = useDrop<{ index: number }>({
+  const [, drop] = useDrop<{ ingredient: IIngredient, index: number }>({
     accept: "topping",
     hover(item, monitor) {
       if (!ref.current) {
@@ -41,12 +42,12 @@ const draggable = (WrappedComponent: React.ElementType<ToppingItemProps>) => (pr
 
       // Условие для перетаскивании элементов сверху вниз
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-          return;
+        return;
       }
 
       // Условие для перетаскивании элементов снизу вверх
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-          return;
+        return;
       }
 
       dispatch(
@@ -68,6 +69,8 @@ const draggable = (WrappedComponent: React.ElementType<ToppingItemProps>) => (pr
     }),
   });
 
+  const preventDefault = (e: any) => e.preventDefault();
+
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: true });
   }, []);
@@ -75,7 +78,7 @@ const draggable = (WrappedComponent: React.ElementType<ToppingItemProps>) => (pr
   drag(drop(ref));
 
   return (
-    <div ref={ref} style={{ opacity: isDragging ? 0 : 1 }}>
+    <div ref={ref} style={{ opacity: isDragging ? 0 : 1 }} onDrop={preventDefault}>
       <WrappedComponent {...props} />
     </div>
   );

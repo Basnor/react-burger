@@ -2,7 +2,7 @@ import React from "react";
 import type { CSSProperties } from "react";
 import { useDragLayer, XYCoord } from "react-dnd";
 
-import BurgerIngredientsItem from "../burger-ingredients/burger-ingredients-item";
+import IngredientItem from "../burger-ingredients/components/ingredient-item";
 import ToppingItem from "../burger-constructor/components/topping-item";
 
 const layerStyles: CSSProperties = {
@@ -44,7 +44,7 @@ function CustomDragLayer() {
   function renderItem() {
     switch (itemType) {
       case "ingredient":
-        return <BurgerIngredientsItem ingredient={item} amount={undefined} />;
+        return <IngredientItem ingredient={item} amount={undefined} />;
 
       case "topping":
         return <ToppingItem ingredient={item.ingredient} index={item.index} />;

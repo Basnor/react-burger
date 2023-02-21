@@ -6,6 +6,8 @@ import {
 
 import styles from "../burger-constructor.module.css";
 import { IIngredient } from "../../../utils/types";
+import { useAppDispatch } from "../../../hooks";
+import { removeBurgerIngredient } from "../../../services/burger-constructor";
 
 export interface ToppingItemProps {
   ingredient: IIngredient & { uid: string };
@@ -15,6 +17,16 @@ export interface ToppingItemProps {
 function ToppingItem(props: ToppingItemProps) {
   const { ingredient } = props;
 
+  const dispatch = useAppDispatch();
+  
+  const handleRemove = () => {
+    dispatch(
+      removeBurgerIngredient({
+        ingredient
+      })
+    );
+  };
+
   return (
     <div className={styles.topping}>
       <DragIcon type="primary" />
@@ -23,6 +35,7 @@ function ToppingItem(props: ToppingItemProps) {
         price={ingredient.price}
         thumbnail={ingredient.image}
         extraClass="mr-2"
+        handleClose={() => handleRemove()}
       />
     </div>
   );

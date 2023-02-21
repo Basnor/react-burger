@@ -4,8 +4,9 @@ import styles from "./burger-ingredients.module.css";
 import { IngredientType } from "../../utils/types";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
-import BurgerIngredientsDraggableItem from "./burger-ingredients-draggable-item";
-import BurgerIngredientsTabs from "./burger-ingredients-tabs";
+import BurgerIngredientsTabs from "./components/burger-ingredients-tabs";
+import draggable from "./components/draggable";
+import IngredientItem from "./components/ingredient-item";
 
 export type IngredientTypeProps = {
   name: string;
@@ -26,6 +27,8 @@ const availableIngredientTabs: IngredientTypeProps[] = [
     value: IngredientType.Main,
   },
 ];
+
+const DraggableIngredientItem = draggable(IngredientItem);
 
 function BurgerIngredients() {
   const ingredientsRef = useRef<HTMLDivElement>(null);
@@ -55,7 +58,7 @@ function BurgerIngredients() {
               <div className={`${styles.group} mr-4 ml-4 mt-6 mb-10`}>
                 {filteredIngredients(type.value).map((ingredient) => {
                   return (
-                    <BurgerIngredientsDraggableItem
+                    <DraggableIngredientItem
                       key={ingredient._id}
                       ingredient={ingredient}
                     />
