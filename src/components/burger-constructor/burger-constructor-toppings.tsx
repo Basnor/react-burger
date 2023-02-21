@@ -1,13 +1,10 @@
 import React from "react";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-constructor.module.css";
-import { IIngredient, IngredientType } from "../../utils/types";
+import { IngredientType } from "../../utils/types";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
+import DraggableTopingItem from "./draggable-topping-item";
 
 function BurgerConstructorToppings() {
   const toppings = useAppSelector(
@@ -19,14 +16,8 @@ function BurgerConstructorToppings() {
       {toppings &&
         toppings.map((ingredient) => {
           return (
-            <li key={ingredient._id} className={styles.topping}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-                extraClass="mr-2"
-              />
+            <li key={ingredient.uid} className={styles.topping}>
+              <DraggableTopingItem ingredient={ingredient} />
             </li>
           );
         })}
