@@ -2,5 +2,5 @@
   display: flex;
   column-gap: 40px;
   justify-content: center;
-  max-height: calc(100vh - 200px);
+  height: calc(100vh - 200px);
 }
