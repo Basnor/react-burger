@@ -26,7 +26,7 @@ const draggable = (WrappedComponent: React.ElementType<IngredientItemProps>) => 
 
   return (
     <>
-      <div ref={dragRef} style={{ opacity: isDragging ? 0 : 1 }}>
+      <div ref={dragRef} style={{ opacity: isDragging ? 0.5 : 1 }}>
         <WrappedComponent {...props} />
       </div>
     </>
