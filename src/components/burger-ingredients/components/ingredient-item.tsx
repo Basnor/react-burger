@@ -1,30 +1,38 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "../burger-ingredients.module.css";
-import { useAppDispatch } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { initIngredientDetails } from "../../../services/ingredient-details";
+import { RootState } from "../../../services";
 
 export interface IngredientItemProps {
   ingredient: any;
-  amount?: number;
+  amountHidden?: boolean;
 }
 
 function IngredientItem(props: IngredientItemProps) {
-  const { ingredient, amount } = props;
+  const { ingredient, amountHidden } = props;
   
+  const {toppings, bun} = useAppSelector((store: RootState) => store.burgerConstructor);
   const dispatch = useAppDispatch();
   const initDetails = () => {
     dispatch(initIngredientDetails({ ingredient }));
   };
 
+  const amount = useMemo(() => {
+    const buns = bun ? [bun, bun] : [];
+    
+    return [...toppings, ...buns].filter(({_id}) => _id === ingredient._id).length;
+  }, [toppings, bun])
+
   return (
     <>
       <div className={styles.item} onClick={initDetails}>
-        {amount && <Counter count={amount} size="default" extraClass="m-1" />}
+        {!amountHidden && amount > 0 && <Counter count={amount} size="default" extraClass="m-1" />}
         <img
           src={ingredient.image}
           className="pl-4 pr-4"

@@ -58,7 +58,7 @@ function CustomDragLayer() {
   function renderItem() {
     switch (itemType) {
       case DragType.Ingredient:
-        return <IngredientItem ingredient={item} amount={undefined} />;
+        return <IngredientItem ingredient={item} amountHidden={true} />;
 
       case DragType.Topping:
         return <ToppingItem ingredient={item.ingredient} index={item.index} />;
