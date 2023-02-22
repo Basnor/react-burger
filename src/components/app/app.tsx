@@ -6,9 +6,13 @@ import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getIngredients } from "../../services/burger-ingredients";
 import CustomDragLayer from "../custom-drag-layer/custom-drag-layer";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import { RootState } from "../../services";
+import { clearIngredientDetails } from "../../services/ingredient-details";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -16,6 +20,14 @@ function App() {
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
+
+  const { ingredient : ingredientDetails } = useAppSelector(
+    (store: RootState) => store.ingredientDetails
+  );
+
+  const cleareDetils = () => {
+    dispatch(clearIngredientDetails());
+  }
 
   return (
     <div className={styles.app}>
@@ -27,6 +39,11 @@ function App() {
           <CustomDragLayer />
         </DndProvider>
       </main>
+      {ingredientDetails && (
+        <Modal onClose={cleareDetils}>
+          <IngredientDetails />
+        </Modal>
+      )}
     </div>
   );
 }

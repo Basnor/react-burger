@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IngredientType } from "../../../utils/types";
 import { RootState } from "../../../services";
 import { useAppSelector } from "../../../hooks";
 
@@ -12,9 +11,7 @@ interface BurgerConstructorBunsProps {
 function BurgerConstructorBuns(props: BurgerConstructorBunsProps) {
   const { children } = props;
 
-  const bun = useAppSelector(
-    (store: RootState) => store.burgerConstructor.ingredients
-  ).find(({ type }) => (type as IngredientType) === IngredientType.Bun);
+  const bun = useAppSelector((store: RootState) => store.burgerConstructor.bun);
 
   return bun ? (
     <>

@@ -3,6 +3,7 @@ import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
 import { IngredientItemProps } from "./ingredient-item";
+import { DragType } from "../../../utils/types";
 
 // eslint-disable-next-line react/display-name
 const draggable = (WrappedComponent: React.ElementType<IngredientItemProps>) => (props: IngredientItemProps) => {
@@ -10,7 +11,7 @@ const draggable = (WrappedComponent: React.ElementType<IngredientItemProps>) => 
 
   const [{ isDragging }, dragRef, preview] = useDrag(
     () => ({
-      type: "ingredient",
+      type: DragType.Ingredient,
       item: ingredient,
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),

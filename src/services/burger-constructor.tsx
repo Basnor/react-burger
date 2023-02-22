@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IIngredient } from "../utils/types";
+import { IIngredient, IngredientType } from "../utils/types";
 
 interface BurgerConstructorState {
-  ingredients: (IIngredient & { uid: string })[];
+  toppings: (IIngredient & { uid: string })[];
+  bun?: IIngredient;
 }
 
 const initialState: BurgerConstructorState = {
-  ingredients: [],
+  toppings: []
 };
 
 export const burgerConstructorSlice = createSlice({
@@ -19,7 +20,12 @@ export const burgerConstructorSlice = createSlice({
     ) => {
       const { ingredient } = action.payload;
 
-      state.ingredients.push(ingredient);
+      if (ingredient.type === IngredientType.Bun) {
+        state.bun = ingredient;
+        return;
+      }
+
+      state.toppings.push(ingredient);
     },
     removeBurgerIngredient: (
       state,
@@ -27,7 +33,11 @@ export const burgerConstructorSlice = createSlice({
     ) => {
       const { ingredient } = action.payload;
 
-      state.ingredients = state.ingredients.filter(({uid}) => uid !== ingredient.uid);
+      if (ingredient.type === IngredientType.Bun) {
+        return;
+      }
+
+      state.toppings = state.toppings.filter(({uid}) => uid !== ingredient.uid);
     },
     moveBurgerIngredient: (
       state,
@@ -35,8 +45,8 @@ export const burgerConstructorSlice = createSlice({
     ) => {
       const { dragIndex, hoverIndex } = action.payload;
 
-      const dragIngredient = state.ingredients[dragIndex];
-      const newIngredients = [...state.ingredients];
+      const dragIngredient = state.toppings[dragIndex];
+      const newIngredients = [...state.toppings];
 
       // Удаляем перетаскиваемый элемент из массива
       newIngredients.splice(dragIndex, 1);
@@ -44,7 +54,7 @@ export const burgerConstructorSlice = createSlice({
       // Вставляем элемент на место того элемента, над которым мы навели мышку с "перетаскиванием"
       newIngredients.splice(hoverIndex, 0, dragIngredient);
 
-      state.ingredients = newIngredients;
+      state.toppings = newIngredients;
     },
     resetBurgerIngredients: () => {
       return initialState;

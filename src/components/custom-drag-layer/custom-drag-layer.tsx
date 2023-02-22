@@ -1,9 +1,11 @@
 import React from "react";
 import type { CSSProperties } from "react";
 import { useDragLayer, XYCoord } from "react-dnd";
+import { Identifier } from "dnd-core";
 
 import IngredientItem from "../burger-ingredients/components/ingredient-item";
 import ToppingItem from "../burger-constructor/components/topping-item";
+import { DragType } from "../../utils/types";
 
 const layerStyles: CSSProperties = {
   position: "fixed",
@@ -16,6 +18,7 @@ const layerStyles: CSSProperties = {
 };
 
 function getItemStyles(
+  itemType: Identifier|null,
   initialOffset: XYCoord | null,
   currentOffset: XYCoord | null
 ) {
@@ -25,7 +28,18 @@ function getItemStyles(
     };
   }
 
-  const transform = `translate(${currentOffset.x}px, ${currentOffset.y}px)`;
+  let transform;
+
+  switch (itemType) {
+    case DragType.Ingredient:
+      transform = `translate(${currentOffset.x}px, ${currentOffset.y}px)`;
+      break;
+
+    case DragType.Topping:
+      transform = `translate(${initialOffset.x}px, ${currentOffset.y}px)`;
+      break;
+  }
+
   return {
     transform,
   };
@@ -43,10 +57,10 @@ function CustomDragLayer() {
 
   function renderItem() {
     switch (itemType) {
-      case "ingredient":
+      case DragType.Ingredient:
         return <IngredientItem ingredient={item} amount={undefined} />;
 
-      case "topping":
+      case DragType.Topping:
         return <ToppingItem ingredient={item.ingredient} index={item.index} />;
 
       default:
@@ -56,7 +70,7 @@ function CustomDragLayer() {
 
   return (
     <div style={layerStyles}>
-      <div style={getItemStyles(initialOffset, currentOffset)}>
+      <div style={getItemStyles(itemType, initialOffset, currentOffset)}>
         {renderItem()}
       </div>
     </div>

@@ -4,6 +4,11 @@ export enum IngredientType {
   Main = "main",
 }
 
+export enum DragType {
+  Ingredient = "ingredient",
+  Topping = "topping"
+}
+
 export interface IIngredient {
   _id: string;
   name: string;

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
+import { useDrop } from "react-dnd";
 import {
   CurrencyIcon,
   Button,
@@ -9,9 +10,8 @@ import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./components/burger-constructor-buns";
 import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
-import { IIngredient, IngredientType } from "../../utils/types";
+import { DragType, IIngredient, IngredientType } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { useDrop } from "react-dnd";
 import { RootState } from "../../services";
 import BurgerConstructorToppings from "./components/burger-constructor-toppings";
 import { addBurgerIngredient } from "../../services/burger-constructor";
@@ -62,9 +62,7 @@ function totalPriceReducer(
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
 
-  const { ingredients } = useAppSelector(
-    (store: RootState) => store.burgerConstructor
-  );
+  const { toppings } = useAppSelector((store: RootState) => store.burgerConstructor);
 
   const [orderNumber, setOrderNumber] = useState<number | undefined>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -74,7 +72,7 @@ function BurgerConstructor() {
   );
 
   const [, dropRef] = useDrop({
-    accept: "ingredient",
+    accept: DragType.Ingredient,
     drop: (ingredient: IIngredient) =>
       dispatch(
         addBurgerIngredient({
@@ -89,10 +87,10 @@ function BurgerConstructor() {
   useEffect(() => {
     totalPriceDispatcher({ type: Action.CLEAR });
 
-    ingredients.map(({ type, price }) => {
+    toppings.map(({ type, price }) => {
       totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
     });
-  }, [ingredients]);
+  }, [toppings]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);

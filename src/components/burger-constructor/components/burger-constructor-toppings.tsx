@@ -10,9 +10,7 @@ import ToppingItem from "./topping-item";
 const DraggableToppingItem = draggable(ToppingItem);
 
 function BurgerConstructorToppings() {
-  const toppings = useAppSelector(
-    (store: RootState) => store.burgerConstructor.ingredients
-  ).filter(({ type }) => type !== IngredientType.Bun);
+  const toppings = useAppSelector((store: RootState) => store.burgerConstructor.toppings);
 
   return (
     <ul className={styles.toppings}>

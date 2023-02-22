@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "../burger-ingredients.module.css";
-import Modal from "../../modal/modal";
-import IngredientDetails from "../../ingredient-details/ingredient-details";
+import { useAppDispatch } from "../../../hooks";
+import { initIngredientDetails } from "../../../services/ingredient-details";
 
 export interface IngredientItemProps {
   ingredient: any;
@@ -15,20 +15,15 @@ export interface IngredientItemProps {
 
 function IngredientItem(props: IngredientItemProps) {
   const { ingredient, amount } = props;
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  
+  const dispatch = useAppDispatch();
+  const initDetails = () => {
+    dispatch(initIngredientDetails({ ingredient }));
   };
 
   return (
     <>
-      <div className={styles.item} onClick={handleModalOpen}>
+      <div className={styles.item} onClick={initDetails}>
         {amount && <Counter count={amount} size="default" extraClass="m-1" />}
         <img
           src={ingredient.image}
@@ -43,11 +38,6 @@ function IngredientItem(props: IngredientItemProps) {
         </div>
         <p className="text text_type_main-default">{ingredient.name}</p>
       </div>
-      {isModalOpen && (
-        <Modal onClose={handleModalClose}>
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
     </>
   );
 }
