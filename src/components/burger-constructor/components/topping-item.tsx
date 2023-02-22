@@ -33,7 +33,7 @@ function ToppingItem(props: ToppingItemProps) {
       <ConstructorElement
         text={ingredient.name}
         price={ingredient.price}
-        thumbnail={ingredient.image}
+        thumbnail={ingredient.image_mobile}
         extraClass="mr-2"
         handleClose={() => handleRemove()}
       />

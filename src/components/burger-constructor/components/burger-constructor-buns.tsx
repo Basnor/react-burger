@@ -20,7 +20,7 @@ function BurgerConstructorBuns(props: BurgerConstructorBunsProps) {
         isLocked={true}
         text={`${bun.name} (верх)`}
         price={bun.price}
-        thumbnail={bun.image}
+        thumbnail={bun.image_mobile}
         extraClass="ml-8 mr-2"
       />
       {children}
@@ -29,7 +29,7 @@ function BurgerConstructorBuns(props: BurgerConstructorBunsProps) {
         isLocked={true}
         text={`${bun.name} (низ)`}
         price={bun.price}
-        thumbnail={bun.image}
+        thumbnail={bun.image_mobile}
         extraClass="ml-8 mr-2"
       />
     </>

@@ -1,23 +1,23 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { useDrop } from "react-dnd";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 
 import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./components/burger-constructor-buns";
-import Modal from "../modal/modal";
-import { OrderDetails } from "../order-details/order-details";
-import { DragType, IIngredient, IngredientType } from "../../utils/types";
+import { DragType, IIngredient } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 import BurgerConstructorToppings from "./components/burger-constructor-toppings";
 import { addBurgerIngredient } from "../../services/burger-constructor";
+import { createOrder } from "../../services/order-details";
 
 enum Action {
-  ADD = "ADD",
+  ADD_BUNS = "ADD_BUNS",
+  ADD_TOPPINGS = "ADD_TOPPINGS",
   CLEAR = "CLEAR",
 }
 
@@ -28,7 +28,6 @@ type TotalPriceStateProps = {
 type TotalPriceActionProps = {
   type: Action;
   payload?: {
-    type: IngredientType;
     price: number;
   };
 };
@@ -40,13 +39,16 @@ function totalPriceReducer(
   action: TotalPriceActionProps
 ) {
   switch (action.type) {
-    case Action.ADD:
+    case Action.ADD_BUNS:
       if (!action.payload) {
         return { price: state.price };
       }
 
-      if (action.payload.type === IngredientType.Bun) {
-        return { price: state.price + action.payload.price * 2 };
+      return { price: state.price + action.payload.price * 2 };
+
+    case Action.ADD_TOPPINGS:
+      if (!action.payload) {
+        return { price: state.price };
       }
 
       return { price: state.price + action.payload.price };
@@ -62,10 +64,7 @@ function totalPriceReducer(
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
 
-  const { toppings } = useAppSelector((store: RootState) => store.burgerConstructor);
-
-  const [orderNumber, setOrderNumber] = useState<number | undefined>();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { toppings, bun } = useAppSelector((store: RootState) => store.burgerConstructor);
   const [totalPriceState, totalPriceDispatcher] = useReducer(
     totalPriceReducer,
     totlPriceInitialState
@@ -87,37 +86,23 @@ function BurgerConstructor() {
   useEffect(() => {
     totalPriceDispatcher({ type: Action.CLEAR });
 
-    toppings.map(({ type, price }) => {
-      totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
+    toppings.map(({ price }) => {
+      totalPriceDispatcher({ type: Action.ADD_TOPPINGS, payload: { price } });
     });
-  }, [toppings]);
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
+    totalPriceDispatcher({ type: Action.ADD_BUNS, payload: { price: bun?.price || 0 } });
+  }, [toppings, bun]);
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const createOrder = () => {
-    const postOrder = async () => {
-      try {
-        // const response = await post({
-        //   ingredients: ingredients.map(({ _id }) => {
-        //     return _id;
-        //   }),
-        // });
-
-        //setOrderNumber(response.order.number);
-
-        handleModalOpen();
-      } catch (e: any) {
-        console.log(e);
-      }
+  const handleCreateOrder = () => {
+    const buns = bun ? [bun, bun] : [];
+    const ingredients = [...toppings, ...buns];
+    const ids = {
+      ingredients: ingredients.map(({ _id }) => {
+        return _id;
+      }),
     };
 
-    postOrder();
+    dispatch(createOrder(ids));
   };
 
   return (
@@ -128,6 +113,7 @@ function BurgerConstructor() {
             <BurgerConstructorToppings />
           </BurgerConstructorBuns>
 
+        </div>
           <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
             <span className="text text_type_digits-medium mr-2">
               {totalPriceState.price}
@@ -138,18 +124,12 @@ function BurgerConstructor() {
               type="primary"
               size="large"
               extraClass="ml-10"
-              onClick={createOrder}
+              onClick={handleCreateOrder}
             >
               Оформить заказ
             </Button>
           </div>
-        </div>
       </div>
-      {isModalOpen && orderNumber && (
-        <Modal onClose={handleModalClose}>
-          <OrderDetails number={orderNumber} />
-        </Modal>
-      )}
     </>
   );
 }

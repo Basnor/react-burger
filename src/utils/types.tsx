@@ -29,7 +29,6 @@ export interface IOrder {
   order: {
     number: number;
   },
-  success: boolean;
 }
 
 export interface IResponse {

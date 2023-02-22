@@ -13,6 +13,8 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { RootState } from "../../services";
 import { clearIngredientDetails } from "../../services/ingredient-details";
+import { OrderDetails } from "../order-details/order-details";
+import { clearOrderDetails } from "../../services/order-details";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -21,12 +23,15 @@ function App() {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const { ingredient : ingredientDetails } = useAppSelector(
-    (store: RootState) => store.ingredientDetails
-  );
+  const { ingredient : ingredientDetails } = useAppSelector((store: RootState) => store.ingredientDetails);
+  const { orderDetails } = useAppSelector((store: RootState) => store.orderDetails);
 
-  const cleareDetils = () => {
+  const clearIngredientDetils = () => {
     dispatch(clearIngredientDetails());
+  }
+
+  const clearOrderDetils = () => {
+    dispatch(clearOrderDetails());
   }
 
   return (
@@ -40,8 +45,13 @@ function App() {
         </DndProvider>
       </main>
       {ingredientDetails && (
-        <Modal onClose={cleareDetils}>
+        <Modal onClose={clearIngredientDetils}>
           <IngredientDetails />
+        </Modal>
+      )}
+      {orderDetails && (
+        <Modal onClose={clearOrderDetils}>
+          <OrderDetails />
         </Modal>
       )}
     </div>
