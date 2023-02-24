@@ -11,11 +11,11 @@ import { RootState } from "../../../services";
 
 export interface IngredientItemProps {
   ingredient: any;
-  amountHidden?: boolean;
+  preview?: boolean;
 }
 
 function IngredientItem(props: IngredientItemProps) {
-  const { ingredient, amountHidden } = props;
+  const { ingredient, preview } = props;
   
   const {toppings, bun} = useAppSelector((store: RootState) => store.burgerConstructor);
   const dispatch = useAppDispatch();
@@ -31,8 +31,8 @@ function IngredientItem(props: IngredientItemProps) {
 
   return (
     <>
-      <div className={styles.item} onClick={initDetails}>
-        {!amountHidden && amount > 0 && <Counter count={amount} size="default" extraClass="m-1" />}
+      <div className={styles.item} onClick={initDetails} role={preview ? 'IngrerdientPreview' : 'Ingrerdient'}>
+        {!preview && amount > 0 && <Counter count={amount} size="default" extraClass="m-1" />}
         <img
           src={ingredient.image}
           className="pl-4 pr-4"

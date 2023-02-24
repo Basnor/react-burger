@@ -10,7 +10,6 @@ import { DragType } from "../../utils/types";
 const layerStyles: CSSProperties = {
   position: "fixed",
   pointerEvents: "none",
-  zIndex: 100,
   left: 0,
   top: 0,
   width: "100%",
@@ -58,7 +57,7 @@ function CustomDragLayer() {
   function renderItem() {
     switch (itemType) {
       case DragType.Ingredient:
-        return <IngredientItem ingredient={item} amountHidden={true} />;
+        return <IngredientItem ingredient={item} preview />;
 
       case DragType.Topping:
         return <ToppingItem ingredient={item.ingredient} index={item.index} />;

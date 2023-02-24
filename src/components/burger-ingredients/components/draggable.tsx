@@ -22,11 +22,16 @@ function draggable(WrappedComponent: React.ElementType<IngredientItemProps>) {
 
     useEffect(() => {
       preview(getEmptyImage(), { captureDraggingState: true });
-    }, []);
+    }, [preview]);
 
     return (
       <>
-        <div ref={dragRef} style={{ opacity: isDragging ? 0.5 : 1 }}>
+        <div
+          ref={dragRef}
+          style={{ opacity: isDragging ? 0.5 : 1 }}
+          role="DraggableIngredient"
+          onDrag={(e) => {e.preventDefault();  e.stopPropagation()}}
+        >
           <WrappedComponent {...props} />
         </div>
       </>

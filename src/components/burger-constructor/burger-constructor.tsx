@@ -49,7 +49,11 @@ function BurgerConstructor() {
 
   return (
     <>
-      <div className={`${styles.wrapper} ml-4 mr-4 mt-25`} ref={dropRef}>
+      <div
+        className={`${styles.wrapper} ml-4 mr-4 mt-25`}
+        ref={dropRef}
+        onDragOver={(e) => e.preventDefault()}
+      >
         <div className={styles.layers}>
           <BurgerConstructorBuns>
             <BurgerConstructorToppings />
