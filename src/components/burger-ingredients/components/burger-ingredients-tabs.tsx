@@ -31,7 +31,10 @@ function BurgerIngredientsTabs(props: BurgerIngredientsTabsProps) {
           }
         }
       },
-      { rootMargin: "0px 0px -75% 0px" }
+      { 
+        root: observableRef.current, 
+        rootMargin: "0px 0px -75% 0px" 
+      }
     );
 
     for (let i = 0, len = tabs.length; i < len; i++) {
