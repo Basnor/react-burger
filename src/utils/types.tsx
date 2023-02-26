@@ -4,6 +4,11 @@ export enum IngredientType {
   Main = "main",
 }
 
+export enum DragType {
+  Ingredient = "ingredient",
+  Topping = "topping"
+}
+
 export interface IIngredient {
   _id: string;
   name: string;
@@ -23,8 +28,7 @@ export interface IOrder {
   name: string;
   order: {
     number: number;
-  },
-  success: boolean;
+  }
 }
 
 export interface IResponse {

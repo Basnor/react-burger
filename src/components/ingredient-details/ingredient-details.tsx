@@ -1,15 +1,11 @@
 import React from "react";
 
 import styles from "./ingredient-details.module.css";
-import { IIngredient } from "../../utils/types";
+import { useAppSelector } from "../../hooks";
+import { RootState } from "../../services";
 
-interface IngredientDetailsProps {
-  ingredient: IIngredient;
-}
-
-function IngredientDetails(props: IngredientDetailsProps) {
-  const { ingredient } = props;
-
+function IngredientDetails() {
+  const { ingredient } = useAppSelector((store: RootState) => store.ingredientDetails);
   const details = [
     {
       name: "Калории,ккал",
@@ -41,7 +37,9 @@ function IngredientDetails(props: IngredientDetailsProps) {
           src={ingredient?.image_large}
           alt={ingredient?.name}
         />
-        <h2 className={`${styles.name} text text_type_main-medium mt-4`}>{ingredient?.name}</h2>
+        <h2 className={`${styles.name} text text_type_main-medium mt-4`}>
+          {ingredient?.name}
+        </h2>
         <ul className={`${styles.nutrients} mt-8 mb-15`}>
           {details.map((detail, index) => {
             return (
