@@ -1,36 +1,57 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import { BASE_URL } from "../utils/contants";
 
-function useFetch<T>(url: string) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error>();
-  const [data, setData] = useState<T[]>([]);
+const HEADERS = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+};
 
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
+enum Method {
+  GET = "GET",
+  POST = "POST",
+}
 
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Ошибка получения данных. Статус: ${response.status}`)
-      }
+function useFetch<T>(endpoint: string) {
+  const fetchData = useCallback(async (
+    url: string,
+    method: Method = Method.GET,
+    body?: object
+  ): Promise<T> => {
+    const config = {
+      method,
+      headers: HEADERS,
+    };
 
-      const data = await response?.json();
-
-      setData(data.data);
-      setIsLoading(false);
-    } catch (error: any) {
-      console.warn(error);
-
-      setError(error);
-      setIsLoading(false);
+    if (body) {
+      Object.assign(config, { body: JSON.stringify(body) });
     }
-  }, [url]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+    const response = await fetch(url, config);
 
-  return { isLoading, data, error };
+    if (response && !response.ok) {
+      return Promise.reject(
+        new Error(`Ошибка запроса. Статус: ${response.status}`)
+      );
+    }
+
+    const data = await response.json();
+
+    return data;
+  }, [endpoint]);
+
+  const get = () => {
+    return fetchData(BASE_URL + endpoint);
+  };
+
+  const post = (body?: object) => {
+    if (!body) {
+      return Promise.reject(new Error("Тело POST запроса не указано."));
+    }
+
+    return fetchData(BASE_URL + endpoint, Method.POST, body);
+  };
+
+  return { get, post };
 }
 
 export default useFetch;

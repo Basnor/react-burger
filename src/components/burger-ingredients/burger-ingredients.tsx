@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   Tab,
   Counter,
@@ -6,11 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-ingredients.module.css";
-import useFetch from "../../hooks/useFetch";
-import { INGREDIENTS_URL } from "../../utils/contants";
 import { IIngredient, IngredientType } from "../../utils/types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngredientsContext } from "../../services/appContext";
 
 type IngredientTypeProps = {
   name: string;
@@ -103,11 +102,7 @@ function IngredientItem(props: { ingredient: any; amount?: number }) {
 }
 
 function BurgerIngredients() {
-  const {
-    isLoading,
-    data: ingredients,
-    error,
-  } = useFetch<IIngredient>(INGREDIENTS_URL);
+  const ingredients = useContext<IIngredient[]>(IngredientsContext);
   const ingredientsRef = useRef<HTMLDivElement>(null);
 
   const handleTabToggle = (tab: string) => {

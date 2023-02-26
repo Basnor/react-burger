@@ -3,11 +3,19 @@ import React from "react";
 import styles from "./order-details.module.css";
 import done from "../../images/done.svg";
 
-export function OrderDetails() {
+interface OrderDetailsProps {
+  number: number;
+}
+
+export function OrderDetails(props: OrderDetailsProps) {
+  const {
+    number
+  } = props;
+
   return (
     <div className={`${styles.details} pl-25 pr-25`}>
       <h1 className={`${styles.number} text text_type_digits-large mt-30 mb-8`}>
-        034536
+        {number}
       </h1>
       <span className="text text_type_main-medium mb-15">идентификатор заказа</span>
       <img src={done} className={styles.done} alt="Заказ подтвержден" />

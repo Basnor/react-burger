@@ -1,4 +1,10 @@
-import React, { ReactNode, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -7,43 +13,86 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-constructor.module.css";
+import BurgerConstructorBuns from "./burger-constructor-buns";
 import Modal from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
-import { IIngredient, IngredientType } from "../../utils/types";
-import { INGREDIENTS_URL } from "../../utils/contants";
+import { IngredientsContext } from "../../services/appContext";
 import useFetch from "../../hooks/useFetch";
+import { endpoints } from "../../utils/contants";
+import {
+  IIngredient,
+  IngredientType,
+  IOrder,
+  IResponse,
+} from "../../utils/types";
 
-function BurgerConstructorBuns(props: { ingredient: IIngredient|undefined; children: ReactNode; }) {
-  const { ingredient, children } = props;
+enum Action {
+  ADD = "ADD",
+  CLEAR = "CLEAR",
+}
 
-  return (
-      ingredient
-      ? <>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${ingredient.name} (верх)`}
-          price={ingredient.price}
-          thumbnail={ingredient.image}
-          extraClass="ml-8 mr-2"
-        />
-        {children} 
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${ingredient.name} (низ)`}
-          price={ingredient.price}
-          thumbnail={ingredient.image}
-          extraClass="ml-8 mr-2"
-        />
-      </>
-      : <>{children}</>
-  );
+type TotalPriceStateProps = {
+  price: number;
+};
+
+type TotalPriceActionProps = {
+  type: Action;
+  payload?: {
+    type: IngredientType;
+    price: number
+  }
+};
+
+const totlPriceInitialState : TotalPriceStateProps = { price: 0 }; 
+
+function totalPriceReducer(state: TotalPriceStateProps, action: TotalPriceActionProps) {
+  switch (action.type) {
+    case Action.ADD:
+      if (!action.payload) {
+        return { price: state.price };
+      }
+
+      if (action.payload.type === IngredientType.Bun) {
+        return { price: state.price + action.payload.price * 2 };
+      }
+
+      return { price: state.price + action.payload.price };
+
+    case Action.CLEAR:
+      return totlPriceInitialState;
+
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
 }
 
 function BurgerConstructor() {
-  const { isLoading, data, error } = useFetch<IIngredient>(INGREDIENTS_URL);
+  const data = useContext<IIngredient[]>(IngredientsContext);
+
+  const { post } = useFetch<IResponse & IOrder>(endpoints.orders);
+  const [orderNumber, setOrderNumber] = useState<number | undefined>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [totalPriceState, totalPriceDispatcher] = useReducer(totalPriceReducer, totlPriceInitialState);
+
+  const ingredients = useMemo(() => {
+    return data.filter(({ _id }) => _id === "60d3b41abdacab0026a733c6" || _id === "60d3b41abdacab0026a733c8" || _id === "60d3b41abdacab0026a733cd");
+  }, [data]);
+
+  const bun = useMemo(() => {
+    return ingredients.find(({ type }) => (type as IngredientType) === IngredientType.Bun);
+  }, [ingredients]);
+
+  const toppings = useMemo(() => {
+    return ingredients.filter(({ type }) => type !== IngredientType.Bun);
+  }, [ingredients]);
+
+  useEffect(() => {
+    totalPriceDispatcher({ type: Action.CLEAR });
+
+    ingredients.map(({ type, price }) => {
+      totalPriceDispatcher({ type: Action.ADD, payload: { type, price } });
+    });
+  }, [ingredients]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -52,14 +101,34 @@ function BurgerConstructor() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-  
+
+  const createOrder = () => {
+    const postOrder = async () => {
+      try {
+        const response = await post({
+          ingredients: ingredients.map(({ _id }) => {
+            return _id;
+          }),
+        });
+
+        setOrderNumber(response.order.number);
+
+        handleModalOpen();
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
+
+    postOrder();
+  };
+
   return (
     <>
-    <div className={`${styles.wrapper} ml-4 mr-4 mt-25`}>
-      <div className={styles.layers}>
-        <BurgerConstructorBuns ingredient={data.find(({type}) => type as IngredientType === IngredientType.Bun)}>
-          <ul className={styles.toppings}>
-            {data.filter(({type}) => type !== IngredientType.Bun).map((ingredient) => {
+      <div className={`${styles.wrapper} ml-4 mr-4 mt-25`}>
+        <div className={styles.layers}>
+          <BurgerConstructorBuns ingredient={bun}>
+            <ul className={styles.toppings}>
+              {toppings.map((ingredient) => {
                 return (
                   <li key={ingredient._id} className={styles.topping}>
                     <DragIcon type="primary" />
@@ -72,29 +141,31 @@ function BurgerConstructor() {
                   </li>
                 );
               })}
-          </ul>
-        </BurgerConstructorBuns>
+            </ul>
+          </BurgerConstructorBuns>
 
-        <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
-          <span className="text text_type_digits-medium mr-2">12390</span>
-          <CurrencyIcon type="primary" />
-          <Button
-            htmlType="button"
-            type="primary"
-            size="large"
-            extraClass="ml-10"
-            onClick={handleModalOpen}
-          >
-            Нажми на меня
-          </Button>
+          <div className={`${styles.pricing} mt-10 mb-10 mr-4`}>
+            <span className="text text_type_digits-medium mr-2">
+              {totalPriceState.price}
+            </span>
+            <CurrencyIcon type="primary" />
+            <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              extraClass="ml-10"
+              onClick={createOrder}
+            >
+              Оформить заказ
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-    {isModalOpen && (
-      <Modal onClose={handleModalClose}>
-        <OrderDetails />
-      </Modal>
-    )}
+      {isModalOpen && orderNumber && (
+        <Modal onClose={handleModalClose}>
+          <OrderDetails number={orderNumber} />
+        </Modal>
+      )}
     </>
   );
 }
