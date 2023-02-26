@@ -28,7 +28,7 @@ export interface IOrder {
   name: string;
   order: {
     number: number;
-  },
+  }
 }
 
 export interface IResponse {
