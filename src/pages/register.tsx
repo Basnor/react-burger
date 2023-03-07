@@ -3,20 +3,31 @@ import { Link } from "react-router-dom";
 import {
   Button,
   EmailInput,
+  Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./login.module.css";
+import styles from "./register.module.css";
 
-function Login() {
+function Register() {
   const [value, setValue] = useState({
+    name: "",
     email: "",
     password: "",
   });
 
   return (
     <form className={styles.form}>
-      <h1 className="text text_type_main-medium">Вход</h1>
+      <h1 className="text text_type_main-medium">Регистрация</h1>
+      <Input
+        error={false}
+        extraClass="mt-6"
+        name={"name"}
+        onChange={(e) => setValue({ ...value, name: e.target.value })}
+        placeholder={"Имя"}
+        type={"text"}
+        value={value.name}
+      />
       <EmailInput
         extraClass="mt-6"
         name={"email"}
@@ -33,23 +44,16 @@ function Login() {
         value={value.password}
       />
       <Button type="primary" size="medium" htmlType="submit" extraClass="mt-6">
-        Войти
+        Зарегистрироваться
       </Button>
-
       <span className="text text_type_main-default text_color_inactive mt-20">
-        Вы — новый пользователь?&nbsp;
-        <Link to="/register" className={styles.link}>
-          Зарегистрироваться
-        </Link>
-      </span>
-      <span className="text text_type_main-default text_color_inactive mt-4">
-        Забыли пароль?&nbsp;
-        <Link to="/forgot-password" className={styles.link}>
-          Восстановить пароль
+        Уже зарегистрированы?&nbsp;
+        <Link to="/login" className={styles.link}>
+          Войти
         </Link>
       </span>
     </form>
   );
 }
 
-export default Login;
+export default Register;
