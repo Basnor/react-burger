@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IIngredient } from "../utils/types";
 
 interface IngredientDetailsState {
-  ingredient?: IIngredient
+  ingredientDetails?: IIngredient
 }
 
 const initialState: IngredientDetailsState = {}
@@ -15,10 +15,10 @@ export const ingredientDetailsSlice = createSlice({
       state,
       action: PayloadAction<{ ingredient: IIngredient }>
     ) => {
-      state.ingredient = action.payload.ingredient;
+      state.ingredientDetails = action.payload.ingredient;
     },
     clearIngredientDetails: (state) => {
-      state.ingredient = undefined;
+      state.ingredientDetails = undefined;
     },
   },
 });

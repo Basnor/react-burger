@@ -5,23 +5,23 @@ import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 
 function IngredientDetails() {
-  const { ingredient } = useAppSelector((store: RootState) => store.ingredientDetails);
+  const { ingredientDetails } = useAppSelector((store: RootState) => store.ingredientDetails);
   const details = [
     {
       name: "Калории,ккал",
-      value: ingredient?.calories,
+      value: ingredientDetails?.calories,
     },
     {
       name: "Белки, г",
-      value: ingredient?.proteins,
+      value: ingredientDetails?.proteins,
     },
     {
       name: "Жиры, г",
-      value: ingredient?.fat,
+      value: ingredientDetails?.fat,
     },
     {
       name: "Углеводы, г",
-      value: ingredient?.carbohydrates,
+      value: ingredientDetails?.carbohydrates,
     },
   ];
 
@@ -34,11 +34,11 @@ function IngredientDetails() {
       <div className={`${styles.details} pl-25 pr-25`}>
         <img
           className="ml-5 mr-5"
-          src={ingredient?.image_large}
-          alt={ingredient?.name}
+          src={ingredientDetails?.image_large}
+          alt={ingredientDetails?.name}
         />
         <h2 className={`${styles.name} text text_type_main-medium mt-4`}>
-          {ingredient?.name}
+          {ingredientDetails?.name}
         </h2>
         <ul className={`${styles.nutrients} mt-8 mb-15`}>
           {details.map((detail, index) => {
