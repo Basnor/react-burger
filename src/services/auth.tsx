@@ -1,16 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import useFetch from "../hooks/useFetch";
-import { ENDPOINTS } from "../utils/contants";
+import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../utils/contants";
+import { setCookie } from "../utils/cookie";
 import { IResponse, IUser } from "../utils/types";
 
 interface IAuthState {
   request: boolean;
   error: boolean;
-  user?: {
-    email: string;
-    name: string;
-  };
+  user?: IUser;
   errorMessage?: string;
 }
 
@@ -33,6 +31,9 @@ export const authSlice = createSlice({
         state.request = false;
         state.error = !action.payload.success;
         if (action.payload.success && "user" in action.payload) {
+          setCookie("accessToken", action.payload.accessToken, { expires: COOKIE_LIFETIME_SEC });
+          setCookie("refreshToken", action.payload.refreshToken, { expires: COOKIE_LIFETIME_SEC });
+
           state.user = action.payload.user;
         }
 
@@ -55,6 +56,9 @@ export const authSlice = createSlice({
         state.error = !action.payload.success;
 
         if (action.payload.success && "user" in action.payload) {
+          setCookie("accessToken", action.payload.accessToken, { expires: COOKIE_LIFETIME_SEC });
+          setCookie("refreshToken", action.payload.refreshToken, { expires: COOKIE_LIFETIME_SEC });
+
           state.user = action.payload.user;
         }
 

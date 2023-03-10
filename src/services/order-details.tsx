@@ -41,11 +41,8 @@ export const {
 export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: string[] }>(
   'orderDetails/createOrder',
   async (ingredients: { ingredients: string[] }) => {
-    const { post } = useFetch<IResponse & IOrder, { ingredients: string[] }>(
-      ENDPOINTS.orders
-    );
-
-    const response = await post(ingredients);
+    const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
+    const response = await fetchApi.post(ingredients);
 
     return response;
   }

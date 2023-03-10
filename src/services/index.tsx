@@ -5,6 +5,7 @@ import { burgerConstructorSlice } from "./burger-constructor";
 import { ingredientDetailsSlice } from "./ingredient-details";
 import { orderDetailsSlice } from "./order-details";
 import { authSlice } from "./auth";
+import { userSlice } from "./user";
 import { forgotPasswordSlice } from "./forgot-password";
 import { resetPasswordSlice } from "./reset-password";
 
@@ -14,6 +15,7 @@ export const rootReducer = combineReducers({
   ingredientDetails: ingredientDetailsSlice.reducer,
   orderDetails: orderDetailsSlice.reducer,
   auth: authSlice.reducer,
+  user: userSlice.reducer,
   forgotPassword: forgotPasswordSlice.reducer,
   resetPassword: resetPasswordSlice.reducer,
 });
