@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import useFetch from "../hooks/useFetch";
 import { ENDPOINTS } from "../utils/contants";
+import { getCookie } from "../utils/cookie";
 import { IOrder, IResponse } from "../utils/types";
 
 interface OrderDetailsState {
@@ -41,8 +43,13 @@ export const {
 export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: string[] }>(
   'orderDetails/createOrder',
   async (ingredients: { ingredients: string[] }) => {
+    const token = getCookie('accessToken');
+    if (!token) {
+      throw new Error('Access token not found');
+    }
+    
     const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
-    const response = await fetchApi.post(ingredients);
+    const response = await fetchApi.post(ingredients, token);
 
     return response;
   }
