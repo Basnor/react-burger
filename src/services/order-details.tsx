@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import useFetch from "../hooks/useFetch";
-import { endpoints } from "../utils/contants";
+import { ENDPOINTS } from "../utils/contants";
 import { IOrder, IResponse } from "../utils/types";
 
 interface OrderDetailsState {
@@ -42,7 +42,7 @@ export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: s
   'orderDetails/createOrder',
   async (ingredients: { ingredients: string[] }) => {
     const { post } = useFetch<IResponse & IOrder, { ingredients: string[] }>(
-      endpoints.orders
+      ENDPOINTS.orders
     );
 
     const response = await post(ingredients);

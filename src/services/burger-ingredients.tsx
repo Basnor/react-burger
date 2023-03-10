@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import useFetch from "../hooks/useFetch";
-import { endpoints } from "../utils/contants";
+import { ENDPOINTS } from "../utils/contants";
 import { IIngredient, IResponse } from "../utils/types";
 
 interface BurgerIngredientsState {
@@ -38,7 +38,7 @@ export const getIngredients = createAsyncThunk<IResponse & { data: IIngredient[]
   "burgerIngredients/getIngredientIngredientTypes", 
   async () => {
     const { get } = useFetch<IResponse & { data: IIngredient[] }, unknown>(
-      endpoints.ingredients
+      ENDPOINTS.ingredients
     );
     const response = await get();
 
