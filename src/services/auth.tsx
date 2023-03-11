@@ -9,7 +9,6 @@ interface IAuthState {
   request: boolean;
   error: boolean;
   user?: IUser;
-  errorMessage?: string;
 }
 
 const initialState: IAuthState = {
@@ -31,18 +30,16 @@ export const authSlice = createSlice({
         state.request = false;
         state.error = !action.payload.success;
 
-        if (action.payload.success && "user" in action.payload) {
+        if (action.payload.success) {
           setCookie("accessToken", action.payload.accessToken, { expires: COOKIE_LIFETIME_SEC });
           setCookie("refreshToken", action.payload.refreshToken, { expires: COOKIE_LIFETIME_SEC });
 
           state.user = action.payload.user;
         }
-
-        if (!action.payload.success && "message" in action.payload) {
-          state.errorMessage = action.payload.message;
-        }
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(login.rejected, (state, action) => {
+        console.error(action.error.message);
+
         state.request = false;
         state.error = true;
       });
@@ -63,7 +60,9 @@ export const authSlice = createSlice({
           state.user = undefined;
         }
       })
-      .addCase(logout.rejected, (state) => {
+      .addCase(logout.rejected, (state, action) => {
+        console.error(action.error.message);
+
         state.request = false;
         state.error = true;
       });
@@ -76,13 +75,12 @@ interface IAuthResponse {
   refreshToken: string;
 }
 
-type responseType = (IResponse & IAuthResponse) | (IResponse & { message: string });
-type bodyType = { user: IUser & { password: string } };
+type bodyType = { email: string; password: string };
 
-export const login = createAsyncThunk<responseType, bodyType>(
+export const login = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
   "auth/login",
   async (user: bodyType) => {
-    const fetchApi = useFetch<responseType, bodyType>(ENDPOINTS.login);
+    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.login);
     const response = await fetchApi.post(user);
 
     return response;

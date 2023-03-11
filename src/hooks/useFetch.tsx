@@ -8,7 +8,7 @@ const headers = new Headers({
 enum Method {
   GET = "GET",
   POST = "POST",
-  PATH = "PATH",
+  PATCH = "PATCH",
 }
 
 function useFetch<T, K>(endpoint: string) {
@@ -33,11 +33,11 @@ function useFetch<T, K>(endpoint: string) {
 
     const response = await fetch(url, config);
 
-    if (response && !response.ok) {    if (!body) {
-      return Promise.reject(new Error("Тело POST запроса не указано."));
-    }
+    if (response && !response.ok) {
+      const error = await response.json();
+
       return Promise.reject(
-        new Error(`Ошибка запроса. Статус: ${response.status}`)
+        new Error(error.message || `Ошибка запроса. Статус: ${response.status}`)
       );
     }
 
@@ -54,11 +54,11 @@ function useFetch<T, K>(endpoint: string) {
     return _fetchData(BASE_URL + endpoint, Method.POST, body, token);
   };
 
-  const path = (body: K, token: string) => {
-    return _fetchData(BASE_URL + endpoint, Method.PATH, body, token);
+  const patch = (body: K, token: string) => {
+    return _fetchData(BASE_URL + endpoint, Method.PATCH, body, token);
   };
 
-  return { get, post, path };
+  return { get, post, patch };
 }
 
 export default useFetch;

@@ -9,7 +9,6 @@ interface IRegisterState {
   request: boolean;
   error: boolean;
   user?: IUser;
-  errorMessage?: string;
 }
 
 const initialState: IRegisterState = {
@@ -30,18 +29,17 @@ export const registerSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.request = false;
         state.error = !action.payload.success;
-        if (action.payload.success && "user" in action.payload) {
+
+        if (action.payload.success) {
           setCookie("accessToken", action.payload.accessToken, { expires: COOKIE_LIFETIME_SEC });
           setCookie("refreshToken", action.payload.refreshToken, { expires: COOKIE_LIFETIME_SEC });
 
           state.user = action.payload.user;
         }
-
-        if (!action.payload.success && "message" in action.payload) {
-          state.errorMessage = action.payload.message;
-        }
       })
-      .addCase(register.rejected, (state) => {
+      .addCase(register.rejected, (state, action) => {
+        console.error(action.error.message);
+
         state.request = false;
         state.error = true;
       });
@@ -54,13 +52,12 @@ interface IAuthResponse {
   refreshToken: string;
 }
 
-type responseType = (IResponse & IAuthResponse) | (IResponse & { message: string });
 type bodyType = { user: IUser & { password: string } };
 
-export const register = createAsyncThunk<responseType, bodyType>(
+export const register = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
   "register/registerUser",
   async (user: bodyType) => {
-    const fetchApi = useFetch<responseType, bodyType>(ENDPOINTS.register);
+    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.register);
     const response = await fetchApi.post(user);
 
     return response;

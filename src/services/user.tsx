@@ -9,7 +9,6 @@ interface IUserState {
   request: boolean;
   error: boolean;
   user?: IUser;
-  errorMessage?: string;
 }
 
 const initialState: IUserState = {
@@ -31,12 +30,8 @@ export const userSlice = createSlice({
         state.request = false;
         state.error = !action.payload.success;
 
-        if (action.payload.success && "user" in action.payload) {
+        if (action.payload.success) {
           state.user = action.payload.user;
-        }
-
-        if (!action.payload.success && "message" in action.payload) {
-          state.errorMessage = action.payload.message;
         }
       })
       .addCase(getUser.rejected, (state) => {
@@ -53,24 +48,21 @@ export const userSlice = createSlice({
         state.request = false;
         state.error = !action.payload.success;
 
-
-        if (action.payload.success && "user" in action.payload) {
+        if (action.payload.success) {
           state.user = action.payload.user;
         }
-
-        if (!action.payload.success && "message" in action.payload) {
-          state.errorMessage = action.payload.message;
-        }
       })
-      .addCase(updateUser.rejected, (state) => {
+      .addCase(updateUser.rejected, (state, action) => {
+        console.error(action.error.message);
+
         state.request = false;
         state.error = true;
       });
   },
 });
 
-type responseType = (IResponse & { user: IUser }) | (IResponse & { message: string });
-type updateBodyType = { user: IUser & { password: string }};
+type responseType = IResponse & { user: IUser };
+type updateBodyType = { email: string|null; name: string|null; password: string|null; };
 
 export const getUser = createAsyncThunk<responseType>(
   "user/getUser",
@@ -96,7 +88,7 @@ export const updateUser = createAsyncThunk<responseType, updateBodyType>(
     }
 
     const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.user);
-    const response = await fetchApi.path(user, token);
+    const response = await fetchApi.patch(user, token);
 
     return response;
   }

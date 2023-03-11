@@ -7,11 +7,11 @@ import { IOrder, IResponse } from "../utils/types";
 
 interface OrderDetailsState {
   orderDetails?: IOrder;
-  orderDetailsError: boolean;
+  error: boolean;
 }
 
 const initialState: OrderDetailsState = {
-  orderDetailsError: false,
+  error: false,
 };
 
 export const orderDetailsSlice = createSlice({
@@ -25,13 +25,15 @@ export const orderDetailsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
-        state.orderDetailsError = false;
+        state.error = false;
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.orderDetails = action.payload;
       })
-      .addCase(createOrder.rejected, (state) => {
-        state.orderDetailsError = true;
+      .addCase(createOrder.rejected, (state, action) => {
+        console.error(action.error.message);
+
+        state.error = true;
       });
   },
 });
