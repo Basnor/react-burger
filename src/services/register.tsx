@@ -52,7 +52,7 @@ interface IAuthResponse {
   refreshToken: string;
 }
 
-type bodyType = { user: IUser & { password: string } };
+type bodyType = IUser & { password: string };
 
 export const register = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
   "register/registerUser",

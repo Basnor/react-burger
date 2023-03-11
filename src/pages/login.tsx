@@ -27,7 +27,7 @@ function Login() {
       email: "",
       password: "",
     },
-    handleSubmit: (values) => {dispatch(login(values))},
+    handleSubmit: (values) => dispatch(login(values)),
     isValid: (values) => {
       return EMAIL_REGEX.test(values.email);
     },
