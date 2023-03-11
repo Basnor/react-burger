@@ -37,7 +37,6 @@ function ForgotPassword() {
   });
 
   useEffect(() => {
-    debugger
     if (!success) {
       return;
     }

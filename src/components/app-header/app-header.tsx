@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Logo,
   BurgerIcon,
@@ -15,7 +16,7 @@ function AppHeader() {
       <nav className={styles.navigation}>
         <ul className={styles.links} style={{ textAlign: "start" }}>
           <li className={styles.link}>
-            <a href="#" style={{ display: "contents" }}>
+            <Link to="/" style={{ display: "contents" }}>
               <AppHeaderButton
                 name="Конструктор"
                 icon={<BurgerIcon type="primary" />}
@@ -24,7 +25,7 @@ function AppHeader() {
                   color: "white",
                 }}
               />
-            </a>
+            </Link>
           </li>
           <li className={styles.link}>
             <AppHeaderButton
@@ -36,20 +37,22 @@ function AppHeader() {
         </ul>
         <ul className={styles.links} style={{ textAlign: "center" }}>
           <li className={styles.link}>
-            <a href="#" style={{ display: "contents" }}>
+            <Link to="/" style={{ display: "contents" }}>
               <Logo />
-            </a>
+            </Link>
           </li>
         </ul>
         <ul className={styles.links} style={{ textAlign: "end" }}>
           <li className={styles.link}>
-            <a href="#" style={{ display: "contents" }}>
+            <Link to="/profile" style={{ display: "contents" }}>
               <AppHeaderButton
-                disabled
                 name="Личный кабинет"
-                icon={<ProfileIcon type="secondary" />}
+                icon={<ProfileIcon type="primary" />}
+                style={{
+                  color: "white",
+                }}
               />
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
