@@ -1,0 +1,28 @@
+.sidebar {
+  width: 320px;
+}
+
+.navigation,
+.links li {
+  display: contents;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.link {
+  line-height: 64px;
+  text-decoration: none;
+}
+
+.button {
+  background-color: transparent;
+  line-height: 64px;
+  text-align: start;
+  border: none;
+  cursor: pointer;
+}

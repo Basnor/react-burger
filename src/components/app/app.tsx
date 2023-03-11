@@ -11,11 +11,13 @@ import Login from "../../pages/login";
 import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
+import Profile, { ProfileDetails } from "../../pages/profile";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 import { getIngredients } from "../../services/burger-ingredients";
 import { clearIngredientDetails } from "../../services/ingredient-details";
 import { clearOrderDetails } from "../../services/order-details";
+import ErrorPage from "../../pages/error-page";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +39,25 @@ const router = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPassword />,
-  }
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+    children: [
+      {
+        path: "/profile",
+        element: <ProfileDetails />,
+      },
+      {
+        path: "/profile/orders",
+        element: null,
+      }
+    ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
+  },
 ]);
 
 function App() {

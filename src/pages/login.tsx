@@ -7,32 +7,59 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./login.module.css";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { RootState } from "../services";
+import useForm from "../hooks/useForm";
+import { login } from "../services/auth";
+import { EMAIL_REGEX } from "../utils/contants";
+
+interface ILoginForm {
+  email: string;
+  password: string;
+}
 
 function Login() {
-  const [value, setValue] = useState({
-    email: "",
-    password: "",
+  const dispatch = useAppDispatch();
+  const { request, error } = useAppSelector((store: RootState) => store.auth);
+
+  const { values, handleChange, handleSubmit, isValid } = useForm<ILoginForm>({
+    initialState: {
+      email: "",
+      password: "",
+    },
+    handleSubmit: (values) => {dispatch(login(values))},
+    isValid: (values) => {
+      return EMAIL_REGEX.test(values.email);
+    },
   });
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium">Вход</h1>
       <EmailInput
         extraClass="mt-6"
         name={"email"}
-        onChange={(e) => setValue({ ...value, email: e.target.value })}
+        onChange={handleChange}
         placeholder={"E-mail"}
-        value={value.email}
+        value={values.email}
+        disabled={request}
       />
       <PasswordInput
         extraClass="mt-6"
         icon="ShowIcon"
         name={"password"}
-        onChange={(e) => setValue({ ...value, password: e.target.value })}
+        onChange={handleChange}
         placeholder={"Пароль"}
-        value={value.password}
+        value={values.password}
+        disabled={request}
       />
-      <Button type="primary" size="medium" htmlType="submit" extraClass="mt-6">
+      <Button
+        type="primary"
+        size="medium"
+        htmlType="submit"
+        extraClass="mt-6"
+        disabled={!isValid || request}
+      >
         Войти
       </Button>
 
