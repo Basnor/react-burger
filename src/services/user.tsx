@@ -35,6 +35,7 @@ export const userSlice = createSlice({
         }
       })
       .addCase(getUser.rejected, (state) => {
+        state.user = undefined;
         state.request = false;
         state.error = true;
       });

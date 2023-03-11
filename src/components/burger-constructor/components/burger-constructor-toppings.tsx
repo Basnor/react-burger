@@ -1,7 +1,6 @@
 import React from "react";
 
 import styles from "../burger-constructor.module.css";
-import { IngredientType } from "../../../utils/types";
 import { useAppSelector } from "../../../hooks";
 import { RootState } from "../../../services";
 import draggable from "./draggable";

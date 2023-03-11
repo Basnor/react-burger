@@ -10,6 +10,7 @@ import ResetPassword from "../../pages/reset-password";
 import Profile, { ProfileDetails } from "../../pages/profile";
 import ErrorPage from "../../pages/error-page";
 import BaseLayout from "../base-layout/base-layout";
+import ProtectedRoute, { Role } from "../protected-route/protected-route";
 
 const router = createBrowserRouter([
   {
@@ -22,23 +23,33 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <ProtectedRoute role={Role.GUEST}>
+          <Login />
+        </ProtectedRoute>,
       },
       {
         path: "/register",
-        element: <Register />,
+        element: <ProtectedRoute role={Role.GUEST}>
+          <Register />
+        </ProtectedRoute>,
       },
       {
         path: "/forgot-password",
-        element: <ForgotPassword />,
+        element: <ProtectedRoute role={Role.GUEST}>
+          <ForgotPassword />
+        </ProtectedRoute>,
       },
       {
         path: "/reset-password",
-        element: <ResetPassword />,
+        element: <ProtectedRoute role={Role.GUEST}>
+          <ResetPassword />
+        </ProtectedRoute>,
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <ProtectedRoute role={Role.USER}>
+          <Profile />
+        </ProtectedRoute>,
         children: [
           {
             path: "/profile",

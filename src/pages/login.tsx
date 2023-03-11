@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   EmailInput,
@@ -20,7 +20,8 @@ interface ILoginForm {
 
 function Login() {
   const dispatch = useAppDispatch();
-  const { request, error } = useAppSelector((store: RootState) => store.auth);
+  const navigate = useNavigate();
+  const { request, user } = useAppSelector((store: RootState) => store.auth);
 
   const { values, handleChange, handleSubmit, isValid } = useForm<ILoginForm>({
     initialState: {
@@ -32,6 +33,14 @@ function Login() {
       return EMAIL_REGEX.test(values.email);
     },
   });
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    navigate("/");
+  }, [user]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
