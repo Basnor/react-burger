@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -7,35 +7,75 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./reset-password.module.css";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { RootState } from "../services";
+import useForm from "../hooks/useForm";
+import { resetPassword } from "../services/reset-password";
+import { PASSWORD_REGEX } from "../utils/contants";
+
+interface IResetPasswordForm {
+  password: string
+  token: string
+}
 
 function ResetPassword() {
-  const [value, setValue] = useState({
-    password: "",
-    code: "",
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { request, error, success } = useAppSelector((store: RootState) => store.resetPassword);
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    isValid,
+  } = useForm<IResetPasswordForm>({
+    initialState: {
+      password: '',
+      token: '',
+    },
+    handleSubmit: (values) => dispatch(resetPassword(values)),
+    isValid: (values) => {
+      return PASSWORD_REGEX.test(values.password) && !!values.token
+    }
   });
 
+  useEffect(() => {
+    if (!success) {
+      return;
+    }
+
+    navigate("/");
+  }, [success]);
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium">Восстановление пароля</h1>
       <PasswordInput
         extraClass="mt-6"
         icon="ShowIcon"
-        name={"password"}
-        onChange={(e) => setValue({ ...value, password: e.target.value })}
+        name="password"
+        onChange={handleChange}
         placeholder="Введите новый пароль"
-        value={value.password}
+        value={values.password}
+        disabled={request}
       />
       <Input
-        error={false}
         extraClass="mt-6"
-        name={"name"}
-        onChange={(e) => setValue({ ...value, code: e.target.value })}
-        placeholder={"Введите код из письма"}
-        size={"default"}
-        type={"text"}
-        value={value.code}
+        name="token"
+        onChange={handleChange}
+        placeholder="Введите код из письма"
+        size="default"
+        type="text"
+        value={values.token}
+        disabled={request}
       />
-      <Button type="primary" size="medium" htmlType="submit" extraClass="mt-6">
+      <Button
+        type="primary"
+        size="medium"
+        htmlType="submit"
+        extraClass="mt-6"
+        disabled={!isValid || request}
+      >
         Сохранить
       </Button>
       <span className="text text_type_main-default text_color_inactive mt-20">
