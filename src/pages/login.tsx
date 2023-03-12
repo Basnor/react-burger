@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./login.module.css";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppLocation, useAppSelector } from "../hooks";
 import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { login } from "../services/auth";
@@ -21,8 +21,9 @@ interface ILoginForm {
 function Login() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useAppLocation();
+  
   const { request, user } = useAppSelector((store: RootState) => store.auth);
-
   const { values, handleChange, handleSubmit, isValid } = useForm<ILoginForm>({
     initialState: {
       email: "",
@@ -39,7 +40,7 @@ function Login() {
       return;
     }
 
-    navigate("/");
+    navigate(location?.state?.from || "/");
   }, [user]);
 
   return (
