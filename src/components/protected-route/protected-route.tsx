@@ -34,13 +34,13 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
         if (user) {
           navigate(location?.state?.from || "/");
         }
-  
+
         break;
       case Role.USER:
         if (!user) {
           navigate("/login", { state: { from: location } });
         }
-  
+
         break;
     }
   }, [user]);

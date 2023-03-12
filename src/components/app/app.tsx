@@ -19,37 +19,47 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "/login",
-        element: <ProtectedRoute role={Role.GUEST}>
-          <Login />
-        </ProtectedRoute>,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <Login />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/register",
-        element: <ProtectedRoute role={Role.GUEST}>
-          <Register />
-        </ProtectedRoute>,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <Register />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/forgot-password",
-        element: <ProtectedRoute role={Role.GUEST}>
-          <ForgotPassword />
-        </ProtectedRoute>,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <ForgotPassword />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/reset-password",
-        element: <ProtectedRoute role={Role.GUEST}>
-          <ResetPassword />
-        </ProtectedRoute>,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <ResetPassword />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <ProtectedRoute role={Role.USER}>
-          <Profile />
-        </ProtectedRoute>,
+        element: (
+          <ProtectedRoute role={Role.USER}>
+            <Profile />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: "/profile",
@@ -58,15 +68,15 @@ const router = createBrowserRouter([
           {
             path: "/profile/orders",
             element: null,
-          }
+          },
         ],
       },
       {
         path: "*",
         element: <ErrorPage />,
       },
-    ]
-  }
+    ],
+  },
 ]);
 
 function App() {

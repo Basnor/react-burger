@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Outlet } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks";
 
+import { useAppDispatch, useAppSelector } from "../hooks";
 import styles from "./profile.module.css";
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../utils/contants";
 import useForm from "../hooks/useForm";

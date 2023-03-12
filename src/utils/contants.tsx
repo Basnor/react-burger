@@ -13,7 +13,7 @@ export const ENDPOINTS = {
   login: "/auth/login",
   logout: "/auth/logout",
   user: "/auth/user",
-  token: "auth/token",
+  token: "/auth/token",
   forgot: "/password-reset",
   reset: "/password-reset/reset",
 };

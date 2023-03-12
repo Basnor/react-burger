@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { ENDPOINTS } from "../utils/contants";
 import { getCookie } from "../utils/cookie";
 import { IResponse, IUser } from "../utils/types";
+import { refreshToken } from "./refresh-token";
 
 interface IUserState {
   request: boolean;
@@ -34,7 +35,9 @@ export const userSlice = createSlice({
           state.user = action.payload.user;
         }
       })
-      .addCase(getUser.rejected, (state) => {
+      .addCase(getUser.rejected, (state, action) => {
+        console.error(action.error.message);
+
         state.user = undefined;
         state.request = false;
         state.error = true;
@@ -67,30 +70,58 @@ type updateBodyType = { email: string|null; name: string|null; password: string|
 
 export const getUser = createAsyncThunk<responseType>(
   "user/getUser",
-  async () => {
-    const token = getCookie('accessToken');
-    if (!token) {
-      throw new Error('Access token not found');
+  async (_, { dispatch }) => {
+    const fetchRequestAsync = async () => {
+      const token = getCookie('accessToken');
+      if (!token) {
+        throw new Error('Access token not found');
+      }
+
+      const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.user);
+      const response = await fetchApi.get(token);
+
+      return response;
     }
 
-    const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.user);
-    const response = await fetchApi.get(token);
+    try {
+      return fetchRequestAsync();
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === "jwt expired") {
+        await dispatch(refreshToken());
 
-    return response;
+        return fetchRequestAsync();
+      }
+
+      throw error;
+    }   
   }
 );
 
 export const updateUser = createAsyncThunk<responseType, updateBodyType>(
   "user/updateUser",
-  async (user: updateBodyType) => {
-    const token = getCookie('accessToken');
-    if (!token) {
-      throw new Error('Access token not found');
+  async (user: updateBodyType, { dispatch }) => {
+    const fetchRequestAsync = async () => {
+      const token = getCookie('accessToken');
+      if (!token) {
+        throw new Error('Access token not found');
+      }
+
+      const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.user);
+      const response = await fetchApi.patch(user, token);
+
+      return response;
     }
 
-    const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.user);
-    const response = await fetchApi.patch(user, token);
+    try {
+      return fetchRequestAsync();
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === "jwt expired") {
+        await dispatch(refreshToken());
 
-    return response;
+        return fetchRequestAsync();
+      }
+
+      throw error;
+    } 
   }
 );
