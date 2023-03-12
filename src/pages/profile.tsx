@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
 import styles from "./profile.module.css";
@@ -9,7 +9,6 @@ import useForm from "../hooks/useForm";
 import { RootState } from "../services";
 import { getUser, updateUser } from "../services/user";
 import { getValuable } from "../utils/helpers";
-import { logout } from "../services/auth";
 
 export function ProfileDetails() {
   const dispatch = useAppDispatch();
@@ -52,7 +51,9 @@ export function ProfileDetails() {
   }, [dispatch]);
   
   useEffect(() => {
-    resetFormChanges();
+    if (user) {
+      resetFormChanges();
+    }
   }, [user]);
 
   return (
@@ -99,17 +100,6 @@ export function ProfileDetails() {
 }
 
 function Profile() {
-  const dispatch = useAppDispatch();
-  const { user } = useAppSelector((store: RootState) => store.auth);
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [user]);
-
   return (
     <main className={styles.wrapper}>
       <div className={styles.sidebar}>
@@ -142,7 +132,6 @@ function Profile() {
             <li>
               <button
                 className={`${styles.button} text text_type_main-medium text_color_inactive`}
-                onClick={handleLogout}
               >
                 Выход
               </button>
