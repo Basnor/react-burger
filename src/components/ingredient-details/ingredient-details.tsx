@@ -5,7 +5,8 @@ import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 
 function IngredientDetails() {
-  const { ingredientDetails } = useAppSelector((store: RootState) => store.ingredientDetails);
+  const { ingredientDetails } = useAppSelector((store: RootState) => store.burgerIngredients);
+
   const details = [
     {
       name: "Калории,ккал",

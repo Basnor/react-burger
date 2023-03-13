@@ -20,18 +20,20 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
   const dispatch = useAppDispatch();
   const location = useAppLocation();
   const navigate = useNavigate();
-  const user = useAppSelector((store: RootState) => !!store.user.user);
+  const { user, request } = useAppSelector((store: RootState) => store.user);
 
   useEffect(() => {
     dispatch(getUser());
-
-    navigatePage();
   }, [dispatch]);
+
+  useEffect(() => {
+    navigatePage();
+  }, [request]);
 
   const navigatePage = useCallback(() => {
     switch (role) {
       case Role.GUEST:
-        if (user) {
+        if (!!user) {
           navigate(location?.state?.from || "/");
         }
 
@@ -43,7 +45,7 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
 
         break;
     }
-  }, [user]);
+  }, [user, request]);
 
   return <>{children}</>;
 }

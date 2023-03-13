@@ -71,7 +71,7 @@ type updateBodyType = { email: string|null; name: string|null; password: string|
 export const getUser = createAsyncThunk<responseType>(
   "user/getUser",
   async (_, { dispatch }) => {
-    const fetchRequestAsync = async () => {
+    try {
       const token = getCookie('accessToken');
       if (!token) {
         throw new Error('Access token not found');
@@ -81,15 +81,19 @@ export const getUser = createAsyncThunk<responseType>(
       const response = await fetchApi.get(token);
 
       return response;
-    }
-
-    try {
-      return fetchRequestAsync();
     } catch (error: unknown) {
       if (error instanceof Error && error.message === "jwt expired") {
         await dispatch(refreshToken());
 
-        return fetchRequestAsync();
+        const token = getCookie('accessToken');
+        if (!token) {
+          throw new Error('Access token not found');
+        }
+
+        const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.user);
+        const response = await fetchApi.get(token);
+
+        return response;
       }
 
       throw error;
@@ -100,7 +104,7 @@ export const getUser = createAsyncThunk<responseType>(
 export const updateUser = createAsyncThunk<responseType, updateBodyType>(
   "user/updateUser",
   async (user: updateBodyType, { dispatch }) => {
-    const fetchRequestAsync = async () => {
+    try {
       const token = getCookie('accessToken');
       if (!token) {
         throw new Error('Access token not found');
@@ -110,15 +114,19 @@ export const updateUser = createAsyncThunk<responseType, updateBodyType>(
       const response = await fetchApi.patch(user, token);
 
       return response;
-    }
-
-    try {
-      return fetchRequestAsync();
     } catch (error: unknown) {
       if (error instanceof Error && error.message === "jwt expired") {
         await dispatch(refreshToken());
 
-        return fetchRequestAsync();
+        const token = getCookie('accessToken');
+        if (!token) {
+          throw new Error('Access token not found');
+        }
+
+        const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.user);
+        const response = await fetchApi.patch(user, token);
+
+        return response;
       }
 
       throw error;

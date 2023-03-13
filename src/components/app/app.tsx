@@ -11,6 +11,7 @@ import Profile, { ProfileDetails } from "../../pages/profile";
 import ErrorPage from "../../pages/error-page";
 import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        children: [
+          {
+            path: "/ingredients/:ingredientId",
+            element: <IngredientDetails />,
+          },
+        ]
       },
       {
         path: "/login",

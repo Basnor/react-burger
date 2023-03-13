@@ -1,13 +1,14 @@
 import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "../burger-ingredients.module.css";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
-import { initIngredientDetails } from "../../../services/ingredient-details";
+import { useAppDispatch, useAppLocation, useAppSelector } from "../../../hooks";
 import { RootState } from "../../../services";
+import { initIngredientDetails } from "../../../services/burger-ingredients";
 
 export interface IngredientItemProps {
   ingredient: any;
@@ -16,11 +17,17 @@ export interface IngredientItemProps {
 
 function IngredientItem(props: IngredientItemProps) {
   const { ingredient, preview } = props;
-  
-  const {toppings, bun} = useAppSelector((store: RootState) => store.burgerConstructor);
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useAppLocation();
+
+  const {toppings, bun} = useAppSelector((store: RootState) => store.burgerConstructor);
+
   const initDetails = () => {
-    dispatch(initIngredientDetails({ ingredient }));
+    dispatch(initIngredientDetails({ ingredientId: ingredient._id }));
+
+    navigate(`/ingredients/${ingredient._id}`, { state: { backgroundLocation: location }});
   };
 
   const amount = useMemo(() => {

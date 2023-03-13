@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import useFetch from "../hooks/useFetch";
 import { ENDPOINTS } from "../utils/contants";
@@ -8,6 +8,7 @@ interface BurgerIngredientsState {
   request: boolean;
   error: boolean;
   ingredients: IIngredient[];
+  ingredientDetails?: IIngredient;
 }
 
 const initialState: BurgerIngredientsState = {
@@ -19,7 +20,16 @@ const initialState: BurgerIngredientsState = {
 export const burgerIngredientsSlice = createSlice({
   name: "burgerIngredients",
   initialState,
-  reducers: {},
+  reducers: {
+    initIngredientDetails: (state, action: PayloadAction<{ ingredientId: string }>) => {
+      const ingredient =  state.ingredients.find(({ _id }) => _id === action.payload.ingredientId);
+      
+      state.ingredientDetails = ingredient;
+    },
+    clearIngredientDetails: (state) => {
+      state.ingredientDetails = undefined;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getIngredients.pending, (state) => {
@@ -39,6 +49,11 @@ export const burgerIngredientsSlice = createSlice({
       });
   },
 });
+
+export const { 
+  initIngredientDetails,
+  clearIngredientDetails, 
+} = burgerIngredientsSlice.actions;
 
 export const getIngredients = createAsyncThunk<IResponse & { data: IIngredient[] }>(
   "burgerIngredients/getIngredientIngredientTypes", 
