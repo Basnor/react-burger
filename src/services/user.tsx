@@ -36,7 +36,9 @@ export const userSlice = createSlice({
         }
       })
       .addCase(getUser.rejected, (state, action) => {
-        console.error(action.error.message);
+        if (action.error.message !== 'Access token not found') {
+          console.error(action.error.message);
+        }
 
         state.user = undefined;
         state.request = false;

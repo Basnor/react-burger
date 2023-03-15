@@ -4,13 +4,16 @@ import useFetch from "../hooks/useFetch";
 import { ENDPOINTS } from "../utils/contants";
 import { getCookie } from "../utils/cookie";
 import { IOrder, IResponse } from "../utils/types";
+import { refreshToken } from "./refresh-token";
 
 interface OrderDetailsState {
   orderDetails?: IOrder;
+  request: boolean;
   error: boolean;
 }
 
 const initialState: OrderDetailsState = {
+  request: false,
   error: false,
 };
 
@@ -25,14 +28,17 @@ export const orderDetailsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
+        state.request = true;
         state.error = false;
       })
       .addCase(createOrder.fulfilled, (state, action) => {
+        state.request = false;
         state.orderDetails = action.payload;
       })
       .addCase(createOrder.rejected, (state, action) => {
         console.error(action.error.message);
 
+        state.request = false;
         state.error = true;
       });
   },
@@ -44,15 +50,33 @@ export const {
 
 export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: string[] }>(
   'orderDetails/createOrder',
-  async (ingredients: { ingredients: string[] }) => {
-    const token = getCookie('accessToken');
-    if (!token) {
-      throw new Error('Access token not found');
-    }
-    
-    const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
-    const response = await fetchApi.post(ingredients, token);
+  async (ingredients: { ingredients: string[] }, { dispatch }) => {
+    try {
+      const token = getCookie('accessToken');
+      if (!token) {
+        throw new Error('Access token not found');
+      }
+      
+      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
+      const response = await fetchApi.post(ingredients, token);
 
-    return response;
+      return response;
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === "jwt expired") {
+        await dispatch(refreshToken());
+
+        const token = getCookie('accessToken');
+        if (!token) {
+          throw new Error('Access token not found');
+        }
+        
+        const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
+        const response = await fetchApi.post(ingredients, token);
+
+        return response;
+      }
+
+      throw error;
+    }
   }
 )
