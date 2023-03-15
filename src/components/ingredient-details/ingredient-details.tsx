@@ -28,7 +28,7 @@ function IngredientDetails() {
 
   return (
     <>
-      <h1 className={`${styles.title} text text_type_main-large mt-10 ml-10`}>
+      <h1 className={`${styles.title} text text_type_main-large mt-10 ml-10 mr-10`}>
         Детали ингредиента
       </h1>
 

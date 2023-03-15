@@ -1,3 +1,13 @@
+.wrapper {
+  width: 1280px;
+  height: calc(100vh - 200px);
+  display: flex;
+  column-gap: 60px;
+  margin: auto;
+  padding: 120px 20px 0;
+  box-sizing: border-box;
+}
+
 .sidebar {
   width: 320px;
 }
@@ -25,4 +35,9 @@
   text-align: start;
   border: none;
   cursor: pointer;
+}
+
+.link:hover,
+.button:hover {
+  color: #f2f2f3;
 }

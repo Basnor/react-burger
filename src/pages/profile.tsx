@@ -143,9 +143,7 @@ function Profile() {
         </p>
       </div>
 
-      <div id="detail">
-        <Outlet />
-      </div>
+      <Outlet />
     </main>
   );
 }

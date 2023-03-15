@@ -1,7 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import styles from "./app.module.css";
 import Home from "../../pages/home";
 import Login from "../../pages/login";
 import Register from "../../pages/register";
@@ -88,9 +87,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className={styles.app}>
-      <RouterProvider router={router} />
-    </div>
+    <RouterProvider router={router} />
   );
 }
 

@@ -3,6 +3,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 
+import styles from "./home.module.css";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import CustomDragLayer from "../components/custom-drag-layer/custom-drag-layer";
@@ -41,7 +42,7 @@ function Home() {
   }
 
   return (
-    <main>
+    <main className={styles.wrapper}>
       {state?.backgroundLocation ? (
         <>
           <DndProvider backend={HTML5Backend}>
@@ -64,7 +65,9 @@ function Home() {
               <CustomDragLayer />
             </DndProvider>
           ) : (
-            <Outlet />
+            <div className={styles.ingredient}>
+              <Outlet />
+            </div>
           )}
         </>
       )}
