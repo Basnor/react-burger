@@ -6,11 +6,12 @@ import Login from "../../pages/login";
 import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
-import Profile, { ProfileDetails } from "../../pages/profile";
+import Profile from "../../pages/profile";
 import ErrorPage from "../../pages/error-page";
 import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import ProfileDetails from "../profile-details/profile-details";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        errorElement: <ErrorPage />,
         children: [
           {
             path: "/ingredients/:ingredientId",

@@ -32,7 +32,9 @@ function Home() {
 
     dispatch(initIngredientDetails({ ingredientId }));
 
-    return () => {dispatch(clearIngredientDetails())};
+    return () => {
+      dispatch(clearIngredientDetails());
+    };
   }, [ingredients, ingredientId]);
 
   const handleModalClose = () => {
