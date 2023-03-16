@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { ROUTES } from "../../utils/contants";
 
 import styles from "./profile-sidebar.module.css";
 
@@ -10,7 +11,7 @@ function ProfileSidebar() {
         <ul className={styles.links}>
           <li>
             <NavLink
-              to="/profile"
+              to={ROUTES.PROFILE}
               end
               className={`${styles.link} text text_type_main-medium text_color_inactive`}
               style={({ isActive }) =>
@@ -22,7 +23,7 @@ function ProfileSidebar() {
           </li>
           <li>
             <NavLink
-              to="/profile/orders"
+              to={ROUTES.ORDERS}
               end
               className={`${styles.link} text text_type_main-medium text_color_inactive`}
               style={({ isActive }) =>
@@ -34,7 +35,7 @@ function ProfileSidebar() {
           </li>
           <li>
             <NavLink
-              to="/profile/logout"
+              to={ROUTES.LOGOUT}
               end
               className={`${styles.link} text text_type_main-medium text_color_inactive`}
               style={({ isActive }) =>

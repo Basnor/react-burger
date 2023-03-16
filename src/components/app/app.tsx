@@ -13,25 +13,26 @@ import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ProfileDetails from "../profile-details/profile-details";
+import { ROUTES } from "../../utils/contants";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.HOME,
     element: <BaseLayout />,
     children: [
       {
-        path: "/",
+        path: ROUTES.HOME,
         element: <Home />,
         errorElement: <ErrorPage />,
         children: [
           {
-            path: "/ingredients/:ingredientId",
+            path: ROUTES.INGREDIENT,
             element: <IngredientDetails />,
           },
         ]
       },
       {
-        path: "/login",
+        path: ROUTES.LOGIN,
         element: (
           <ProtectedRoute role={Role.GUEST}>
             <Login />
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/register",
+        path: ROUTES.REGISTER,
         element: (
           <ProtectedRoute role={Role.GUEST}>
             <Register />
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/forgot-password",
+        path: ROUTES.FORGOT_PASSWORD,
         element: (
           <ProtectedRoute role={Role.GUEST}>
             <ForgotPassword />
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/reset-password",
+        path: ROUTES.RESET_PASSWORD,
         element: (
           <ProtectedRoute role={Role.GUEST}>
             <ResetPassword />
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: ROUTES.PROFILE,
         element: (
           <ProtectedRoute role={Role.USER}>
             <Profile />
@@ -71,15 +72,15 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "/profile",
+            path: ROUTES.PROFILE,
             element: <ProfileDetails />,
           },
           {
-            path: "/profile/orders",
+            path: ROUTES.ORDERS,
             element: null,
           },
           {
-            path: "/profile/logout",
+            path: ROUTES.LOGOUT,
             element: <Logout />,
           },
         ],

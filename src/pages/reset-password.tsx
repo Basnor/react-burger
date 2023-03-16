@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { resetPassword } from "../services/reset-password";
-import { PASSWORD_REGEX } from "../utils/contants";
+import { PASSWORD_REGEX, ROUTES } from "../utils/contants";
 
 interface IResetPasswordForm {
   password: string
@@ -44,7 +44,7 @@ function ResetPassword() {
       return;
     }
 
-    navigate("/");
+    navigate(ROUTES.HOME);
   }, [success]);
 
   return (
@@ -80,7 +80,7 @@ function ResetPassword() {
       </Button>
       <span className="text text_type_main-default text_color_inactive mt-20">
         Вспомнили пароль?&nbsp;
-        <Link to="/login" className={styles.link}>
+        <Link to={ROUTES.LOGIN} className={styles.link}>
           Войти
         </Link>
       </span>

@@ -11,7 +11,7 @@ import { useAppDispatch, useAppLocation, useAppSelector } from "../hooks";
 import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { login } from "../services/auth";
-import { EMAIL_REGEX } from "../utils/contants";
+import { EMAIL_REGEX, ROUTES } from "../utils/contants";
 
 interface ILoginForm {
   email: string;
@@ -40,7 +40,7 @@ function Login() {
       return;
     }
 
-    navigate(location?.state?.from || "/");
+    navigate(location?.state?.from || ROUTES.HOME);
   }, [user]);
 
   return (
@@ -75,13 +75,13 @@ function Login() {
 
       <span className="text text_type_main-default text_color_inactive mt-20">
         Вы — новый пользователь?&nbsp;
-        <Link to="/register" className={styles.link}>
+        <Link to={ROUTES.REGISTER} className={styles.link}>
           Зарегистрироваться
         </Link>
       </span>
       <span className="text text_type_main-default text_color_inactive mt-4">
         Забыли пароль?&nbsp;
-        <Link to="/forgot-password" className={styles.link}>
+        <Link to={ROUTES.FORGOT_PASSWORD} className={styles.link}>
           Восстановить пароль
         </Link>
       </span>

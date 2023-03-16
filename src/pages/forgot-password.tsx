@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { forgotPassword } from "../services/forgot-password";
-import { EMAIL_REGEX } from "../utils/contants";
+import { EMAIL_REGEX, ROUTES } from "../utils/contants";
 
 interface IForgotPasswordForm {
   email: string
@@ -41,7 +41,7 @@ function ForgotPassword() {
       return;
     }
 
-    navigate("/reset-password");
+    navigate(ROUTES.RESET_PASSWORD);
   }, [success]);
 
   return (
@@ -66,7 +66,7 @@ function ForgotPassword() {
       </Button>
       <span className="text text_type_main-default text_color_inactive mt-20">
         Вспомнили пароль?&nbsp;
-        <Link to="/login" className={styles.link}>
+        <Link to={ROUTES.LOGIN} className={styles.link}>
           Войти
         </Link>
       </span>

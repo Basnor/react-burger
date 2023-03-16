@@ -14,6 +14,7 @@ import { createOrder } from "../../services/order-details";
 import BurgerConstructorPrice from "./components/burger-constructor-price";
 import BurgerConstructorEmptyState from "./components/burger-constructor-empty-state";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/contants";
 
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ function BurgerConstructor() {
   });
 
   const handleCreateOrder = () => {
-    navigate("/login", { state: { from: location } });
+    navigate(ROUTES.LOGIN, { state: { from: location } });
 
     const buns = bun ? [bun, bun] : [];
     const ingredients = [...toppings, ...buns];

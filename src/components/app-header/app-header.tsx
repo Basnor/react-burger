@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   Logo,
   BurgerIcon,
@@ -9,6 +9,7 @@ import {
 
 import styles from "./app-header.module.css";
 import AppHeaderButton from "./app-header-button";
+import { ROUTES } from "../../utils/contants";
 
 function AppHeader() {
   return (
@@ -16,16 +17,21 @@ function AppHeader() {
       <nav className={styles.navigation}>
         <ul className={styles.links} style={{ textAlign: "start" }}>
           <li className={styles.link}>
-            <Link to="/" style={{ display: "contents" }}>
+            <NavLink
+              to={ROUTES.HOME}
+              end
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.link} ${styles.active} text text_type_main-medium`
+                  : `${styles.link} text text_type_main-medium`
+              }
+            >
               <AppHeaderButton
                 name="Конструктор"
                 icon={<BurgerIcon type="primary" />}
                 extraClass="mr-2"
-                style={{
-                  color: "white",
-                }}
               />
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.link}>
             <AppHeaderButton
@@ -37,22 +43,27 @@ function AppHeader() {
         </ul>
         <ul className={styles.links} style={{ textAlign: "center" }}>
           <li className={styles.link}>
-            <Link to="/" style={{ display: "contents" }}>
+            <Link to={ROUTES.HOME} style={{ display: "contents" }}>
               <Logo />
             </Link>
           </li>
         </ul>
         <ul className={styles.links} style={{ textAlign: "end" }}>
           <li className={styles.link}>
-            <Link to="/profile" style={{ display: "contents" }}>
+            <NavLink
+              to={ROUTES.PROFILE}
+              end
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.link} ${styles.active} text text_type_main-medium`
+                  : `${styles.link} text text_type_main-medium`
+              }
+            >
               <AppHeaderButton
                 name="Личный кабинет"
                 icon={<ProfileIcon type="primary" />}
-                style={{
-                  color: "white",
-                }}
               />
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>

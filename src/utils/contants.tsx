@@ -17,3 +17,15 @@ export const ENDPOINTS = {
   forgot: "/password-reset",
   reset: "/password-reset/reset",
 };
+
+export const ROUTES = {
+  HOME: "/",
+  INGREDIENT: "/ingredients/:ingredientId",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
+  PROFILE: "/profile",
+  ORDERS: "/profile/orders",
+  LOGOUT: "/profile/logout",
+};

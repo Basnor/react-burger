@@ -4,6 +4,7 @@ import { RouteProps, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 import { getUser } from "../../services/user";
+import { ROUTES } from "../../utils/contants";
 import { IUser } from "../../utils/types";
 
 export enum Role {
@@ -34,13 +35,13 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
     switch (role) {
       case Role.GUEST:
         if (!!user) {
-          navigate(location?.state?.from || "/");
+          navigate(location?.state?.from || ROUTES.HOME);
         }
 
         break;
       case Role.USER:
         if (!user) {
-          navigate("/login", { state: { from: location } });
+          navigate(ROUTES.LOGIN, { state: { from: location } });
         }
 
         break;

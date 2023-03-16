@@ -9,3 +9,7 @@ export function getValuable<T extends {}, V = Valuable<T>>(obj: T): V {
     ),
   ) as V;
 }
+
+export function isObjectEmpty<T extends {}>(obj: T) {
+  return Object.keys(obj).length === 0;
+}

@@ -11,6 +11,7 @@ import Modal from "../components/modal/modal";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { RootState } from "../services";
 import { clearIngredientDetails, getIngredients, initIngredientDetails } from "../services/burger-ingredients";
+import { ROUTES } from "../utils/contants";
 
 function Home() {
   const dispatch = useAppDispatch();
@@ -38,7 +39,7 @@ function Home() {
   }, [ingredients, ingredientId]);
 
   const handleModalClose = () => {
-    navigate(state?.backgroundLocation?.pathname || "/", {replace: true});
+    navigate(state?.backgroundLocation?.pathname || ROUTES.HOME, {replace: true});
     
     dispatch(clearIngredientDetails());
   }

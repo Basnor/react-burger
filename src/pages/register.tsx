@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   EmailInput,
@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { register } from "../services/register";
-import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../utils/contants";
+import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX, ROUTES } from "../utils/contants";
 
 interface IRegisterForm {
   name: string
@@ -22,7 +22,8 @@ interface IRegisterForm {
 
 function Register() {
   const dispatch = useAppDispatch();
-  const { user, request, error } = useAppSelector((store: RootState) => store.register);
+  const navigate = useNavigate();
+  const { request } = useAppSelector((store: RootState) => store.register);
 
   const { values, handleChange, handleSubmit, isValid } = useForm<IRegisterForm>({
     initialState: {
@@ -30,7 +31,10 @@ function Register() {
       email: '',
       password: ''
     },
-    handleSubmit: (values) => dispatch(register(values)),
+    handleSubmit: (values) => {
+      dispatch(register(values));
+      navigate(ROUTES.HOME);
+    },
     isValid: (values) => {
       return NAME_REGEX.test(values.name) && EMAIL_REGEX.test(values.email) && PASSWORD_REGEX.test(values.password);
     },
@@ -77,7 +81,7 @@ function Register() {
       </Button>
       <span className="text text_type_main-default text_color_inactive mt-20">
         Уже зарегистрированы?&nbsp;
-        <Link to="/login" className={styles.link}>
+        <Link to={ROUTES.LOGIN} className={styles.link}>
           Войти
         </Link>
       </span>

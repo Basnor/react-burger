@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "../hooks";
 import { logout } from "../services/auth";
+import { ROUTES } from "../utils/contants";
 
 function Logout() {
     const dispatch = useAppDispatch();
@@ -11,7 +12,7 @@ function Logout() {
     useEffect(() => {
         dispatch(logout());
 
-        navigate("/")
+        navigate(ROUTES.HOME);
     }, [])
 
     return <></>;

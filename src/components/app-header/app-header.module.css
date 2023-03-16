@@ -24,6 +24,25 @@
   margin: auto;
 }
 
-.link {
+.link,
+.link a {
   display: contents;
+}
+
+.link a button {
+  color: var(--text-inactive-color);
+}
+
+.link a button svg {
+  fill: var(--text-inactive-color);
+  transition: var(--common-transition);
+}
+
+.link a.active button {
+  color: white;
+}
+
+.link:hover a button svg,
+.link a.active button svg {
+  fill: white;
 }
