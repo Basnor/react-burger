@@ -58,7 +58,7 @@ export const {
 export const getIngredients = createAsyncThunk<IResponse & { data: IIngredient[] }>(
   "burgerIngredients/getIngredientIngredientTypes", 
   async () => {
-    const fetchApi = useFetch<IResponse & { data: IIngredient[] }, unknown>(ENDPOINTS.ingredients);
+    const fetchApi = useFetch<IResponse & { data: IIngredient[] }, unknown>(ENDPOINTS.INGREDIENTS);
     const response = await fetchApi.get();
 
     return response;

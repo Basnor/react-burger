@@ -7,15 +7,15 @@ export const COOKIE_LIFETIME_SEC = 2 * 24 * 60 * 60;
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 export const ENDPOINTS = {
-  ingredients: "/ingredients",
-  orders: "/orders",
-  register: "/auth/register",
-  login: "/auth/login",
-  logout: "/auth/logout",
-  user: "/auth/user",
-  token: "/auth/token",
-  forgot: "/password-reset",
-  reset: "/password-reset/reset",
+  INGREDIENTS: "/ingredients",
+  ORDERS: "/orders",
+  REGISTER: "/auth/register",
+  LOGIN: "/auth/login",
+  LOGOUT: "/auth/logout",
+  USER: "/auth/user",
+  TOKEN: "/auth/token",
+  FORGOT: "/password-reset",
+  RESET: "/password-reset/reset",
 };
 
 export const ROUTES = {

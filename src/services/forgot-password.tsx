@@ -44,7 +44,7 @@ export const forgotPasswordSlice = createSlice({
 export const forgotPassword = createAsyncThunk<IResponse & { message: string }, { email: string }>(
   "forgotPassword/postForgotPassword",
   async (user: { email: string }) => {
-    const fetchApi = useFetch<IResponse & { message: string }, { email: string }>(ENDPOINTS.forgot);
+    const fetchApi = useFetch<IResponse & { message: string }, { email: string }>(ENDPOINTS.FORGOT);
     const response = await fetchApi.post(user);
 
     return response;

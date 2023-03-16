@@ -57,7 +57,7 @@ export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: s
         throw new Error('Access token not found');
       }
       
-      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
+      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
       const response = await fetchApi.post(ingredients, token);
 
       return response;
@@ -70,7 +70,7 @@ export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: s
           throw new Error('Access token not found');
         }
         
-        const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.orders);
+        const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
         const response = await fetchApi.post(ingredients, token);
 
         return response;

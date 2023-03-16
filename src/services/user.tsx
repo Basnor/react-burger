@@ -36,9 +36,7 @@ export const userSlice = createSlice({
         }
       })
       .addCase(getUser.rejected, (state, action) => {
-        if (action.error.message !== 'Access token not found') {
-          console.error(action.error.message);
-        }
+        console.error(action.error.message);
 
         state.user = undefined;
         state.request = false;
@@ -79,7 +77,7 @@ export const getUser = createAsyncThunk<responseType>(
         throw new Error('Access token not found');
       }
 
-      const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.user);
+      const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.USER);
       const response = await fetchApi.get(token);
 
       return response;
@@ -92,7 +90,7 @@ export const getUser = createAsyncThunk<responseType>(
           throw new Error('Access token not found');
         }
 
-        const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.user);
+        const fetchApi = useFetch<responseType, undefined>(ENDPOINTS.USER);
         const response = await fetchApi.get(token);
 
         return response;
@@ -112,7 +110,7 @@ export const updateUser = createAsyncThunk<responseType, updateBodyType>(
         throw new Error('Access token not found');
       }
 
-      const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.user);
+      const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.USER);
       const response = await fetchApi.patch(user, token);
 
       return response;
@@ -125,7 +123,7 @@ export const updateUser = createAsyncThunk<responseType, updateBodyType>(
           throw new Error('Access token not found');
         }
 
-        const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.user);
+        const fetchApi = useFetch<responseType, updateBodyType>(ENDPOINTS.USER);
         const response = await fetchApi.patch(user, token);
 
         return response;

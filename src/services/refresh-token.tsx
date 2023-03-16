@@ -56,7 +56,7 @@ export const refreshToken = createAsyncThunk<IResponse & ITokenRefreshResponse>(
       throw new Error("Refresh token required.");
     }
 
-    const fetchApi = useFetch<IResponse & ITokenRefreshResponse, { token: string }>(ENDPOINTS.token);
+    const fetchApi = useFetch<IResponse & ITokenRefreshResponse, { token: string }>(ENDPOINTS.TOKEN);
     const response = await fetchApi.post({ token });
 
     return response;

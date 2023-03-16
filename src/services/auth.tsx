@@ -80,7 +80,7 @@ type bodyType = { email: string; password: string };
 export const login = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
   "auth/login",
   async (user: bodyType) => {
-    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.login);
+    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.LOGIN);
     const response = await fetchApi.post(user);
 
     return response;
@@ -95,7 +95,7 @@ export const logout = createAsyncThunk<IResponse & { message: string }>(
         throw new Error('Refresh token required');
     }
 
-    const fetchApi = useFetch<IResponse & { message: string }, { token: string }>(ENDPOINTS.logout);
+    const fetchApi = useFetch<IResponse & { message: string }, { token: string }>(ENDPOINTS.LOGOUT);
     const response = await fetchApi.post({ token });
 
     return response;

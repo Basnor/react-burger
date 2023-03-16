@@ -45,7 +45,7 @@ export const resetPasswordSlice = createSlice({
 export const resetPassword = createAsyncThunk<IResponse & { message: string }, { password: string; token: string; }>(
   "resetPassword/postResetPassword",
   async (user: { password: string; token: string; }) => {
-    const fetchApi = useFetch<IResponse & { message: string }, { password: string; token: string; }>(ENDPOINTS.reset);
+    const fetchApi = useFetch<IResponse & { message: string }, { password: string; token: string; }>(ENDPOINTS.RESET);
     const response = await fetchApi.post(user);
 
     return response;

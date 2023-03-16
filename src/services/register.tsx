@@ -57,7 +57,7 @@ type bodyType = IUser & { password: string };
 export const register = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
   "register/registerUser",
   async (user: bodyType) => {
-    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.register);
+    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.REGISTER);
     const response = await fetchApi.post(user);
 
     return response;

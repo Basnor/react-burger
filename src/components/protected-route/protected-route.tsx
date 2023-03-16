@@ -5,6 +5,7 @@ import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 import { getUser } from "../../services/user";
 import { ROUTES } from "../../utils/contants";
+import { getCookie } from "../../utils/cookie";
 import { IUser } from "../../utils/types";
 
 export enum Role {
@@ -24,6 +25,10 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
   const { user, request } = useAppSelector((store: RootState) => store.user);
 
   useEffect(() => {
+    if (!getCookie("accessToken")) {
+      return;
+    }
+
     dispatch(getUser());
   }, [dispatch]);
 
