@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDrop } from "react-dnd";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { nanoid } from "nanoid";
@@ -13,7 +13,6 @@ import { addBurgerIngredient } from "../../services/burger-constructor";
 import { createOrder } from "../../services/order-details";
 import BurgerConstructorPrice from "./components/burger-constructor-price";
 import BurgerConstructorEmptyState from "./components/burger-constructor-empty-state";
-import { getUser } from "../../services/user";
 import { useNavigate } from "react-router-dom";
 
 function BurgerConstructor() {
@@ -23,7 +22,6 @@ function BurgerConstructor() {
 
   const { request } = useAppSelector((store: RootState) => store.orderDetails);
   const { toppings, bun } = useAppSelector((store: RootState) => store.burgerConstructor);
-  const { user } = useAppSelector((store: RootState) => store.user);
 
   const [{ isDragging }, dropRef] = useDrop({
     accept: DragType.Ingredient,
@@ -41,15 +39,8 @@ function BurgerConstructor() {
       ),
   });
 
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
-
   const handleCreateOrder = () => {
-    if (!user) {
-      navigate("/login", { state: { from: location } });
-      return;
-    }
+    navigate("/login", { state: { from: location } });
 
     const buns = bun ? [bun, bun] : [];
     const ingredients = [...toppings, ...buns];

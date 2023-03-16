@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 import useForm from "../../hooks/useForm";
 import { getValuable } from "../../utils/helpers";
-import { getUser, updateUser } from "../../services/user";
+import { updateUser } from "../../services/user";
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../../utils/contants";
 
 export function ProfileDetails() {
@@ -43,10 +43,6 @@ export function ProfileDetails() {
       password: "",
     });
   };
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
   
   useEffect(() => {
     if (user) {
