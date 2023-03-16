@@ -33,11 +33,16 @@ function ProfileSidebar() {
             </NavLink>
           </li>
           <li>
-            <button
-              className={`${styles.button} text text_type_main-medium text_color_inactive`}
+            <NavLink
+              to="/profile/logout"
+              end
+              className={`${styles.link} text text_type_main-medium text_color_inactive`}
+              style={({ isActive }) =>
+                isActive ? { color: "#F2F2F3" } : undefined
+              }
             >
               Выход
-            </button>
+            </NavLink>
           </li>
         </ul>
       </nav>

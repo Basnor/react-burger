@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
-import { getIngredients } from "../../services/burger-ingredients";
 import { clearOrderDetails } from "../../services/order-details";
 
 import AppHeader from "../app-header/app-header";
@@ -15,10 +14,6 @@ function BaseLayout() {
   
   const { orderDetails } = useAppSelector((store: RootState) => store.orderDetails);
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-  
   return (
     <>
       <AppHeader />

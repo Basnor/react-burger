@@ -7,6 +7,7 @@ import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
+import Logout from "../../pages/logout";
 import ErrorPage from "../../pages/error-page";
 import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
           {
             path: "/profile/orders",
             element: null,
+          },
+          {
+            path: "/profile/logout",
+            element: <Logout />,
           },
         ],
       },

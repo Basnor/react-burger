@@ -8,8 +8,6 @@ import { getValuable } from "../../utils/helpers";
 import { getUser, updateUser } from "../../services/user";
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../../utils/contants";
 
-
-
 export function ProfileDetails() {
   const dispatch = useAppDispatch();
   const profileForm = useRef<HTMLFormElement>(null);
