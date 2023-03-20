@@ -1,60 +1,101 @@
-import React, { useEffect } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import styles from "./app.module.css";
-import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { getIngredients } from "../../services/burger-ingredients";
-import CustomDragLayer from "../custom-drag-layer/custom-drag-layer";
-import Modal from "../modal/modal";
+import Home from "../../pages/home";
+import Login from "../../pages/login";
+import Register from "../../pages/register";
+import ForgotPassword from "../../pages/forgot-password";
+import ResetPassword from "../../pages/reset-password";
+import Profile from "../../pages/profile";
+import Logout from "../../pages/logout";
+import ErrorPage from "../../pages/error-page";
+import BaseLayout from "../base-layout/base-layout";
+import ProtectedRoute, { Role } from "../protected-route/protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { RootState } from "../../services";
-import { clearIngredientDetails } from "../../services/ingredient-details";
-import { OrderDetails } from "../order-details/order-details";
-import { clearOrderDetails } from "../../services/order-details";
+import ProfileDetails from "../profile-details/profile-details";
+import { ROUTES } from "../../utils/contants";
+
+const router = createBrowserRouter([
+  {
+    path: ROUTES.HOME,
+    element: <BaseLayout />,
+    children: [
+      {
+        path: ROUTES.HOME,
+        element: <Home />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: ROUTES.INGREDIENT,
+            element: <IngredientDetails />,
+          },
+        ]
+      },
+      {
+        path: ROUTES.LOGIN,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <Login />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.REGISTER,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <Register />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.FORGOT_PASSWORD,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <ForgotPassword />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.RESET_PASSWORD,
+        element: (
+          <ProtectedRoute role={Role.GUEST}>
+            <ResetPassword />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.PROFILE,
+        element: (
+          <ProtectedRoute role={Role.USER}>
+            <Profile />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: ROUTES.PROFILE,
+            element: <ProfileDetails />,
+          },
+          {
+            path: ROUTES.ORDERS,
+            element: null,
+          },
+          {
+            path: ROUTES.LOGOUT,
+            element: <Logout />,
+          },
+        ],
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-
-  const { ingredient : ingredientDetails } = useAppSelector((store: RootState) => store.ingredientDetails);
-  const { orderDetails } = useAppSelector((store: RootState) => store.orderDetails);
-
-  const clearIngredientDetils = () => {
-    dispatch(clearIngredientDetails());
-  }
-
-  const clearOrderDetils = () => {
-    dispatch(clearOrderDetails());
-  }
-
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-          <CustomDragLayer />
-        </DndProvider>
-      </main>
-      {ingredientDetails && (
-        <Modal onClose={clearIngredientDetils}>
-          <IngredientDetails />
-        </Modal>
-      )}
-      {orderDetails && (
-        <Modal onClose={clearOrderDetils}>
-          <OrderDetails />
-        </Modal>
-      )}
-    </div>
+    <RouterProvider router={router} />
   );
 }
 

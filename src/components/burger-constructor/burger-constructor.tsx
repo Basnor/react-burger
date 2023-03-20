@@ -6,17 +6,22 @@ import { nanoid } from "nanoid";
 import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./components/burger-constructor-buns";
 import { DragType, IIngredient } from "../../utils/types";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 import BurgerConstructorToppings from "./components/burger-constructor-toppings";
 import { addBurgerIngredient } from "../../services/burger-constructor";
 import { createOrder } from "../../services/order-details";
 import BurgerConstructorPrice from "./components/burger-constructor-price";
 import BurgerConstructorEmptyState from "./components/burger-constructor-empty-state";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/contants";
 
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
+  const location = useAppLocation();
+  const navigate = useNavigate();
 
+  const { request } = useAppSelector((store: RootState) => store.orderDetails);
   const { toppings, bun } = useAppSelector((store: RootState) => store.burgerConstructor);
 
   const [{ isDragging }, dropRef] = useDrop({
@@ -36,6 +41,8 @@ function BurgerConstructor() {
   });
 
   const handleCreateOrder = () => {
+    navigate(ROUTES.LOGIN, { state: { from: location } });
+
     const buns = bun ? [bun, bun] : [];
     const ingredients = [...toppings, ...buns];
     const ids = {
@@ -67,6 +74,7 @@ function BurgerConstructor() {
                 size="large"
                 extraClass="ml-10"
                 onClick={handleCreateOrder}
+                disabled={request}
               >
                 Оформить заказ
               </Button>

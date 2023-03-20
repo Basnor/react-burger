@@ -5,7 +5,7 @@ import done from "../../images/done.svg";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../services";
 
-export function OrderDetails() {
+function OrderDetails() {
   const { orderDetails } = useAppSelector((store: RootState) => store.orderDetails);
 
   return (
@@ -24,3 +24,5 @@ export function OrderDetails() {
     </div>
   );
 }
+
+export default OrderDetails;

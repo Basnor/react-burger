@@ -71,7 +71,7 @@ function draggable(WrappedComponent: React.ElementType<ToppingItemProps>) {
   
     useEffect(() => {
       preview(getEmptyImage(), { captureDraggingState: true });
-    }, []);
+    }, [preview]);
   
     drag(drop(ref));
   

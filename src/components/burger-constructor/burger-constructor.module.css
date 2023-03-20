@@ -2,6 +2,7 @@
   width: 600px;
   max-height: inherit;
   position: relative;
+  user-select: none;
 }
 
 .layers {

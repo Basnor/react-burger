@@ -1,4 +1,6 @@
 .header {
+  width: 100%;
+  min-width: max-content;
   background: var(--background);
   box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
     0px 16px 24px rgba(0, 0, 0, 0.04), 
@@ -7,7 +9,8 @@
 }
 
 .navigation {
-  width: 1280px;
+  max-width: 1280px;
+  min-width: 1280px;
   display: flex;
   margin: auto;
 }
@@ -21,6 +24,25 @@
   margin: auto;
 }
 
-.link {
+.link,
+.link a {
   display: contents;
+}
+
+.link a button {
+  color: var(--text-inactive-color);
+}
+
+.link a button svg {
+  fill: var(--text-inactive-color);
+  transition: var(--common-transition);
+}
+
+.link a.active button {
+  color: white;
+}
+
+.link:hover a button svg,
+.link a.active button svg {
+  fill: white;
 }

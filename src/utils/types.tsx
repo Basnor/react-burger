@@ -31,6 +31,11 @@ export interface IOrder {
   }
 }
 
+export interface IUser {
+  email: string;
+  name: string;
+}
+
 export interface IResponse {
   success: boolean;
 }
