@@ -42,7 +42,7 @@ export const burgerIngredientsSlice = createSlice({
         state.ingredients = action.payload.data;
       })
       .addCase(getIngredients.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
         
         state.request = false;
         state.error = true;

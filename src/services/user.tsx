@@ -36,7 +36,7 @@ export const userSlice = createSlice({
         }
       })
       .addCase(getUser.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.user = undefined;
         state.request = false;
@@ -57,7 +57,7 @@ export const userSlice = createSlice({
         }
       })
       .addCase(updateUser.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.request = false;
         state.error = true;

@@ -38,7 +38,7 @@ export const registerSlice = createSlice({
         }
       })
       .addCase(register.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.request = false;
         state.error = true;

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import useFetch from "../hooks/useFetch";
 import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../utils/contants";
 import { getCookie, setCookie } from "../utils/cookie";
-import { IResponse, IUser } from "../utils/types";
+import { IResponse } from "../utils/types";
 
 interface IRefreshTokenState {
   request: boolean;
@@ -35,7 +35,7 @@ export const refreshTokenSlice = createSlice({
         }
       })
       .addCase(refreshToken.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.request = false;
         state.error = true;

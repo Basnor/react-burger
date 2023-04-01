@@ -13,7 +13,7 @@ export function ProfileDetails() {
   
   const { user, request } = useAppSelector((store: RootState) => store.user);
 
-  const { values, setValues, handleChange, handleSubmit, isValid } = useForm({
+  const { values, setValues, handleChange, handleSubmit } = useForm({
     initialState: {
       name: "",
       email: "",

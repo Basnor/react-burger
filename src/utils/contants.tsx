@@ -2,8 +2,8 @@ export const EMAIL_REGEX = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|
 export const NAME_REGEX = /^.{6,}$/;
 export const PASSWORD_REGEX = /^.{6,}$/;
 
-// 2 days
-export const COOKIE_LIFETIME_SEC = 2 * 24 * 60 * 60;
+// 7 days
+export const COOKIE_LIFETIME_SEC = 7 * 24 * 60 * 60;
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 export const ENDPOINTS = {

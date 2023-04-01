@@ -1,7 +1,7 @@
 import React from "react";
-import { useAppSelector } from "../../../hooks";
-import { RootState } from "../../../services";
 
+import { useAppSelector } from "../../../hooks";
+import { selectConstructorIngredients } from "../../../services/burger-constructor";
 import styles from "../burger-constructor.module.css";
 
 interface BurgerConstructorEmptyStateProps {
@@ -10,15 +10,11 @@ interface BurgerConstructorEmptyStateProps {
 
 function BurgerConstructorEmptyState(props: BurgerConstructorEmptyStateProps) {
   const { isDragging } = props;
-  const { toppings, bun } = useAppSelector(
-    (store: RootState) => store.burgerConstructor
-  );
-
-  const isIngredient = toppings.length || bun;
+  const constructorIngredients = useAppSelector(selectConstructorIngredients);
 
   return (
     <>
-      {(isDragging || !isIngredient) && (
+      {(isDragging || !constructorIngredients.length) && (
         <div className={styles.empty}>
           <span className="text text_type_main-medium">
             Перетащи сюда!

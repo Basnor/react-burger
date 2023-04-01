@@ -40,8 +40,6 @@ function Home() {
 
   const handleModalClose = () => {
     navigate(state?.backgroundLocation?.pathname || ROUTES.HOME, {replace: true});
-    
-    dispatch(clearIngredientDetails());
   }
 
   return (

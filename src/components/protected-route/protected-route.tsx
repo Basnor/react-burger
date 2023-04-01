@@ -25,7 +25,7 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
   const { user, request } = useAppSelector((store: RootState) => store.user);
 
   useEffect(() => {
-    if (!getCookie("accessToken")) {
+    if (!getCookie("accessToken") || !!user) {
       return;
     }
 

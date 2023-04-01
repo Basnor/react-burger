@@ -7,8 +7,8 @@ import {
 
 import styles from "../burger-ingredients.module.css";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../../hooks";
-import { RootState } from "../../../services";
 import { initIngredientDetails } from "../../../services/burger-ingredients";
+import { selectConstructorIngredients } from "../../../services/burger-constructor";
 
 export interface IngredientItemProps {
   ingredient: any;
@@ -21,8 +21,7 @@ function IngredientItem(props: IngredientItemProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useAppLocation();
-
-  const {toppings, bun} = useAppSelector((store: RootState) => store.burgerConstructor);
+  const constructorIngredients = useAppSelector(selectConstructorIngredients);
 
   const initDetails = () => {
     dispatch(initIngredientDetails({ ingredientId: ingredient._id }));
@@ -31,10 +30,8 @@ function IngredientItem(props: IngredientItemProps) {
   };
 
   const amount = useMemo(() => {
-    const buns = bun ? [bun, bun] : [];
-    
-    return [...toppings, ...buns].filter(({_id}) => _id === ingredient._id).length;
-  }, [toppings, bun])
+    return constructorIngredients.filter(({_id}) => _id === ingredient._id).length;
+  }, [constructorIngredients])
 
   return (
     <>

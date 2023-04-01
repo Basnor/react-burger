@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from ".";
 import { IIngredient, IngredientType } from "../utils/types";
 
 interface BurgerConstructorState {
@@ -29,7 +30,7 @@ export const burgerConstructorSlice = createSlice({
     },
     removeBurgerIngredient: (
       state,
-      action: PayloadAction<{ ingredient: IIngredient & { uid: string  }}>
+      action: PayloadAction<{ ingredient: IIngredient & { uid: string }}>
     ) => {
       const { ingredient } = action.payload;
 
@@ -37,7 +38,7 @@ export const burgerConstructorSlice = createSlice({
         return;
       }
 
-      state.toppings = state.toppings.filter(({uid}) => uid !== ingredient.uid);
+      state.toppings = state.toppings.filter(({ uid }) => uid !== ingredient.uid);
     },
     moveBurgerIngredient: (
       state,
@@ -61,6 +62,13 @@ export const burgerConstructorSlice = createSlice({
     },
   },
 });
+
+export const selectConstructorIngredients = (store: RootState) => {
+  const { toppings, bun } = store.burgerConstructor;
+  const buns = bun ? [bun, bun] : [];
+
+  return [...toppings, ...buns];
+};
 
 export const {
   resetBurgerIngredients,
