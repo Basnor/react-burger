@@ -9,7 +9,6 @@ import {
 
 import styles from "./register.module.css";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { register } from "../services/register";
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX, ROUTES } from "../utils/contants";
@@ -23,7 +22,7 @@ interface IRegisterForm {
 function Register() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { request } = useAppSelector((store: RootState) => store.register);
+  const { request } = useAppSelector((store) => store.register);
 
   const { values, handleChange, handleSubmit, isValid } = useForm<IRegisterForm>({
     initialState: {

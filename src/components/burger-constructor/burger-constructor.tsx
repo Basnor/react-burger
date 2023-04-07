@@ -8,9 +8,8 @@ import styles from "./burger-constructor.module.css";
 import BurgerConstructorBuns from "./components/burger-constructor-buns";
 import { DragType, IIngredient } from "../../utils/types";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
-import { RootState } from "../../services";
 import BurgerConstructorToppings from "./components/burger-constructor-toppings";
-import { addBurgerIngredient, selectConstructorIngredients } from "../../services/burger-constructor";
+import { addBurgerIngredient, resetBurgerIngredients, selectConstructorIngredients } from "../../services/burger-constructor";
 import { createOrder } from "../../services/order-details";
 import BurgerConstructorPrice from "./components/burger-constructor-price";
 import BurgerConstructorEmptyState from "./components/burger-constructor-empty-state";
@@ -23,9 +22,9 @@ function BurgerConstructor() {
   const location = useAppLocation();
   const navigate = useNavigate();
 
-  const { request } = useAppSelector((store: RootState) => store.orderDetails);
-  const { user } = useAppSelector((store: RootState) => store.user);
-  const constructorIngredients = useAppSelector(selectConstructorIngredients);
+  const { orderDetails, request } = useAppSelector((store) => store.orderDetails);
+  const { user } = useAppSelector((store) => store.user);
+  const constructorIngredients = useAppSelector((store) => selectConstructorIngredients(store.burgerConstructor));
 
   useEffect(() => {
     if (!getCookie("accessToken")) {
@@ -52,7 +51,6 @@ function BurgerConstructor() {
   });
 
   const handleCreateOrder = () => {
-    debugger
     if (!user) {
       navigate(ROUTES.LOGIN, { state: { from: location } });
       return;
@@ -66,6 +64,14 @@ function BurgerConstructor() {
 
     dispatch(createOrder(ids));
   };
+
+  useEffect(() => {
+    if (!orderDetails) {
+      return;
+    }
+
+    dispatch(resetBurgerIngredients());
+  }, [request]);
 
   return (
     <>

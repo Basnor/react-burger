@@ -2,14 +2,13 @@ import React from "react";
 
 import styles from "../burger-constructor.module.css";
 import { useAppSelector } from "../../../hooks";
-import { RootState } from "../../../services";
 import draggable from "./draggable";
 import ToppingItem from "./topping-item";
 
 const DraggableToppingItem = draggable(ToppingItem);
 
 function BurgerConstructorToppings() {
-  const toppings = useAppSelector((store: RootState) => store.burgerConstructor.toppings);
+  const toppings = useAppSelector((store) => store.burgerConstructor.toppings);
 
   return (
     <ul className={styles.toppings}>

@@ -5,12 +5,11 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { logout } from "../services/auth";
 import { ROUTES } from "../utils/contants";
 import { getUser } from "../services/user";
-import { RootState } from "../services";
 
 function Logout() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { user } = useAppSelector((store: RootState) => store.auth);
+    const { user } = useAppSelector((store) => store.auth);
 
     useEffect(() => {
         dispatch(logout());

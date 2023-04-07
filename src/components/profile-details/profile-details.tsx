@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from "react";
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { RootState } from "../../services";
 import useForm from "../../hooks/useForm";
 import { getValuable, isObjectEmpty } from "../../utils/helpers";
 import { updateUser } from "../../services/user";
@@ -11,7 +10,7 @@ import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../../utils/contants";
 export function ProfileDetails() {
   const dispatch = useAppDispatch();
   
-  const { user, request } = useAppSelector((store: RootState) => store.user);
+  const { user, request } = useAppSelector((store) => store.user);
 
   const { values, setValues, handleChange, handleSubmit } = useForm({
     initialState: {

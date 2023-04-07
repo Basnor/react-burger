@@ -8,7 +8,6 @@ import {
 
 import styles from "./reset-password.module.css";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { resetPassword } from "../services/reset-password";
 import { PASSWORD_REGEX, ROUTES } from "../utils/contants";
@@ -22,7 +21,7 @@ function ResetPassword() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { request, error, success } = useAppSelector((store: RootState) => store.resetPassword);
+  const { request, error, success } = useAppSelector((store) => store.resetPassword);
   const {
     values,
     handleChange,

@@ -21,7 +21,7 @@ function IngredientItem(props: IngredientItemProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useAppLocation();
-  const constructorIngredients = useAppSelector(selectConstructorIngredients);
+  const constructorIngredients = useAppSelector((store) => selectConstructorIngredients(store.burgerConstructor));
 
   const initDetails = () => {
     dispatch(initIngredientDetails({ ingredientId: ingredient._id }));

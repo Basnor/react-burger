@@ -10,7 +10,7 @@ interface BurgerConstructorEmptyStateProps {
 
 function BurgerConstructorEmptyState(props: BurgerConstructorEmptyStateProps) {
   const { isDragging } = props;
-  const constructorIngredients = useAppSelector(selectConstructorIngredients);
+  const constructorIngredients = useAppSelector((store) => selectConstructorIngredients(store.burgerConstructor));
 
   return (
     <>

@@ -8,7 +8,6 @@ import {
 
 import styles from "./login.module.css";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../hooks";
-import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { login } from "../services/auth";
 import { EMAIL_REGEX, ROUTES } from "../utils/contants";
@@ -23,7 +22,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useAppLocation();
   
-  const { request, user } = useAppSelector((store: RootState) => store.auth);
+  const { request, user } = useAppSelector((store) => store.auth);
   const { values, handleChange, handleSubmit, isValid } = useForm<ILoginForm>({
     initialState: {
       email: "",
