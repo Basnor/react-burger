@@ -9,7 +9,6 @@ import BurgerIngredients from "../components/burger-ingredients/burger-ingredien
 import CustomDragLayer from "../components/custom-drag-layer/custom-drag-layer";
 import Modal from "../components/modal/modal";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { RootState } from "../services";
 import { clearIngredientDetails, getIngredients, initIngredientDetails } from "../services/burger-ingredients";
 import { ROUTES } from "../utils/contants";
 
@@ -19,7 +18,7 @@ function Home() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
 
-  const { ingredients, ingredientDetails } = useAppSelector((store: RootState) => store.burgerIngredients);
+  const { ingredients, ingredientDetails } = useAppSelector((store) => store.burgerIngredients);
   const { ingredientId } = useParams<{ ingredientId?: string }>();
 
   useEffect(() => {
@@ -40,8 +39,6 @@ function Home() {
 
   const handleModalClose = () => {
     navigate(state?.backgroundLocation?.pathname || ROUTES.HOME, {replace: true});
-    
-    dispatch(clearIngredientDetails());
   }
 
   return (

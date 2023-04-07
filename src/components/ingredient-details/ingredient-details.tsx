@@ -2,10 +2,9 @@ import React from "react";
 
 import styles from "./ingredient-details.module.css";
 import { useAppSelector } from "../../hooks";
-import { RootState } from "../../services";
 
 function IngredientDetails() {
-  const { ingredientDetails } = useAppSelector((store: RootState) => store.burgerIngredients);
+  const { ingredientDetails } = useAppSelector((store) => store.burgerIngredients);
 
   const details = [
     {

@@ -38,7 +38,7 @@ export const authSlice = createSlice({
         }
       })
       .addCase(login.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.request = false;
         state.error = true;
@@ -61,7 +61,7 @@ export const authSlice = createSlice({
         }
       })
       .addCase(logout.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.request = false;
         state.error = true;

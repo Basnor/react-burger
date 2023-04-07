@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 import styles from "./burger-ingredients.module.css";
 import { IngredientType } from "../../utils/types";
 import { useAppSelector } from "../../hooks";
-import { RootState } from "../../services";
 import BurgerIngredientsTabs from "./components/burger-ingredients-tabs";
 import draggable from "./components/draggable";
 import IngredientItem from "./components/ingredient-item";
@@ -32,7 +31,7 @@ const DraggableIngredientItem = draggable(IngredientItem);
 
 function BurgerIngredients() {
   const ingredientsRef = useRef<HTMLDivElement>(null);
-  const { ingredients, error } = useAppSelector((store: RootState) => store.burgerIngredients);
+  const { ingredients, error } = useAppSelector((store) => store.burgerIngredients);
 
   const filteredIngredients = (type: IngredientType) => {
     if (error) {

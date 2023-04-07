@@ -3,7 +3,6 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector } from "../../../hooks";
-import { RootState } from "../../../services";
 
 enum Action {
   ADD_BUNS = "ADD_BUNS",
@@ -53,7 +52,7 @@ function totalPriceReducer(
 
 function BurgerConstructorPrice() {
   const { toppings, bun } = useAppSelector(
-    (store: RootState) => store.burgerConstructor
+    (store) => store.burgerConstructor
   );
   const [totalPriceState, totalPriceDispatcher] = useReducer(
     totalPriceReducer,

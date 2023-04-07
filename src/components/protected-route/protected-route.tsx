@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import { RouteProps, useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
-import { RootState } from "../../services";
 import { getUser } from "../../services/user";
 import { ROUTES } from "../../utils/contants";
 import { getCookie } from "../../utils/cookie";
@@ -22,10 +21,10 @@ function ProtectedRoute({ children, role = Role.GUEST }: ProtectedRouteParams) {
   const dispatch = useAppDispatch();
   const location = useAppLocation();
   const navigate = useNavigate();
-  const { user, request } = useAppSelector((store: RootState) => store.user);
+  const { user, request } = useAppSelector((store) => store.user);
 
   useEffect(() => {
-    if (!getCookie("accessToken")) {
+    if (!getCookie("accessToken") || !!user) {
       return;
     }
 

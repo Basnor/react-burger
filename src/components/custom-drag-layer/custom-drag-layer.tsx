@@ -17,7 +17,7 @@ const layerStyles: CSSProperties = {
 };
 
 function getItemStyles(
-  itemType: Identifier|null,
+  itemType: Identifier | null,
   initialOffset: XYCoord | null,
   currentOffset: XYCoord | null
 ) {

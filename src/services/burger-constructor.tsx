@@ -29,7 +29,7 @@ export const burgerConstructorSlice = createSlice({
     },
     removeBurgerIngredient: (
       state,
-      action: PayloadAction<{ ingredient: IIngredient & { uid: string  }}>
+      action: PayloadAction<{ ingredient: IIngredient & { uid: string }}>
     ) => {
       const { ingredient } = action.payload;
 
@@ -37,7 +37,7 @@ export const burgerConstructorSlice = createSlice({
         return;
       }
 
-      state.toppings = state.toppings.filter(({uid}) => uid !== ingredient.uid);
+      state.toppings = state.toppings.filter(({ uid }) => uid !== ingredient.uid);
     },
     moveBurgerIngredient: (
       state,
@@ -61,6 +61,13 @@ export const burgerConstructorSlice = createSlice({
     },
   },
 });
+
+export const selectConstructorIngredients = (state: BurgerConstructorState) => {
+  const { toppings, bun } = state;
+  const buns = bun ? [bun, bun] : [];
+
+  return [...toppings, ...buns];
+};
 
 export const {
   resetBurgerIngredients,

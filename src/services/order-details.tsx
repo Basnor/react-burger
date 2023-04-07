@@ -36,7 +36,7 @@ export const orderDetailsSlice = createSlice({
         state.orderDetails = action.payload;
       })
       .addCase(createOrder.rejected, (state, action) => {
-        console.error(action.error.message);
+        console.log(action.error.message);
 
         state.request = false;
         state.error = true;

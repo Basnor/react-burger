@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { RootState } from "../../../services";
 import { useAppSelector } from "../../../hooks";
 
 interface BurgerConstructorBunsProps {
@@ -11,7 +10,7 @@ interface BurgerConstructorBunsProps {
 function BurgerConstructorBuns(props: BurgerConstructorBunsProps) {
   const { children } = props;
 
-  const bun = useAppSelector((store: RootState) => store.burgerConstructor.bun);
+  const bun = useAppSelector((store) => store.burgerConstructor.bun);
 
   return bun ? (
     <>

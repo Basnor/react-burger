@@ -7,7 +7,6 @@ import {
 
 import styles from "./forgot-password.module.css";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { RootState } from "../services";
 import useForm from "../hooks/useForm";
 import { forgotPassword } from "../services/forgot-password";
 import { EMAIL_REGEX, ROUTES } from "../utils/contants";
@@ -20,7 +19,7 @@ function ForgotPassword() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
     
-  const { request, success } = useAppSelector((store: RootState) => store.forgotPassword);
+  const { request, success } = useAppSelector((store) => store.forgotPassword);
   const {
     values,
     handleChange,

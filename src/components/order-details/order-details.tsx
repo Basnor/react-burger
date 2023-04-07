@@ -3,10 +3,9 @@ import React from "react";
 import styles from "./order-details.module.css";
 import done from "../../images/done.svg";
 import { useAppSelector } from "../../hooks";
-import { RootState } from "../../services";
 
 function OrderDetails() {
-  const { orderDetails } = useAppSelector((store: RootState) => store.orderDetails);
+  const { orderDetails } = useAppSelector((store) => store.orderDetails);
 
   return (
     <div className={`${styles.details} pl-25 pr-25`}>
