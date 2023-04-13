@@ -4,7 +4,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 
 import styles from "./feed-item.module.css";
 import { useAppLocation, useAppSelector } from "../../../hooks";
-import { IFeeds, IResponse } from "../../../utils/types";
+import { IOrderFeed, IResponse } from "../../../utils/types";
 import { ROUTES } from "../../../utils/contants";
 
 function inNotUndefined<T>(item: T | undefined): item is T {

@@ -4,7 +4,7 @@ import {
   Middleware,
 } from "@reduxjs/toolkit";
 
-import { IFeeds } from "../utils/types";
+import { IOrderFeed, IResponse } from "../utils/types";
 import { LiveFeedActions } from "./feed";
 
 export enum WebsocketStatus {
@@ -20,7 +20,7 @@ type wsActionTypes = {
   wsOpen: ActionCreatorWithoutPayload;
   wsClose: ActionCreatorWithoutPayload;
   wsError: ActionCreatorWithPayload<string>;
-  wsMessage: ActionCreatorWithPayload<IFeeds>;
+  wsMessage: ActionCreatorWithPayload<IOrderFeed & IResponse>;
 };
 
 export const createSocketMiddleware = (wsActions: wsActionTypes): Middleware => {
@@ -63,7 +63,7 @@ export const createSocketMiddleware = (wsActions: wsActionTypes): Middleware => 
 
         socket.onmessage = (event: MessageEvent) => {
           const { data } = event;
-          const parsedData: IFeeds = JSON.parse(data);
+          const parsedData: IOrderFeed & IResponse = JSON.parse(data);
 
           dispatch(wsMessage(parsedData));
         };

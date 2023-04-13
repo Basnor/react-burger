@@ -36,7 +36,7 @@ export interface IUser {
   name: string;
 }
 
-export interface IFeed {
+export interface IOrderFeedItem {
   _id: string,
   ingredients: string[],
   status: string,
@@ -46,8 +46,8 @@ export interface IFeed {
   name: string
 }
 
-export interface IFeeds {
-  feeds: IFeed[],
+export interface IOrderFeed {
+  orders: IOrderFeedItem[],
   total: number,
   totalToday: number
 }

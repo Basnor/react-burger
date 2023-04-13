@@ -1,6 +1,6 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 
-import { IFeeds } from "../utils/types";
+import { IOrderFeed, IResponse } from "../utils/types";
 import { WebsocketStatus } from "./socket-middleware";
 
 export const connect = createAction<string, "FEED_CONNECT">("FEED_CONNECT");
@@ -8,7 +8,7 @@ export const disconnect = createAction("FEED_DISCONNECT");
 export const wsConnecting = createAction("FEED_WS_CONNECTING");
 export const wsOpen = createAction("FEED_WS_OPEN");
 export const wsClose = createAction("FEED_WS_CLOSE");
-export const wsMessage = createAction<IFeeds, "FEED_WS_MESSAGE">("FEED_WS_MESSAGE");
+export const wsMessage = createAction<IOrderFeed & IResponse, "FEED_WS_MESSAGE">("FEED_WS_MESSAGE");
 export const wsError = createAction<string, "FEED_WS_ERROR">("FEED_WS_ERROR");
 
 export type LiveFeedActions =
@@ -25,10 +25,10 @@ interface IFeedState {
   error: string;
 }
 
-const initialState: IFeedState & IFeeds = {
+const initialState: IFeedState & IOrderFeed = {
   status: WebsocketStatus.OFFLINE,
   error: '',
-  feeds: [],
+  orders: [],
   total: 0,
   totalToday: 0,
 };
@@ -49,7 +49,7 @@ export const feedSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(wsMessage, (state, action) => {
-        state.feeds = action.payload.feeds;
+        state.orders = action.payload.orders;
       });
   },
 });
