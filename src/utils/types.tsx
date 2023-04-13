@@ -36,6 +36,22 @@ export interface IUser {
   name: string;
 }
 
+export interface IFeed {
+  _id: string,
+  ingredients: string[],
+  status: string,
+  number: number,
+  createdAt: string,
+  updatedAt: string,
+  name: string
+}
+
+export interface IFeeds {
+  feeds: IFeed[],
+  total: number,
+  totalToday: number
+}
+
 export interface IResponse {
   success: boolean;
 }

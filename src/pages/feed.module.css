@@ -1,0 +1,7 @@
+.wrapper {
+  min-width: 1280px;
+  display: flex;
+  column-gap: 40px;
+  justify-content: center;
+  height: calc(100vh - 200px);
+}

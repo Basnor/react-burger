@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./app-header.module.css";
-import AppHeaderButton from "./app-header-button";
+import AppHeaderButton from "./components/app-header-button";
 import { ROUTES } from "../../utils/contants";
 
 function AppHeader() {
@@ -34,11 +34,20 @@ function AppHeader() {
             </NavLink>
           </li>
           <li className={styles.link}>
-            <AppHeaderButton
-              disabled
-              name="Лента заказов"
-              icon={<ListIcon type="secondary" />}
-            />
+            <NavLink
+              to={ROUTES.FEED}
+              end
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.link} ${styles.active} text text_type_main-medium`
+                  : `${styles.link} text text_type_main-medium`
+              }
+            >
+              <AppHeaderButton
+                name="Лента заказов"
+                icon={<ListIcon type="primary" />}
+              />
+            </NavLink>
           </li>
         </ul>
         <ul className={styles.links} style={{ textAlign: "center" }}>

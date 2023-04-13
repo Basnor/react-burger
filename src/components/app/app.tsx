@@ -2,6 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "../../pages/home";
+import Feed from "../../pages/feed";
 import Login from "../../pages/login";
 import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             element: <IngredientDetails />,
           },
         ]
+      },
+      {
+        path: ROUTES.FEED,
+        element: <Feed />,
       },
       {
         path: ROUTES.LOGIN,
