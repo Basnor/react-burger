@@ -1,10 +1,10 @@
 import React from "react";
 
-function FeedDashboard() {
+function OrderFeedStats() {
   return (
     <div>
     </div>
   );
 }
 
-export default FeedDashboard;
+export default OrderFeedStats;

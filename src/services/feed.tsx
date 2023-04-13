@@ -34,7 +34,7 @@ const initialState: IFeedState & IOrderFeed = {
 };
 
 export const feedSlice = createSlice({
-  name: "auth",
+  name: "feed",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

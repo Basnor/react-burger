@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import styles from "./feed.module.css";
 import { useAppDispatch } from "../hooks";
-import FeedList from "../components/feed-list/feed-list";
+import OrderFeed from "../components/order-feed/order-feed";
 import { connect, disconnect } from "../services/feed";
 
 function Feed() {
@@ -18,7 +18,7 @@ function Feed() {
 
   return (
     <main className={styles.wrapper}>
-      <FeedList />
+      <OrderFeed />
     </main>
   );
 }
