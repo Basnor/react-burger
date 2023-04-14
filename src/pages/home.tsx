@@ -9,7 +9,7 @@ import BurgerIngredients from "../components/burger-ingredients/burger-ingredien
 import CustomDragLayer from "../components/custom-drag-layer/custom-drag-layer";
 import Modal from "../components/modal/modal";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { clearIngredientDetails, getIngredients, initIngredientDetails } from "../services/burger-ingredients";
+import { clearIngredientDetails, initIngredientDetails } from "../services/burger-ingredients";
 import { ROUTES } from "../utils/contants";
 
 function Home() {
@@ -20,10 +20,6 @@ function Home() {
 
   const { ingredients, ingredientDetails } = useAppSelector((store) => store.burgerIngredients);
   const { ingredientId } = useParams<{ ingredientId?: string }>();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
 
   useEffect(() => {
     if (!ingredientId) {

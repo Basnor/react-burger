@@ -9,7 +9,6 @@ import { forgotPasswordSlice } from "./forgot-password";
 import { resetPasswordSlice } from "./reset-password";
 import { registerSlice } from "./register";
 import { refreshTokenSlice } from "./refresh-token";
-import { feedSlice } from "./feed";
 import { createSocketMiddleware } from "./socket-middleware";
 import {
   connect as LiveFeedWsConnect,
@@ -19,6 +18,7 @@ import {
   wsClose as LiveFeedWsClose,
   wsMessage as LiveFeedWsMessage,
   wsError as LiveFeedWsError,
+  feedSlice
 } from "./feed";
 
 export const rootReducer = combineReducers({
@@ -55,8 +55,3 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-// export type TDispatch = ThunkDispatch<RootState, never, TLiveTableActions>
-
-// export const useDispatch = () => dispatchHook<TDispatch>()
-// export const useSelector: TypedUseSelectorHook<RootState> = selectorHook

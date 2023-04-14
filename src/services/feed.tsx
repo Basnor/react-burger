@@ -50,6 +50,8 @@ export const feedSlice = createSlice({
       })
       .addCase(wsMessage, (state, action) => {
         state.orders = action.payload.orders;
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
       });
   },
 });

@@ -8,7 +8,7 @@ import { useAppLocation, useAppSelector } from "../../../hooks";
 import { IOrderFeedItem } from "../../../utils/types";
 import { ROUTES } from "../../../utils/contants";
 
-const MAX_DISPLAYED_INGREDIENTS = 6;
+const MAX_VISIBLE_INGREDIENTS = 6;
 
 const getDay = (date: string) => {
   const ruLocale = require("date-fns/locale/ru");
@@ -57,7 +57,7 @@ function OrderFeedItem(props: OrderFeedItemProps) {
       </p>
       <ul className={styles.ingredients}>
         {orderIngredients
-          .slice(0, MAX_DISPLAYED_INGREDIENTS)
+          .slice(0, MAX_VISIBLE_INGREDIENTS)
           .map((ingredient, index) => (
             <li className={styles.ingredient} key={index}>
               <img
@@ -65,10 +65,10 @@ function OrderFeedItem(props: OrderFeedItemProps) {
                 src={ingredient.image_mobile}
                 alt={ingredient.name}
               />
-              {index === 0 && orderIngredients.length > MAX_DISPLAYED_INGREDIENTS && (
+              {index === 0 && orderIngredients.length > MAX_VISIBLE_INGREDIENTS && (
                 <div className={styles.overlay}>
                   <span className="text text_type_main-default">
-                    +{orderIngredients.length - MAX_DISPLAYED_INGREDIENTS}
+                    +{orderIngredients.length - MAX_VISIBLE_INGREDIENTS}
                   </span>
                 </div>
               )}
