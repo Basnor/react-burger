@@ -23,7 +23,15 @@ function OrderFeedItem(props: OrderFeedItemProps) {
   const orderPrice = orderIngredients.reduce((totalPrice, { price }) => totalPrice + price, 0);
 
   return (
-    <Link to={ROUTES.HOME} className={`${styles.order} pt-6 pr-6 pb-6 pl-6`}>
+    <Link
+      to={{
+        pathname: location.pathname === ROUTES.FEED
+          ? `${ROUTES.FEED}/${order._id}`
+          : `${ROUTES.ORDERS}/${order._id}`
+      }}
+      state={{backgroundLocation: location}}
+      className={`${styles.order} pt-6 pr-6 pb-6 pl-6`}
+    >
       <span className="text text_type_digits-default">#{order.number}</span>
       <span className="text text_type_main-default text_color_inactive">
         {`${getDay(order.createdAt)}, ${getTime(order.createdAt)}`}

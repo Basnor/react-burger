@@ -20,7 +20,7 @@ function OrderDetails() {
   });
 
   return order ? (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} p-15`}>
       <span className={`${styles.number} text text_type_digits-default mb-10`}>#{order?.number}</span>
       <h1 className="text text_type_main-medium mb-3">
         {order.name}
@@ -49,7 +49,7 @@ function OrderDetails() {
           </li>
         ))}
       </ul>
-      <div className={`${styles.total}`}>
+      <div className={`${styles.total} mt-10`}>
         <span className="text text_type_main-default text_color_inactive">
           {`${getDay(order.createdAt)}, ${getTime(order.createdAt)}`}
         </span>

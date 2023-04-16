@@ -1,8 +1,9 @@
 .wrapper {
-  width: 640px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  box-sizing: border-box;
 }
 
 .number {
@@ -21,7 +22,7 @@
   row-gap: 16px;
   overflow-y: auto;
   list-style-type: none;
-  padding: 24px 24px 40px 0;
+  padding: 0 24px 0 0;
   margin: 0;
 }
 
