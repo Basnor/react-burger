@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./order-feed-item.module.css";
-import { useAppLocation, useAppSelector } from "../../../hooks";
-import { IOrderFeedItem } from "../../../utils/types";
-import { ROUTES } from "../../../utils/contants";
-import { getDay, getTime } from "../../../utils/helpers";
+import { useAppLocation, useAppSelector } from "../../hooks";
+import { IOrderFeedItem } from "../../utils/types";
+import { ROUTES } from "../../utils/contants";
+import { getDay, getTime } from "../../utils/helpers";
 
 const MAX_VISIBLE_INGREDIENTS = 6;
 

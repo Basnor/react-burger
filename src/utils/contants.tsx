@@ -17,6 +17,8 @@ export const ENDPOINTS = {
   FORGOT: "/password-reset",
   RESET: "/password-reset/reset",
 };
+export const ORDERS_URL = "wss://norma.nomoreparties.space/orders";
+export const ALL_ORDERS_URL = ORDERS_URL + "/all";
 
 export const ROUTES = {
   HOME: "/",
@@ -27,6 +29,7 @@ export const ROUTES = {
   RESET_PASSWORD: "/reset-password",
   PROFILE: "/profile",
   ORDERS: "/profile/orders",
+  PROFILE_ORDER: "/profile/orders/:orderId",
   LOGOUT: "/profile/logout",
   FEED: "/feed",
   ORDER: "/feed/:orderId",

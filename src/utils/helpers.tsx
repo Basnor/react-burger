@@ -1,5 +1,6 @@
 import React from "react";
 import { formatDistanceToNow, isToday, isYesterday } from "date-fns";
+import { ru } from 'date-fns/esm/locale';
 
 type Valuable<T> = { [K in keyof T as T[K] extends null | undefined ? never : K]: T[K] };
 
@@ -16,7 +17,6 @@ export function isObjectEmpty<T extends {}>(obj: T) {
 }
 
 export function getDay(date: string) {
-  const ruLocale = require("date-fns/locale/ru");
   const day = new Date(date);
 
   if (isToday(day)) {
@@ -27,7 +27,7 @@ export function getDay(date: string) {
     return "Вчера";
   }
 
-  return formatDistanceToNow(day, { addSuffix: true, locale: ruLocale });
+  return formatDistanceToNow(day, { addSuffix: true, locale: ru });
 };
 
 export function getTime(date: string) {

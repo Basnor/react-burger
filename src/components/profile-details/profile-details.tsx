@@ -62,6 +62,7 @@ export function ProfileDetails() {
         extraClass="mb-4"
         placeholder="Имя"
         disabled={request}
+        autoComplete="off"
       />
       <EmailInput
         name="email"
@@ -70,6 +71,7 @@ export function ProfileDetails() {
         isIcon={false}
         extraClass="mb-4"
         disabled={request}
+        autoComplete="off"
       />
       <PasswordInput
         name="password"
@@ -77,6 +79,7 @@ export function ProfileDetails() {
         onChange={handleChange}
         extraClass="mb-4"
         disabled={request}
+        autoComplete="off"
       />
       <div>
         <Button

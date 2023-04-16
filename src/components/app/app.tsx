@@ -14,6 +14,7 @@ import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ProfileDetails from "../profile-details/profile-details";
+import ProfileOrders from "../profile-orders/profile-orders";
 import OrderDetails from "../order-details/order-details";
 import { ROUTES } from "../../utils/contants";
 
@@ -89,7 +90,13 @@ const router = createBrowserRouter([
           },
           {
             path: ROUTES.ORDERS,
-            element: null,
+            element: <ProfileOrders />,
+            children: [
+              {
+                path: ROUTES.PROFILE_ORDER,
+                element: <OrderDetails />,
+              },
+            ]
           },
           {
             path: ROUTES.LOGOUT,

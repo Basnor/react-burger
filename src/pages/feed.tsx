@@ -7,7 +7,7 @@ import OrderFeed from "../components/order-feed/order-feed";
 import OrderFeedStats from "../components/order-feed-stats/order-feed-stats";
 import { connect, disconnect } from "../services/feed";
 import Modal from "../components/modal/modal";
-import { ROUTES } from "../utils/contants";
+import { ALL_ORDERS_URL, ROUTES } from "../utils/contants";
 
 function Feed() {
   const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ function Feed() {
   const { orderId } = useParams<{ orderId?: string }>();
 
   useEffect(() => {
-    dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+    dispatch(connect(ALL_ORDERS_URL));
 
     return () => {
       dispatch(disconnect());

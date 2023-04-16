@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./order-feed.module.css";
-import OrderFeedItem from "./components/order-feed-item";
+import OrderFeedItem from "../order-feed-item/order-feed-item";
 import { useAppSelector } from "../../hooks";
 
 function OrderFeed() {
