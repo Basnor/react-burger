@@ -9,6 +9,12 @@ export enum DragType {
   Topping = "topping"
 }
 
+export enum OrderStatus {
+  Done = "done",
+  Pending = "pending",
+  Crerated = "created",
+}
+
 export interface IIngredient {
   _id: string;
   name: string;

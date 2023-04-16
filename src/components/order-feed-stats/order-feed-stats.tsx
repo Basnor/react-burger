@@ -2,12 +2,7 @@ import React from "react";
 
 import styles from "./order-feed-stats.module.css";
 import { useAppSelector } from "../../hooks";
-
-enum orderStatus {
-  Done = "done",
-  Pending = "pending",
-  Crerated = "created",
-}
+import { OrderStatus } from "../../utils/types";
 
 function OrderFeedStats() {
   const { orders, total, totalToday } = useAppSelector((state) => state.feed);
@@ -18,7 +13,7 @@ function OrderFeedStats() {
         <h2 className="text text_type_main-medium">Готовы:</h2>
         <ul className={styles.done}>
           {orders && orders.slice(0, 20).map((order, index) => {
-            if (order.status === orderStatus.Done) {
+            if (order.status === OrderStatus.Done) {
               return (
                 <li
                   key={index}
@@ -33,7 +28,7 @@ function OrderFeedStats() {
         <h2 className="text text_type_main-medium">В работе:</h2>
         <ul className={styles.list}>
           {orders.map((order) => {
-            if (order.status === orderStatus.Crerated) {
+            if (order.status === OrderStatus.Crerated) {
               return (
                 <li key={order._id} className="text text_type_digits-default">
                   {order.number}

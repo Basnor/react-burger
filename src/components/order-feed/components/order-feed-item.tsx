@@ -1,38 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { isToday, isYesterday, formatDistanceToNow } from "date-fns";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./order-feed-item.module.css";
 import { useAppLocation, useAppSelector } from "../../../hooks";
 import { IOrderFeedItem } from "../../../utils/types";
 import { ROUTES } from "../../../utils/contants";
+import { getDay, getTime } from "../../../utils/helpers";
 
 const MAX_VISIBLE_INGREDIENTS = 6;
-
-const getDay = (date: string) => {
-  const ruLocale = require("date-fns/locale/ru");
-  const day = new Date(date);
-
-  if (isToday(day)) {
-    return "Сегодня";
-  }
-
-  if (isYesterday(day)) {
-    return "Вчера";
-  }
-
-  return formatDistanceToNow(day, { addSuffix: true, locale: ruLocale });
-};
-
-const getTime = (date: string) => {
-  const options: Intl.DateTimeFormatOptions = {
-    hour: "numeric",
-    minute: "numeric",
-  };
-
-  return new Date(Date.parse(date)).toLocaleString("ru", options);
-};
 
 interface OrderFeedItemProps {
   order: IOrderFeedItem;

@@ -29,4 +29,5 @@ export const ROUTES = {
   ORDERS: "/profile/orders",
   LOGOUT: "/profile/logout",
   FEED: "/feed",
+  ORDER: "/feed/:orderId",
 };

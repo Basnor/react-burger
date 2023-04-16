@@ -14,6 +14,7 @@ import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ProfileDetails from "../profile-details/profile-details";
+import OrderDetails from "../order-details/order-details";
 import { ROUTES } from "../../utils/contants";
 
 const router = createBrowserRouter([
@@ -35,6 +36,12 @@ const router = createBrowserRouter([
       {
         path: ROUTES.FEED,
         element: <Feed />,
+        children: [
+          {
+            path: ROUTES.ORDER,
+            element: <OrderDetails />,
+          },
+        ]
       },
       {
         path: ROUTES.LOGIN,
