@@ -17,7 +17,7 @@ function Feed() {
   const { orderId } = useParams<{ orderId?: string }>();
 
   useEffect(() => {
-    dispatch(connect(ALL_ORDERS_URL));
+    dispatch(connect({url: ALL_ORDERS_URL}));
 
     return () => {
       dispatch(disconnect());

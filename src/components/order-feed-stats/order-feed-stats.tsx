@@ -26,9 +26,9 @@ function OrderFeedStats() {
           })}
         </ul>
         <h2 className="text text_type_main-medium">В работе:</h2>
-        <ul className={styles.list}>
-          {orders.map((order) => {
-            if (order.status === OrderStatus.Crerated) {
+        <ul className={styles.progress}>
+          {orders && orders.slice(0, 20).map((order) => {
+            if (order.status === OrderStatus.Pending) {
               return (
                 <li key={order._id} className="text text_type_digits-default">
                   {order.number}

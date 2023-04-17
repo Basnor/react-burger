@@ -6,7 +6,6 @@ import ProfileSidebar from "../components/profile-sidebar/profile-sidebar";
 import OrderDetails from "../components/order-details/order-details";
 import { useAppDispatch } from "../hooks";
 import { connect, disconnect } from "../services/feed";
-import { getCookie } from "../utils/cookie";
 import { ORDERS_URL } from "../utils/contants";
 
 function Profile() {
@@ -16,9 +15,7 @@ function Profile() {
   const { orderId } = useParams<{ orderId?: string }>();
 
   useEffect(() => {
-    const accessToken = getCookie('accessToken');
-    
-    dispatch(connect(`${ORDERS_URL}?token=${accessToken?.replace('Bearer ', '')}`));
+    dispatch(connect({url: ORDERS_URL, token: true}));
 
     return () => {
       dispatch(disconnect());

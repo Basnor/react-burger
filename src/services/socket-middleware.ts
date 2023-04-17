@@ -2,10 +2,14 @@ import {
   ActionCreatorWithoutPayload,
   ActionCreatorWithPayload,
   Middleware,
+  MiddlewareAPI,
 } from "@reduxjs/toolkit";
 
 import { IOrderFeed, IResponse } from "../utils/types";
 import { LiveFeedActions } from "./feed";
+import { AppDispatch, RootState } from ".";
+import { refreshToken } from "./refresh-token";
+import { getCookie, setCookie } from "../utils/cookie";
 
 export enum WebsocketStatus {
   CONNECTING = 'CONNECTING...',
@@ -14,7 +18,7 @@ export enum WebsocketStatus {
 }
 
 type wsActionTypes = {
-  connect: ActionCreatorWithPayload<string>;
+  connect: ActionCreatorWithPayload<{ url: string, token?: boolean }>;
   disconnect: ActionCreatorWithoutPayload;
   wsConnecting: ActionCreatorWithoutPayload;
   wsOpen: ActionCreatorWithoutPayload;
@@ -24,16 +28,17 @@ type wsActionTypes = {
 };
 
 export const createSocketMiddleware = (wsActions: wsActionTypes): Middleware => {
-  return (store) => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
     let url = "";
+    let token = "";
     let isConnected = false;
     let reconnectTimer = 0;
 
     return (next) => (action: LiveFeedActions) => {
       const { dispatch } = store;
       const {
-        connect,
+        connect,  
         disconnect,
         wsClose,
         wsConnecting,
@@ -43,8 +48,9 @@ export const createSocketMiddleware = (wsActions: wsActionTypes): Middleware => 
       } = wsActions;
 
       if (connect.match(action)) {
-        url = action.payload;
-        socket = new WebSocket(url);
+        url = action.payload.url;
+        token = action.payload.token ? `?token=${getCookie('accessToken')?.replace('Bearer ', '')}` : "";
+        socket = new WebSocket(url + token);
         isConnected = true;
         window.clearTimeout(reconnectTimer);
         reconnectTimer = 0;
@@ -63,7 +69,15 @@ export const createSocketMiddleware = (wsActions: wsActionTypes): Middleware => 
 
         socket.onmessage = (event: MessageEvent) => {
           const { data } = event;
-          const parsedData: IOrderFeed & IResponse = JSON.parse(data);
+          const parsedData: (IOrderFeed & IResponse) = JSON.parse(data);
+
+          if (parsedData.message === 'Invalid or missing token') {
+            setCookie("accessToken", "", { expires: -1 });
+
+            dispatch(refreshToken());
+
+            return;
+          }
 
           dispatch(wsMessage(parsedData));
         };
@@ -77,7 +91,7 @@ export const createSocketMiddleware = (wsActions: wsActionTypes): Middleware => 
             dispatch(wsConnecting());
 
             reconnectTimer = window.setTimeout(() => {
-              dispatch(connect(url));
+              dispatch(connect({ url, token: !!token }));
             }, 3000);
           }
         };

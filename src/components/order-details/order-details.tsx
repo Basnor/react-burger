@@ -15,10 +15,7 @@ function OrderDetails() {
   const order = orders?.find(({ _id }) => _id === orderId);
   const orderIngredients = ingredients.filter((ingredient) => order?.ingredients.includes(ingredient._id));
   const orderPrice = orderIngredients.reduce((totalPrice, { price }) => totalPrice + price, 0);
-  const uniqueOrderIngredients = orderIngredients.filter((ingredient, index) => {
-    return orderIngredients.indexOf(ingredient) === index;
-  });
-
+  
   return order ? (
     <div className={`${styles.wrapper} p-15`}>
       <span className={`${styles.number} text text_type_digits-default mb-10`}>#{order?.number}</span>
@@ -32,7 +29,7 @@ function OrderDetails() {
         Состав:
       </h1>
       <ul className={styles.ingredients}>
-        {uniqueOrderIngredients.map((ingredient) => (
+        {orderIngredients.map((ingredient) => (
           <li className={styles.ingredient} key={ingredient._id}>
             <img
               className={styles.image}
@@ -43,7 +40,7 @@ function OrderDetails() {
               {ingredient.name}
             </h2>
             <span className={`${styles.price} text text_type_digits-default`}>
-              {`${orderIngredients?.filter(({ _id }) => _id === ingredient._id).length} x ${ingredient.price}`}
+              {`${order?.ingredients?.filter((id) => id === ingredient._id).length} x ${ingredient.price}`}
               <CurrencyIcon type="primary" />
             </span>
           </li>

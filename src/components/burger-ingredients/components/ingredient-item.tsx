@@ -9,9 +9,10 @@ import styles from "../burger-ingredients.module.css";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../../hooks";
 import { initIngredientDetails } from "../../../services/burger-ingredients";
 import { selectConstructorIngredients } from "../../../services/burger-constructor";
+import { IIngredient } from "../../../utils/types";
 
 export interface IngredientItemProps {
-  ingredient: any;
+  ingredient: IIngredient;
   preview?: boolean;
 }
 

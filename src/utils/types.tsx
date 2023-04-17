@@ -60,4 +60,5 @@ export interface IOrderFeed {
 
 export interface IResponse {
   success: boolean;
+  message?: string;
 }

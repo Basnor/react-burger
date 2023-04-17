@@ -3,7 +3,7 @@ import { createAction, createSlice } from "@reduxjs/toolkit";
 import { IOrderFeed, IResponse } from "../utils/types";
 import { WebsocketStatus } from "./socket-middleware";
 
-export const connect = createAction<string, "FEED_CONNECT">("FEED_CONNECT");
+export const connect = createAction<{ url: string, token?: boolean }, "FEED_CONNECT">("FEED_CONNECT");
 export const disconnect = createAction("FEED_DISCONNECT");
 export const wsConnecting = createAction("FEED_WS_CONNECTING");
 export const wsOpen = createAction("FEED_WS_OPEN");
@@ -44,6 +44,13 @@ export const feedSlice = createSlice({
       })
       .addCase(wsOpen, (state) => {
         state.status = WebsocketStatus.ONLINE;
+      })
+      .addCase(wsClose, (state) => {
+        state.status = WebsocketStatus.OFFLINE;
+        state.error = '';
+        state.orders = [];
+        state.total = 0;
+        state.totalToday = 0;
       })
       .addCase(wsError, (state, action) => {
         state.error = action.payload;

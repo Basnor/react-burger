@@ -21,11 +21,15 @@ function ProfileOrders() {
   return (
     <div className={styles.wrapper}>
       <ul className={`${styles.orders} pr-2`}>
-        {orders.map((order) => (
-          <li key={order._id}>
-            <OrderFeedItem order={order} />
-          </li>
-        ))}
+        {orders?.length ? (
+          [...orders].reverse().map((order) => (
+            <li key={order._id}>
+              <OrderFeedItem order={order} />
+            </li>
+          ))
+        ) : (
+          <></>
+        )}
       </ul>
       {orderId && state?.backgroundLocation && (
         <Modal onClose={handleModalClose}>
