@@ -1,0 +1,80 @@
+.order {
+  display: grid;
+  grid-template-areas:
+    "number createdAt"
+    "name name"
+    "ingredients price";
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 1fr max-content;
+  gap: 24px;
+  border-radius: var(--common-border-radius-s);
+  background-color: var(--background);
+  text-decoration: none;
+  color: var(--text-primary-color);
+}
+
+.name {
+  grid-area: name;
+}
+
+.ingredients {
+  grid-area: ingredients;
+  display: flex;
+  flex-direction: row-reverse;
+  list-style-type: none;
+  padding-left: 22px;
+  margin: 0 auto 0 0;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 8px;
+}
+
+.ingredient {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-left: -20px;
+  border-radius: 50%;
+  border: -2px solid transparent;
+  z-index: 0;
+}
+
+.ingredient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+  background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%),
+    linear-gradient(0deg, #131316, #131316);
+  margin: -2px;
+  z-index: -1;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: black;
+  border-radius: inherit;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: inherit;
+  background-color: rgba(0, 0, 0, 0.6);
+  margin: -2px;
+}

@@ -1,27 +1,62 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./order-details.module.css";
-import done from "../../images/done.svg";
 import { useAppSelector } from "../../hooks";
+import { getDay, getTime } from "../../utils/helpers";
+import { OrderStatus } from "../../utils/types";
 
 function OrderDetails() {
-  const { orderDetails } = useAppSelector((store) => store.orderDetails);
+  const { orderId } = useParams<{ orderId: string }>();
+  const ingredients = useAppSelector((store) => store.burgerIngredients.ingredients);
+  const orders = useAppSelector((store) => store.feed.orders);
 
-  return (
-    <div className={`${styles.details} pl-25 pr-25`}>
-      <h1 className={`${styles.number} text text_type_digits-large mt-30 mb-8`}>
-        {orderDetails?.order.number}
+  const order = orders?.find(({ _id }) => _id === orderId);
+  const orderIngredients = ingredients.filter((ingredient) => order?.ingredients.includes(ingredient._id));
+  const orderPrice = orderIngredients.reduce((totalPrice, { price }) => totalPrice + price, 0);
+  
+  return order ? (
+    <div className={`${styles.wrapper} p-15`}>
+      <span className={`${styles.number} text text_type_digits-default mb-10`}>#{order?.number}</span>
+      <h1 className="text text_type_main-medium mb-3">
+        {order.name}
       </h1>
-      <span className="text text_type_main-medium mb-15">идентификатор заказа</span>
-      <img src={done} className={styles.done} alt="Заказ подтвержден" />
-      <h2 className="text text_type_main-default mt-15 mb-2">
-        Ваш заказ начали готовить
-      </h2>
-      <span className="text text_type_main-default text_color_inactive mb-30">
-        Дождитесь готовности на орбитальной станции
+      <span className={`${styles.status} text text_type_main-default mb-15`}>
+        {order.status === OrderStatus.Done ? "Выполнен" : "Готовится"}
       </span>
+      <h1 className="text text_type_main-medium mb-6">
+        Состав:
+      </h1>
+      <ul className={styles.ingredients}>
+        {orderIngredients.map((ingredient) => (
+          <li className={styles.ingredient} key={ingredient._id}>
+            <img
+              className={styles.image}
+              src={ingredient.image_mobile}
+              alt={ingredient.name}
+            />
+            <h2 className={`${styles.name} text_type_main-default`}>
+              {ingredient.name}
+            </h2>
+            <span className={`${styles.price} text text_type_digits-default`}>
+              {`${order?.ingredients?.filter((id) => id === ingredient._id).length} x ${ingredient.price}`}
+              <CurrencyIcon type="primary" />
+            </span>
+          </li>
+        ))}
+      </ul>
+      <div className={`${styles.total} mt-10`}>
+        <span className="text text_type_main-default text_color_inactive">
+          {`${getDay(order.createdAt)}, ${getTime(order.createdAt)}`}
+        </span>
+        <div className={styles.price}>
+          <span className="text text_type_digits-default">{orderPrice}</span>
+          <CurrencyIcon type="primary" />
+        </div>
+      </div>
     </div>
-  );
-}
+  ) : null;
+};
 
 export default OrderDetails;

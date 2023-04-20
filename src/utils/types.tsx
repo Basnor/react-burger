@@ -9,6 +9,12 @@ export enum DragType {
   Topping = "topping"
 }
 
+export enum OrderStatus {
+  Done = "done",
+  Pending = "pending",
+  Crerated = "created",
+}
+
 export interface IIngredient {
   _id: string;
   name: string;
@@ -36,6 +42,23 @@ export interface IUser {
   name: string;
 }
 
+export interface IOrderFeedItem {
+  _id: string,
+  ingredients: string[],
+  status: string,
+  number: number,
+  createdAt: string,
+  updatedAt: string,
+  name: string
+}
+
+export interface IOrderFeed {
+  orders: IOrderFeedItem[],
+  total: number,
+  totalToday: number
+}
+
 export interface IResponse {
   success: boolean;
+  message?: string;
 }

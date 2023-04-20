@@ -92,7 +92,7 @@ export const logout = createAsyncThunk<IResponse & { message: string }>(
   async () => {
     const token = getCookie('refreshToken');
     if (!token) {
-        throw new Error('Refresh token required');
+      throw new Error('Refresh token required');
     }
 
     const fetchApi = useFetch<IResponse & { message: string }, { token: string }>(ENDPOINTS.LOGOUT);
