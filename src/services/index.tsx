@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { PreloadedState, combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import {
   connect as LiveFeedWsConnect,
@@ -9,9 +9,9 @@ import {
   wsMessage as LiveFeedWsMessage,
   wsError as LiveFeedWsError,
   feedSlice
-} from "./feed";
-import { ingredientsSlice } from "./ingredients";
-import { userSlice } from "./user";
+} from "./slices/feed";
+import { ingredientsSlice } from "./slices/ingredients";
+import { userSlice } from "./slices/user";
 import { createSocketMiddleware } from "./middleware/socket-middleware";
 import { authSlice } from "../features/auth/auth-slice";
 import { burgerConstructorSlice } from "../features/burger-constructor/burger-constructor-slice";
@@ -46,12 +46,14 @@ const wsActions = {
 
 const websocketMiddleware = createSocketMiddleware(wsActions);
 
-export const store = configureStore({
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(websocketMiddleware);
   },
+  preloadedState,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

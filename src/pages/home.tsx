@@ -9,7 +9,7 @@ import BurgerIngredients from "../components/burger-ingredients/burger-ingredien
 import CustomDragLayer from "../components/custom-drag-layer/custom-drag-layer";
 import Modal from "../components/modal/modal";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { clearIngredientDetails, initIngredientDetails } from "../services/ingredients";
+import { clearIngredientDetails, initIngredientDetails } from "../services/slices/ingredients";
 import { ROUTES } from "../utils/contants";
 
 function Home() {

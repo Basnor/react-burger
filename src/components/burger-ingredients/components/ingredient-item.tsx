@@ -7,7 +7,7 @@ import {
 
 import styles from "../burger-ingredients.module.css";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../../hooks";
-import { initIngredientDetails } from "../../../services/ingredients";
+import { initIngredientDetails } from "../../../services/slices/ingredients";
 import { selectConstructorIngredients } from "../../../features/burger-constructor/burger-constructor-slice";
 import { IIngredient } from "../../../utils/types";
 

@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import useFetch from "../hooks/useFetch";
-import { ENDPOINTS } from "../utils/contants";
-import { getCookie } from "../utils/cookie";
-import { IResponse, IUser } from "../utils/types";
-import { refreshToken } from "../features/refresh-token/refresh-token-slice";
+import useFetch from "../../hooks/useFetch";
+import { ENDPOINTS } from "../../utils/contants";
+import { getCookie } from "../../utils/cookie";
+import { IResponse, IUser } from "../../utils/types";
+import { refreshToken } from "../../features/refresh-token/refresh-token-slice";
 
 interface IUserState {
   request: boolean;
@@ -12,7 +12,7 @@ interface IUserState {
   user?: IUser;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   request: false,
   error: false,
 };

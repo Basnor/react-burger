@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import useFetch from "../hooks/useFetch";
-import { ENDPOINTS } from "../utils/contants";
-import { IIngredient, IResponse } from "../utils/types";
+import useFetch from "../../hooks/useFetch";
+import { ENDPOINTS } from "../../utils/contants";
+import { IIngredient, IResponse } from "../../utils/types";
 
 interface IngredientsState {
   request: boolean;
@@ -11,7 +11,7 @@ interface IngredientsState {
   ingredientDetails?: IIngredient;
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   request: false,
   error: false,
   ingredients: [],
@@ -39,7 +39,10 @@ export const ingredientsSlice = createSlice({
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.request = false;
         state.error = !action.payload.success;
-        state.ingredients = action.payload.data;
+
+        if (action.payload.success) {
+          state.ingredients = action.payload.data;
+        }
       })
       .addCase(getIngredients.rejected, (state, action) => {
         console.log(action.error.message);

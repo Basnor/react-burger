@@ -5,7 +5,7 @@ import styles from "./feed.module.css";
 import { useAppDispatch } from "../hooks";
 import OrderFeed from "../components/order-feed/order-feed";
 import OrderFeedStats from "../components/order-feed-stats/order-feed-stats";
-import { connect, disconnect } from "../services/feed";
+import { connect, disconnect } from "../services/slices/feed";
 import Modal from "../components/modal/modal";
 import { ALL_ORDERS_URL, ROUTES } from "../utils/contants";
 

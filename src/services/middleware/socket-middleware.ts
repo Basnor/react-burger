@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import { IOrderFeed, IResponse } from "../../utils/types";
-import { LiveFeedActions } from "../feed";
+import { LiveFeedActions } from "../slices/feed";
 import { AppDispatch, RootState } from "..";
 import { refreshToken } from "../../features/refresh-token/refresh-token-slice";
 import { getCookie, setCookie } from "../../utils/cookie";
