@@ -6,10 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./forgot-password.module.css";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import useForm from "../hooks/useForm";
-import { forgotPassword } from "../services/forgot-password";
-import { EMAIL_REGEX, ROUTES } from "../utils/contants";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import useForm from "../../hooks/useForm";
+import { forgotPassword } from "./forgot-password-slice";
+import { EMAIL_REGEX, ROUTES } from "../../utils/contants";
 
 interface IForgotPasswordForm {
   email: string

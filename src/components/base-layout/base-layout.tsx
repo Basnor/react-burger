@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { clearOrderDetails } from "../../services/order-details";
+import { clearOrderDetails } from "../../features/create-order/create-order-slice";
 
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
-import OrderStatus from "../order-status/order-satus";
+import CreateOrder from "../../features/create-order/create-order";
 import { getIngredients } from "../../services/burger-ingredients";
 
 function BaseLayout() {
   const dispatch = useAppDispatch();
   
-  const { orderDetails } = useAppSelector((store) => store.orderDetails);
+  const { orderDetails } = useAppSelector((store) => store.createOrder);
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -24,7 +24,7 @@ function BaseLayout() {
       <Outlet />
       {orderDetails && (
         <Modal onClose={() => dispatch(clearOrderDetails())}>
-          <OrderStatus />
+          <CreateOrder />
         </Modal>
       )}
     </>

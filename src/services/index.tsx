@@ -2,14 +2,14 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import { burgerIngredientsSlice } from "./burger-ingredients";
 import { burgerConstructorSlice } from "./burger-constructor";
-import { orderDetailsSlice } from "./order-details";
 import { authSlice } from "./auth";
 import { userSlice } from "./user";
-import { forgotPasswordSlice } from "./forgot-password";
-import { resetPasswordSlice } from "./reset-password";
-import { registerSlice } from "./register";
-import { refreshTokenSlice } from "./refresh-token";
-import { createSocketMiddleware } from "./socket-middleware";
+import { refreshTokenSlice } from "../features/refresh-token/refresh-token-slice";
+import { createOrderSlice } from "../features/create-order/create-order-slice";
+import { forgotPasswordSlice } from "../features/forgot-password/forgot-password-slice";
+import { resetPasswordSlice } from "../features/reset-password/reset-password-slice";
+import { registerSlice } from "../features/register/register-slice";
+import { createSocketMiddleware } from "./middleware/socket-middleware";
 import {
   connect as LiveFeedWsConnect,
   disconnect as LiveFeedWsDisconnect,
@@ -24,7 +24,7 @@ import {
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsSlice.reducer,
   burgerConstructor: burgerConstructorSlice.reducer,
-  orderDetails: orderDetailsSlice.reducer,
+  createOrder: createOrderSlice.reducer,
   auth: authSlice.reducer,
   user: userSlice.reducer,
   register: registerSlice.reducer,

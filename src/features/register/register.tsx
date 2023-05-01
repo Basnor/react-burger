@@ -8,10 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./register.module.css";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import useForm from "../hooks/useForm";
-import { register } from "../services/register";
-import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX, ROUTES } from "../utils/contants";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import useForm from "../../hooks/useForm";
+import { register } from "./register-slice";
+import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX, ROUTES } from "../../utils/contants";
 
 interface IRegisterForm {
   name: string

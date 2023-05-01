@@ -7,10 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./reset-password.module.css";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import useForm from "../hooks/useForm";
-import { resetPassword } from "../services/reset-password";
-import { PASSWORD_REGEX, ROUTES } from "../utils/contants";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import useForm from "../../hooks/useForm";
+import { resetPassword } from "./reset-password-slice";
+import { PASSWORD_REGEX, ROUTES } from "../../utils/contants";
 
 interface IResetPasswordForm {
   password: string

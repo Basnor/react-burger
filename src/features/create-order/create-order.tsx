@@ -1,11 +1,11 @@
 import React from "react";
 
-import styles from "./order-status.module.css";
+import styles from "./create-order.module.css";
 import done from "../../images/done.svg";
 import { useAppSelector } from "../../hooks";
 
-function OrderStatus() {
-  const { orderDetails } = useAppSelector((store) => store.orderDetails);
+function CreateOrder() {
+  const { orderDetails } = useAppSelector((store) => store.createOrder);
 
   return (
     <div className={`${styles.wrapper} pl-25 pr-25`}>
@@ -24,4 +24,4 @@ function OrderStatus() {
   );
 }
 
-export default OrderStatus;
+export default CreateOrder;

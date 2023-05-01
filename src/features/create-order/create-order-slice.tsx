@@ -1,24 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import useFetch from "../hooks/useFetch";
-import { ENDPOINTS } from "../utils/contants";
-import { getCookie } from "../utils/cookie";
-import { IOrder, IResponse } from "../utils/types";
-import { refreshToken } from "./refresh-token";
+import useFetch from "../../hooks/useFetch";
+import { ENDPOINTS } from "../../utils/contants";
+import { getCookie } from "../../utils/cookie";
+import { IOrder, IResponse } from "../../utils/types";
+import { refreshToken } from "../refresh-token/refresh-token-slice";
 
-interface OrderDetailsState {
+interface CreateOrderState {
   orderDetails?: IOrder;
   request: boolean;
   error: boolean;
 }
 
-const initialState: OrderDetailsState = {
+const initialState: CreateOrderState = {
   request: false,
   error: false,
 };
 
-export const orderDetailsSlice = createSlice({
-  name: 'orderDetails',
+export const createOrderSlice = createSlice({
+  name: 'createOrder',
   initialState,
   reducers: {
     clearOrderDetails: (state) => {
@@ -46,10 +46,10 @@ export const orderDetailsSlice = createSlice({
 
 export const { 
   clearOrderDetails 
-} = orderDetailsSlice.actions
+} = createOrderSlice.actions
 
 export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: string[] }>(
-  'orderDetails/createOrder',
+  'createOrder',
   async (ingredients: { ingredients: string[] }, { dispatch }) => {
     try {
       const token = getCookie('accessToken');

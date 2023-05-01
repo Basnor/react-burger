@@ -1,7 +1,7 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 
 import { IOrderFeed, IResponse } from "../utils/types";
-import { WebsocketStatus } from "./socket-middleware";
+import { WebsocketStatus } from "./middleware/socket-middleware";
 
 export const connect = createAction<{ url: string, token?: boolean }, "FEED_CONNECT">("FEED_CONNECT");
 export const disconnect = createAction("FEED_DISCONNECT");

@@ -4,7 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { ENDPOINTS } from "../utils/contants";
 import { getCookie } from "../utils/cookie";
 import { IResponse, IUser } from "../utils/types";
-import { refreshToken } from "./refresh-token";
+import { refreshToken } from "../features/refresh-token/refresh-token-slice";
 
 interface IUserState {
   request: boolean;

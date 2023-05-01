@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import useFetch from "../hooks/useFetch";
-import { ENDPOINTS } from "../utils/contants";
-import { IResponse } from "../utils/types";
+import useFetch from "../../hooks/useFetch";
+import { ENDPOINTS } from "../../utils/contants";
+import { IResponse } from "../../utils/types";
 
 interface IResetPasswordState {
   request: boolean;
