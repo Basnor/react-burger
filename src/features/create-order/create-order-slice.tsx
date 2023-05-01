@@ -10,31 +10,27 @@ export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: s
   'createOrder',
   async (ingredients: { ingredients: string[] }, { dispatch }) => {
     try {
+      return await postOrder();
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === "jwt expired") {
+        await dispatch(refreshToken());
+
+        return await postOrder();
+      }
+
+      throw error;
+    }
+
+    async function postOrder() {
       const token = getCookie('accessToken');
       if (!token) {
         throw new Error('Access token not found');
       }
 
-      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
+      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[]; }>(ENDPOINTS.ORDERS);
       const response = await fetchApi.post(ingredients, token);
 
       return response;
-    } catch (error: unknown) {
-      if (error instanceof Error && error.message === "jwt expired") {
-        await dispatch(refreshToken());
-
-        const token = getCookie('accessToken');
-        if (!token) {
-          throw new Error('Access token not found');
-        }
-
-        const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
-        const response = await fetchApi.post(ingredients, token);
-
-        return response;
-      }
-
-      throw error;
     }
   }
 );

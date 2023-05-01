@@ -1,4 +1,4 @@
-import { createOrder, createOrderSlice } from "./create-order-slice";
+import { clearOrderDetails, createOrder, createOrderSlice } from "./create-order-slice";
 
 const reducer = createOrderSlice.reducer;
 
@@ -13,6 +13,20 @@ test("should return the initial state", () => {
   expect(reducer(undefined, { type: undefined })).toEqual({
     request: false,
     error: false,
+  });
+});
+
+test("should handle an order being cleared", () => {
+  const previousState = {
+    request: true,
+    error: false,
+    orderDetails: order,
+  };
+
+  expect(reducer(previousState, clearOrderDetails())).toEqual({
+    request: true,
+    error: false,
+    orderDetails: undefined,
   });
 });
 

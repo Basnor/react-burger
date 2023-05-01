@@ -10,6 +10,13 @@ const initialState: BurgerConstructorState = {
   toppings: []
 };
 
+export const selectConstructorIngredients = (state: BurgerConstructorState) => {
+  const { toppings, bun } = state;
+  const buns = bun ? [bun, bun] : [];
+
+  return [...toppings, ...buns];
+};
+
 export const burgerConstructorSlice = createSlice({
   name: "burgerConstructor",
   initialState,
@@ -43,6 +50,7 @@ export const burgerConstructorSlice = createSlice({
       state,
       action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
     ) => {
+      debugger
       const { dragIndex, hoverIndex } = action.payload;
 
       const dragIngredient = state.toppings[dragIndex];
@@ -61,13 +69,6 @@ export const burgerConstructorSlice = createSlice({
     },
   },
 });
-
-export const selectConstructorIngredients = (state: BurgerConstructorState) => {
-  const { toppings, bun } = state;
-  const buns = bun ? [bun, bun] : [];
-
-  return [...toppings, ...buns];
-};
 
 export const {
   resetBurgerIngredients,
