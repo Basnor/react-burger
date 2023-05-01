@@ -6,6 +6,7 @@ import {
   wsClose,
   wsConnecting,
   wsError,
+  wsMessage,
   wsOpen,
 } from "./feed";
 
@@ -83,7 +84,7 @@ test("should handle ws being got error", () => {
 
 test("should handle ws being got message", () => {
   const action = {
-    type: wsError.type,
+    type: wsMessage.type,
     payload: {
       orders,
       total,

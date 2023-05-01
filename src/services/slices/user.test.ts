@@ -70,7 +70,7 @@ test("should handle an update user being pending", () => {
 });
 
 test("should handle an update user being fulfilled without success", () => {
-  const action = { type: getUser.fulfilled.type, payload: { success: false }};
+  const action = { type: updateUser.fulfilled.type, payload: { success: false }};
   const state = reducer(initialState, action);
 
   expect(state).toEqual({
@@ -81,7 +81,7 @@ test("should handle an update user being fulfilled without success", () => {
 });
 
 test("should handle an update user being fulfilled with success", () => {
-  const action = { type: getUser.fulfilled.type, payload: { 
+  const action = { type: updateUser.fulfilled.type, payload: { 
     success: true, 
     user: user 
   }};
@@ -95,7 +95,7 @@ test("should handle an update user being fulfilled with success", () => {
 });
 
 test("should handle an update user being rejected", () => {
-  const action = { type: getUser.rejected.type, error: { 
+  const action = { type: updateUser.rejected.type, error: { 
     message: "Unknown error happened",
   }};
   const state = reducer(initialState, action);

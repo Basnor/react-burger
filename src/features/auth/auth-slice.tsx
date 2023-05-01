@@ -5,13 +5,49 @@ import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../../utils/contants";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { IResponse, IUser } from "../../utils/types";
 
+interface ILoginResponse extends IResponse {
+  user: IUser;
+  accessToken: string;
+  refreshToken: string;
+}
+
+type LoginBody = { 
+  email: string; 
+  password: string 
+};
+
+export const login = createAsyncThunk<ILoginResponse, LoginBody>(
+  "auth/login",
+  async (user: LoginBody) => {
+    const fetchApi = useFetch<ILoginResponse, LoginBody>(ENDPOINTS.LOGIN);
+    const response = await fetchApi.post(user);
+
+    return response;
+  }
+);
+
+export const logout = createAsyncThunk<IResponse>(
+  "auth/logout",
+  async () => {
+    const token = getCookie('refreshToken');
+    if (!token) {
+      throw new Error('Refresh token required');
+    }
+
+    const fetchApi = useFetch<IResponse, { token: string }>(ENDPOINTS.LOGOUT);
+    const response = await fetchApi.post({ token });
+
+    return response;
+  }
+);
+
 interface IAuthState {
   request: boolean;
   error: boolean;
   user?: IUser;
 }
 
-const initialState: IAuthState = {
+export const initialState: IAuthState = {
   request: false,
   error: false,
 };
@@ -68,36 +104,3 @@ export const authSlice = createSlice({
       });
   },
 });
-
-interface IAuthResponse {
-  user: IUser;
-  accessToken: string;
-  refreshToken: string;
-}
-
-type bodyType = { email: string; password: string };
-
-export const login = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
-  "auth/login",
-  async (user: bodyType) => {
-    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.LOGIN);
-    const response = await fetchApi.post(user);
-
-    return response;
-  }
-);
-
-export const logout = createAsyncThunk<IResponse & { message: string }>(
-  "auth/logout",
-  async () => {
-    const token = getCookie('refreshToken');
-    if (!token) {
-      throw new Error('Refresh token required');
-    }
-
-    const fetchApi = useFetch<IResponse & { message: string }, { token: string }>(ENDPOINTS.LOGOUT);
-    const response = await fetchApi.post({ token });
-
-    return response;
-  }
-);
