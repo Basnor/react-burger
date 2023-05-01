@@ -1,15 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import { burgerIngredientsSlice } from "./burger-ingredients";
-import { burgerConstructorSlice } from "./burger-constructor";
-import { authSlice } from "./auth";
-import { userSlice } from "./user";
-import { refreshTokenSlice } from "../features/refresh-token/refresh-token-slice";
-import { createOrderSlice } from "../features/create-order/create-order-slice";
-import { forgotPasswordSlice } from "../features/forgot-password/forgot-password-slice";
-import { resetPasswordSlice } from "../features/reset-password/reset-password-slice";
-import { registerSlice } from "../features/register/register-slice";
-import { createSocketMiddleware } from "./middleware/socket-middleware";
 import {
   connect as LiveFeedWsConnect,
   disconnect as LiveFeedWsDisconnect,
@@ -20,9 +10,19 @@ import {
   wsError as LiveFeedWsError,
   feedSlice
 } from "./feed";
+import { ingredientsSlice } from "./ingredients";
+import { userSlice } from "./user";
+import { createSocketMiddleware } from "./middleware/socket-middleware";
+import { authSlice } from "../features/auth/auth-slice";
+import { burgerConstructorSlice } from "../features/burger-constructor/burger-constructor-slice";
+import { refreshTokenSlice } from "../features/refresh-token/refresh-token-slice";
+import { createOrderSlice } from "../features/create-order/create-order-slice";
+import { forgotPasswordSlice } from "../features/forgot-password/forgot-password-slice";
+import { resetPasswordSlice } from "../features/reset-password/reset-password-slice";
+import { registerSlice } from "../features/register/register-slice";
 
 export const rootReducer = combineReducers({
-  burgerIngredients: burgerIngredientsSlice.reducer,
+  ingredients: ingredientsSlice.reducer,
   burgerConstructor: burgerConstructorSlice.reducer,
   createOrder: createOrderSlice.reducer,
   auth: authSlice.reducer,

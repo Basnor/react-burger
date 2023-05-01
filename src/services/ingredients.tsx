@@ -4,21 +4,21 @@ import useFetch from "../hooks/useFetch";
 import { ENDPOINTS } from "../utils/contants";
 import { IIngredient, IResponse } from "../utils/types";
 
-interface BurgerIngredientsState {
+interface IngredientsState {
   request: boolean;
   error: boolean;
   ingredients: IIngredient[];
   ingredientDetails?: IIngredient;
 }
 
-const initialState: BurgerIngredientsState = {
+const initialState: IngredientsState = {
   request: false,
   error: false,
   ingredients: [],
 };
 
-export const burgerIngredientsSlice = createSlice({
-  name: "burgerIngredients",
+export const ingredientsSlice = createSlice({
+  name: "ingredients",
   initialState,
   reducers: {
     initIngredientDetails: (state, action: PayloadAction<{ ingredientId: string }>) => {
@@ -53,10 +53,10 @@ export const burgerIngredientsSlice = createSlice({
 export const { 
   initIngredientDetails,
   clearIngredientDetails, 
-} = burgerIngredientsSlice.actions;
+} = ingredientsSlice.actions;
 
 export const getIngredients = createAsyncThunk<IResponse & { data: IIngredient[] }>(
-  "burgerIngredients/getIngredients", 
+  "ingredients/getIngredients", 
   async () => {
     const fetchApi = useFetch<IResponse & { data: IIngredient[] }, unknown>(ENDPOINTS.INGREDIENTS);
     const response = await fetchApi.get();

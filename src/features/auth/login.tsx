@@ -7,10 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./login.module.css";
-import { useAppDispatch, useAppLocation, useAppSelector } from "../hooks";
-import useForm from "../hooks/useForm";
-import { login } from "../services/auth";
-import { EMAIL_REGEX, ROUTES } from "../utils/contants";
+import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
+import useForm from "../../hooks/useForm";
+import { login } from "./auth-slice";
+import { EMAIL_REGEX, ROUTES } from "../../utils/contants";
 
 interface ILoginForm {
   email: string;

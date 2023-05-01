@@ -7,7 +7,7 @@ import {
 import styles from "../burger-constructor.module.css";
 import { IIngredient } from "../../../utils/types";
 import { useAppDispatch } from "../../../hooks";
-import { removeBurgerIngredient } from "../../../services/burger-constructor";
+import { removeBurgerIngredient } from "../../../features/burger-constructor/burger-constructor-slice";
 
 export interface ToppingItemProps {
   ingredient: IIngredient & { uid: string };

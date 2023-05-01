@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import useFetch from "../hooks/useFetch";
-import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../utils/contants";
-import { getCookie, setCookie } from "../utils/cookie";
-import { IResponse, IUser } from "../utils/types";
+import useFetch from "../../hooks/useFetch";
+import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../../utils/contants";
+import { getCookie, setCookie } from "../../utils/cookie";
+import { IResponse, IUser } from "../../utils/types";
 
 interface IAuthState {
   request: boolean;

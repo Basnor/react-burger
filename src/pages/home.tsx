@@ -9,7 +9,7 @@ import BurgerIngredients from "../components/burger-ingredients/burger-ingredien
 import CustomDragLayer from "../components/custom-drag-layer/custom-drag-layer";
 import Modal from "../components/modal/modal";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { clearIngredientDetails, initIngredientDetails } from "../services/burger-ingredients";
+import { clearIngredientDetails, initIngredientDetails } from "../services/ingredients";
 import { ROUTES } from "../utils/contants";
 
 function Home() {
@@ -18,7 +18,7 @@ function Home() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
 
-  const { ingredients, ingredientDetails } = useAppSelector((store) => store.burgerIngredients);
+  const { ingredients, ingredientDetails } = useAppSelector((store) => store.ingredients);
   const { ingredientId } = useParams<{ ingredientId?: string }>();
 
   useEffect(() => {

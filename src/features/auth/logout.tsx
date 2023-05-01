@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { logout } from "../services/auth";
-import { ROUTES } from "../utils/contants";
-import { getUser } from "../services/user";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { logout } from "./auth-slice";
+import { ROUTES } from "../../utils/contants";
+import { getUser } from "../../services/user";
 
 function Logout() {
     const dispatch = useAppDispatch();

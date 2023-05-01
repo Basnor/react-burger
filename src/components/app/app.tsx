@@ -3,12 +3,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "../../pages/home";
 import Feed from "../../pages/feed";
-import Login from "../../pages/login";
+import Login from "../../features/auth/login";
 import Register from "../../features/register/register";
 import ForgotPassword from "../../features/forgot-password/forgot-password";
 import ResetPassword from "../../features/reset-password/reset-password";
 import Profile from "../../pages/profile";
-import Logout from "../../pages/logout";
+import Logout from "../../features/auth/logout";
 import ErrorPage from "../../pages/error-page";
 import BaseLayout from "../base-layout/base-layout";
 import ProtectedRoute, { Role } from "../protected-route/protected-route";

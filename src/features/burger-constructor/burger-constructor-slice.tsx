@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IIngredient, IngredientType } from "../utils/types";
+import { IIngredient, IngredientType } from "../../utils/types";
 
 interface BurgerConstructorState {
   toppings: (IIngredient & { uid: string })[];
