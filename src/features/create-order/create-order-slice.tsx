@@ -6,6 +6,39 @@ import { getCookie } from "../../utils/cookie";
 import { IOrder, IResponse } from "../../utils/types";
 import { refreshToken } from "../refresh-token/refresh-token-slice";
 
+export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: string[] }>(
+  'createOrder',
+  async (ingredients: { ingredients: string[] }, { dispatch }) => {
+    try {
+      const token = getCookie('accessToken');
+      if (!token) {
+        throw new Error('Access token not found');
+      }
+
+      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
+      const response = await fetchApi.post(ingredients, token);
+
+      return response;
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === "jwt expired") {
+        await dispatch(refreshToken());
+
+        const token = getCookie('accessToken');
+        if (!token) {
+          throw new Error('Access token not found');
+        }
+
+        const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
+        const response = await fetchApi.post(ingredients, token);
+
+        return response;
+      }
+
+      throw error;
+    }
+  }
+);
+
 interface CreateOrderState {
   orderDetails?: IOrder;
   request: boolean;
@@ -46,37 +79,4 @@ export const createOrderSlice = createSlice({
 
 export const { 
   clearOrderDetails 
-} = createOrderSlice.actions
-
-export const createOrder = createAsyncThunk<IResponse & IOrder, { ingredients: string[] }>(
-  'createOrder',
-  async (ingredients: { ingredients: string[] }, { dispatch }) => {
-    try {
-      const token = getCookie('accessToken');
-      if (!token) {
-        throw new Error('Access token not found');
-      }
-      
-      const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
-      const response = await fetchApi.post(ingredients, token);
-
-      return response;
-    } catch (error: unknown) {
-      if (error instanceof Error && error.message === "jwt expired") {
-        await dispatch(refreshToken());
-
-        const token = getCookie('accessToken');
-        if (!token) {
-          throw new Error('Access token not found');
-        }
-        
-        const fetchApi = useFetch<IResponse & IOrder, { ingredients: string[] }>(ENDPOINTS.ORDERS);
-        const response = await fetchApi.post(ingredients, token);
-
-        return response;
-      }
-
-      throw error;
-    }
-  }
-)
+} = createOrderSlice.actions;

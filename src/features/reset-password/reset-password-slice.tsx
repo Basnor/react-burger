@@ -4,6 +4,21 @@ import useFetch from "../../hooks/useFetch";
 import { ENDPOINTS } from "../../utils/contants";
 import { IResponse } from "../../utils/types";
 
+type ResetPasswordBody = { 
+  password: string;
+  token: string;
+};
+
+export const resetPassword = createAsyncThunk<IResponse, ResetPasswordBody>(
+  "resetPassword/postResetPassword",
+  async (user: ResetPasswordBody) => {
+    const fetchApi = useFetch<IResponse, ResetPasswordBody>(ENDPOINTS.RESET);
+    const response = await fetchApi.post(user);
+
+    return response;
+  }
+);
+
 interface IResetPasswordState {
   request: boolean;
   error: boolean;
@@ -41,13 +56,3 @@ export const resetPasswordSlice = createSlice({
       });
   },
 });
-
-export const resetPassword = createAsyncThunk<IResponse & { message: string }, { password: string; token: string; }>(
-  "resetPassword/postResetPassword",
-  async (user: { password: string; token: string; }) => {
-    const fetchApi = useFetch<IResponse & { message: string }, { password: string; token: string; }>(ENDPOINTS.RESET);
-    const response = await fetchApi.post(user);
-
-    return response;
-  }
-);

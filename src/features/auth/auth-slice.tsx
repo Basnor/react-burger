@@ -47,7 +47,7 @@ interface IAuthState {
   user?: IUser;
 }
 
-export const initialState: IAuthState = {
+const initialState: IAuthState = {
   request: false,
   error: false,
 };

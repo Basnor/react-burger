@@ -5,6 +5,26 @@ import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../../utils/contants";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { IResponse } from "../../utils/types";
 
+interface ITokenRefreshResponse extends IResponse {
+  accessToken: string
+  refreshToken: string
+}
+
+export const refreshToken = createAsyncThunk<ITokenRefreshResponse>(
+  "token/refresh",
+  async () => {
+    const token = getCookie("refreshToken");
+    if (!token) {
+      throw new Error("Refresh token required.");
+    }
+
+    const fetchApi = useFetch<ITokenRefreshResponse, { token: string }>(ENDPOINTS.TOKEN);
+    const response = await fetchApi.post({ token });
+
+    return response;
+  }
+);
+
 interface IRefreshTokenState {
   request: boolean;
   error: boolean;
@@ -42,23 +62,3 @@ export const refreshTokenSlice = createSlice({
       });
   },
 });
-
-interface ITokenRefreshResponse {
-  accessToken: string
-  refreshToken: string
-}
-
-export const refreshToken = createAsyncThunk<IResponse & ITokenRefreshResponse>(
-  "token/refresh",
-  async () => {
-    const token = getCookie("refreshToken");
-    if (!token) {
-      throw new Error("Refresh token required.");
-    }
-
-    const fetchApi = useFetch<IResponse & ITokenRefreshResponse, { token: string }>(ENDPOINTS.TOKEN);
-    const response = await fetchApi.post({ token });
-
-    return response;
-  }
-);

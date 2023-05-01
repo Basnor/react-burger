@@ -5,6 +5,26 @@ import { COOKIE_LIFETIME_SEC, ENDPOINTS } from "../../utils/contants";
 import { setCookie } from "../../utils/cookie";
 import { IResponse, IUser } from "../../utils/types";
 
+interface IRegisterResponse extends IResponse {
+  user: IUser;
+  accessToken: string;
+  refreshToken: string;
+}
+
+type RegisterBody = IUser & { 
+  password: string 
+};
+
+export const register = createAsyncThunk<IRegisterResponse, RegisterBody>(
+  "register/registerUser",
+  async (user: RegisterBody) => {
+    const fetchApi = useFetch<IRegisterResponse, RegisterBody>(ENDPOINTS.REGISTER);
+    const response = await fetchApi.post(user);
+
+    return response;
+  }
+);
+
 interface IRegisterState {
   request: boolean;
   error: boolean;
@@ -45,21 +65,3 @@ export const registerSlice = createSlice({
       });
   },
 });
-
-interface IAuthResponse {
-  user: IUser;
-  accessToken: string;
-  refreshToken: string;
-}
-
-type bodyType = IUser & { password: string };
-
-export const register = createAsyncThunk<IResponse & IAuthResponse, bodyType>(
-  "register/registerUser",
-  async (user: bodyType) => {
-    const fetchApi = useFetch<IResponse & IAuthResponse, bodyType>(ENDPOINTS.REGISTER);
-    const response = await fetchApi.post(user);
-
-    return response;
-  }
-);

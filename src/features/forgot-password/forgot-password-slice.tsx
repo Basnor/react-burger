@@ -4,6 +4,16 @@ import useFetch from "../../hooks/useFetch";
 import { ENDPOINTS } from "../../utils/contants";
 import { IResponse } from "../../utils/types";
 
+export const forgotPassword = createAsyncThunk<IResponse & { message: string }, { email: string }>(
+  "forgotPassword/postForgotPassword",
+  async (user: { email: string }) => {
+    const fetchApi = useFetch<IResponse & { message: string }, { email: string }>(ENDPOINTS.FORGOT);
+    const response = await fetchApi.post(user);
+
+    return response;
+  }
+);
+
 interface IForgotPasswordState {
   request: boolean;
   error: boolean;
@@ -40,13 +50,3 @@ export const forgotPasswordSlice = createSlice({
       });
   },
 });
-
-export const forgotPassword = createAsyncThunk<IResponse & { message: string }, { email: string }>(
-  "forgotPassword/postForgotPassword",
-  async (user: { email: string }) => {
-    const fetchApi = useFetch<IResponse & { message: string }, { email: string }>(ENDPOINTS.FORGOT);
-    const response = await fetchApi.post(user);
-
-    return response;
-  }
-);
