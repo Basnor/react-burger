@@ -7,7 +7,7 @@ import { clearOrderDetails } from "../../features/create-order/create-order-slic
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
 import CreateOrder from "../../features/create-order/create-order";
-import { getIngredients } from "../../services/slices/ingredients";
+import { getIngredients } from "../../features/ingredients/ingredients-slice";
 
 function BaseLayout() {
   const dispatch = useAppDispatch();

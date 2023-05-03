@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { logout } from "./auth-slice";
 import { ROUTES } from "../../utils/contants";
-import { getUser } from "../../services/slices/user";
+import { getUser } from "../user/user-slice";
 
 function Logout() {
     const dispatch = useAppDispatch();

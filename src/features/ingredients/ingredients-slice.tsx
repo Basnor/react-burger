@@ -4,6 +4,16 @@ import useFetch from "../../hooks/useFetch";
 import { ENDPOINTS } from "../../utils/contants";
 import { IIngredient, IResponse } from "../../utils/types";
 
+export const getIngredients = createAsyncThunk<IResponse & { data: IIngredient[] }>(
+  "ingredients/getIngredients", 
+  async () => {
+    const fetchApi = useFetch<IResponse & { data: IIngredient[] }, unknown>(ENDPOINTS.INGREDIENTS);
+    const response = await fetchApi.get();
+
+    return response;
+  }
+);
+
 interface IngredientsState {
   request: boolean;
   error: boolean;
@@ -11,7 +21,7 @@ interface IngredientsState {
   ingredientDetails?: IIngredient;
 }
 
-export const initialState: IngredientsState = {
+const initialState: IngredientsState = {
   request: false,
   error: false,
   ingredients: [],
@@ -57,13 +67,3 @@ export const {
   initIngredientDetails,
   clearIngredientDetails, 
 } = ingredientsSlice.actions;
-
-export const getIngredients = createAsyncThunk<IResponse & { data: IIngredient[] }>(
-  "ingredients/getIngredients", 
-  async () => {
-    const fetchApi = useFetch<IResponse & { data: IIngredient[] }, unknown>(ENDPOINTS.INGREDIENTS);
-    const response = await fetchApi.get();
-
-    return response;
-  }
-);

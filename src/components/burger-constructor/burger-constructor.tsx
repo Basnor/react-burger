@@ -15,7 +15,7 @@ import BurgerConstructorPrice from "./components/burger-constructor-price";
 import BurgerConstructorEmptyState from "./components/burger-constructor-empty-state";
 import { ROUTES } from "../../utils/contants";
 import { getCookie } from "../../utils/cookie";
-import { getUser } from "../../services/slices/user";
+import { getUser } from "../../features/user/user-slice";
 
 function BurgerConstructor() {
   const dispatch = useAppDispatch();

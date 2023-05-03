@@ -10,8 +10,8 @@ import {
   wsError as LiveFeedWsError,
   feedSlice
 } from "../features/feed/feed-slice";
-import { ingredientsSlice } from "./slices/ingredients";
-import { userSlice } from "./slices/user";
+import { ingredientsSlice } from "../features/ingredients/ingredients-slice";
+import { userSlice } from "../features/user/user-slice";
 import { createSocketMiddleware } from "./middleware/socket-middleware";
 import { authSlice } from "../features/auth/auth-slice";
 import { burgerConstructorSlice } from "../features/burger-constructor/burger-constructor-slice";

@@ -4,7 +4,7 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import useForm from "../../hooks/useForm";
 import { getValuable, isObjectEmpty } from "../../utils/helpers";
-import { updateUser } from "../../services/slices/user";
+import { updateUser } from "../../features/user/user-slice";
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../../utils/contants";
 
 export function ProfileDetails() {

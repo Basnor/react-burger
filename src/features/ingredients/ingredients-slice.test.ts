@@ -4,10 +4,10 @@ import {
   getIngredients,
   ingredientsSlice,
   initIngredientDetails,
-  initialState,
-} from "./ingredients";
+} from "./ingredients-slice";
 
 const reducer = ingredientsSlice.reducer;
+
 const ingredients: IIngredient[] = [
   {
     _id: "643d69a5c3f7b9001cfa093c",
@@ -41,6 +41,12 @@ const ingredients: IIngredient[] = [
 const currentIngredient = ingredients[0];
 
 test("should return the initial state", () => {
+  const initialState = {
+    request: false,
+    error: false,
+    ingredients: [],
+  };
+
   expect(reducer(undefined, { type: undefined })).toEqual(initialState);
 });
 
@@ -79,50 +85,58 @@ test("should handle an ingredient being cleared", () => {
   });
 });
 
-test("should handle an ingredient being pending", () => {
-  const action = { type: getIngredients.pending.type };
-  const state = reducer(initialState, action);
-
-  expect(state).toEqual({
-    ...initialState,
-    request: true,
-  });
-});
-
-test("should handle an ingredient being fulfilled without success", () => {
-  const action = { type: getIngredients.fulfilled.type, payload: { success: false }};
-  const state = reducer(initialState, action);
-
-  expect(state).toEqual({
-    request: false,
-    error: true,
-    ingredients: [],
-  });
-});
-
-test("should handle an ingredient being fulfilled with success", () => {
-  const action = { type: getIngredients.fulfilled.type, payload: { 
-    success: true, 
-    data: ingredients 
-  }};
-  const state = reducer(initialState, action);
-
-  expect(state).toEqual({
+describe("get ingredients", () => {
+  const initialState = {
     request: false,
     error: false,
-    ingredients: ingredients,
-  });
-});
-
-test("should handle an ingredient being rejected", () => {
-  const action = { type: getIngredients.rejected.type, error: { 
-    message: "Unknown error happened",
-  }};
-  const state = reducer(initialState, action);
-
-  expect(state).toEqual({
-    request: false,
-    error: true,
     ingredients: [],
+  };
+
+  test("should be pending", () => {
+    const action = { type: getIngredients.pending.type };
+    const state = reducer(initialState, action);
+  
+    expect(state).toEqual({
+      ...initialState,
+      request: true,
+    });
+  });
+  
+  test("should be fulfilled without success", () => {
+    const action = { type: getIngredients.fulfilled.type, payload: { success: false }};
+    const state = reducer(initialState, action);
+  
+    expect(state).toEqual({
+      request: false,
+      error: true,
+      ingredients: [],
+    });
+  });
+  
+  test("should be fulfilled with success", () => {
+    const action = { type: getIngredients.fulfilled.type, payload: { 
+      success: true, 
+      data: ingredients 
+    }};
+    const state = reducer(initialState, action);
+  
+    expect(state).toEqual({
+      request: false,
+      error: false,
+      ingredients: ingredients,
+    });
+  });
+  
+  test("should be rejected", () => {
+    const action = { type: getIngredients.rejected.type, error: { 
+      message: "Unknown error happened",
+    }};
+    const state = reducer(initialState, action);
+  
+    expect(state).toEqual({
+      request: false,
+      error: true,
+      ingredients: [],
+    });
   });
 });

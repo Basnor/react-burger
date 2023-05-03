@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { RouteProps, useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
-import { getUser } from "../../services/slices/user";
+import { getUser } from "../../features/user/user-slice";
 import { ROUTES } from "../../utils/contants";
 import { getCookie } from "../../utils/cookie";
 import { IUser } from "../../utils/types";
