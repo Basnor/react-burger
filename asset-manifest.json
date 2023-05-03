@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Basnor/react-burger/static/css/main.674d26c4.css",
-    "main.js": "/Basnor/react-burger/static/js/main.8abebae3.js",
+    "main.js": "/Basnor/react-burger/static/js/main.c6480a30.js",
     "static/media/JetBrainsMono-Bold.woff": "/Basnor/react-burger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "/Basnor/react-burger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
     "static/media/JetBrainsMono-Bold.woff2": "/Basnor/react-burger/static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
@@ -11,10 +11,10 @@
     "static/media/done.svg": "/Basnor/react-burger/static/media/done.05839eb8dc5f5ab914608e4720161454.svg",
     "index.html": "/Basnor/react-burger/index.html",
     "main.674d26c4.css.map": "/Basnor/react-burger/static/css/main.674d26c4.css.map",
-    "main.8abebae3.js.map": "/Basnor/react-burger/static/js/main.8abebae3.js.map"
+    "main.c6480a30.js.map": "/Basnor/react-burger/static/js/main.c6480a30.js.map"
   },
   "entrypoints": [
     "static/css/main.674d26c4.css",
-    "static/js/main.8abebae3.js"
+    "static/js/main.c6480a30.js"
   ]
 }
