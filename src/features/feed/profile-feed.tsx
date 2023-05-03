@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import styles from "./profile-orders.module.css";
-import Modal from "../modal/modal";
-import OrderFeedItem from "../order-feed-item/order-feed-item";
+import styles from "./profile-feed.module.css";
+import Modal from "../../components/modal/modal";
+import OrderFeedItem from "../../components/order-feed-item/order-feed-item";
 import { useAppSelector } from "../../hooks";
 import { ROUTES } from "../../utils/contants";
 
-function ProfileOrders() {
+function ProfileFeed() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
@@ -40,4 +40,4 @@ function ProfileOrders() {
   );
 }
 
-export default ProfileOrders;
+export default ProfileFeed;

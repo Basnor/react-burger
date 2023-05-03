@@ -5,7 +5,7 @@ import styles from "./profile.module.css";
 import ProfileSidebar from "../components/profile-sidebar/profile-sidebar";
 import OrderDetails from "../components/order-details/order-details";
 import { useAppDispatch } from "../hooks";
-import { connect, disconnect } from "../services/slices/feed";
+import { connect, disconnect } from "../features/feed/feed-slice";
 import { ORDERS_URL } from "../utils/contants";
 
 function Profile() {

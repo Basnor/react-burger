@@ -1,7 +1,7 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 
 import { IOrderFeed, IResponse } from "../../utils/types";
-import { WebsocketStatus } from "../middleware/socket-middleware";
+import { WebsocketStatus } from "../../services/middleware/socket-middleware";
 
 export const connect = createAction<{ url: string, token?: boolean }, "FEED_CONNECT">("FEED_CONNECT");
 export const disconnect = createAction("FEED_DISCONNECT");
@@ -25,7 +25,7 @@ interface IFeedState {
   error: string;
 }
 
-export const initialState: IFeedState & IOrderFeed = {
+const initialState: IFeedState & IOrderFeed = {
   status: WebsocketStatus.OFFLINE,
   error: '',
   orders: [],

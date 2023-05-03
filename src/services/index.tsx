@@ -9,7 +9,7 @@ import {
   wsMessage as LiveFeedWsMessage,
   wsError as LiveFeedWsError,
   feedSlice
-} from "./slices/feed";
+} from "../features/feed/feed-slice";
 import { ingredientsSlice } from "./slices/ingredients";
 import { userSlice } from "./slices/user";
 import { createSocketMiddleware } from "./middleware/socket-middleware";
