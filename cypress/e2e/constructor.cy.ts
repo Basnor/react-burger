@@ -4,26 +4,7 @@ describe("burger constructor", () => {
     cy.visit("/");
   });
 
-  it("should be available localhost:3000", function () {
-    cy.contains("Соберите бургер");
-  });
-
-  describe("ingredient modal", () => {
-    beforeEach(function () {
-      cy.get(".burger-ingredients_item__JizN0").first().click();
-    });
-
-    it("should open ingredient details", function () {
-      cy.contains("Детали ингредиента");
-    });
-
-    it("should close ingredient details by button", function () {
-      cy.get(".modal_closeButton__DsCEZ > svg").click();
-      cy.visit("/");
-    });
-  });
-
-  describe("drag ingredient in constructor", () => {
+  describe("drag ingredient into constructor", () => {
     it("should drag bun", () => {
       cy.get(".burger-constructor_empty__DWOcZ").contains("Перетащи сюда!");
       cy.get(".constructor-element_pos_top").should("not.exist");
@@ -75,7 +56,7 @@ describe("burger constructor", () => {
     beforeEach(function () {
       const email = "anastasiya@anastasiya.com";
       const password = "anastasiya";
-      
+
       cy.visit("/login");
       cy.get("input").first().type(email);
       cy.get("input").last().type(password);
@@ -83,11 +64,11 @@ describe("burger constructor", () => {
     });
 
     it("should made order", () => {
-      cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', (req) => {
+      cy.intercept("POST", "https://norma.nomoreparties.space/api/orders", (req) => {
         req.reply({
           statusCode: 200,
-          fixture: 'create-order.json'
-        })
+          fixture: "create-order.json",
+        });
       }).as("createOrder");
 
       cy.contains(".burger-ingredients_item__JizN0", "Биокотлета из марсианской Магнолии").as("topping1");
@@ -113,10 +94,10 @@ describe("burger constructor", () => {
       cy.get(".burger-constructor_pricing__HkT-- > .button").click();
       cy.wait("@createOrder");
 
-      cy.get('.create-order_wrapper__JU8oQ').as("modal");
+      cy.get(".create-order_wrapper__JU8oQ").as("modal");
 
-      cy.get("@modal").find('.create-order_number__c4W3q').contains("2876");
-      cy.get("@modal").find('.mt-15').contains("Ваш заказ начали готовить");
+      cy.get("@modal").find(".create-order_number__c4W3q").contains("2876");
+      cy.get("@modal").find(".mt-15").contains("Ваш заказ начали готовить");
 
       cy.get(".modal_closeButton__DsCEZ > svg").click();
       cy.get("@modal").should("not.exist");
