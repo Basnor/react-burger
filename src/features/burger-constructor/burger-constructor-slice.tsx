@@ -50,7 +50,6 @@ export const burgerConstructorSlice = createSlice({
       state,
       action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
     ) => {
-      debugger
       const { dragIndex, hoverIndex } = action.payload;
 
       const dragIngredient = state.toppings[dragIndex];
