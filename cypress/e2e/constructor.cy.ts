@@ -4,48 +4,53 @@ describe("burger constructor", () => {
     cy.visit("/");
   });
 
+  const empty = '[class^="burger-constructor_empty"]';
+  const pricingText = '[class^="burger-constructor_pricing"] > .text';
+  const elementTop = ".constructor-element_pos_top";
+  const elementBottom = ".constructor-element_pos_bottom";
+
   describe("drag ingredient into constructor", () => {
     it("should drag bun", () => {
-      cy.get(".burger-constructor_empty__DWOcZ").contains("Перетащи сюда!");
-      cy.get(".constructor-element_pos_top").should("not.exist");
-      cy.get(".constructor-element_pos_bottom").should("not.exist");
-      cy.get(".burger-constructor_pricing__HkT-- > .text").should("not.exist");
+      cy.get(empty).contains("Перетащи сюда!");
+      cy.get(elementTop).should("not.exist");
+      cy.get(elementBottom).should("not.exist");
+      cy.get(pricingText).should("not.exist");
 
-      cy.contains(".burger-ingredients_item__JizN0", "Краторная булка N-200i").trigger("dragstart");
-      cy.get(".burger-constructor_empty__DWOcZ").contains("Перетащи сюда!");
-      cy.get(".burger-constructor_wrapper__hEXq5").trigger("drop");
+      cy.contains('[class^="burger-ingredients_item"]', "Краторная булка N-200i").trigger("dragstart");
+      cy.get(empty).contains("Перетащи сюда!");
+      cy.get('[class^="burger-constructor_wrapper"]').trigger("drop");
 
-      cy.get(".burger-constructor_empty__DWOcZ").should("not.exist");
-      cy.get(".constructor-element_pos_top").contains("Краторная булка N-200i (верх)");
-      cy.get(".constructor-element_pos_bottom").contains("Краторная булка N-200i (низ)");
-      cy.get(".burger-constructor_pricing__HkT-- > .text").then(($totlaCost) => {
+      cy.get(empty).should("not.exist");
+      cy.get(elementTop).contains("Краторная булка N-200i (верх)");
+      cy.get(elementBottom).contains("Краторная булка N-200i (низ)");
+      cy.get(pricingText).then(($totlaCost) => {
         const totlaCost = $totlaCost.text().trim();
         expect(totlaCost).eq("0");
       });
       cy.wait(1000);
-      cy.get(".burger-constructor_pricing__HkT-- > .text").then(($totlaCost) => {
+      cy.get(pricingText).then(($totlaCost) => {
         const totlaCost = $totlaCost.text().trim();
         expect(totlaCost).eq("2510");
       });
     });
 
     it("should drag topping", () => {
-      cy.get(".burger-constructor_empty__DWOcZ").contains("Перетащи сюда!");
-      cy.get(".constructor-element_pos_top").should("not.exist");
-      cy.get(".constructor-element_pos_bottom").should("not.exist");
-      cy.get(".burger-constructor_pricing__HkT-- > .text").should("not.exist");
+      cy.get(empty).contains("Перетащи сюда!");
+      cy.get(elementTop).should("not.exist");
+      cy.get(elementBottom).should("not.exist");
+      cy.get(pricingText).should("not.exist");
 
-      cy.contains(".burger-ingredients_item__JizN0", "Мясо бессмертных моллюсков Protostomia").trigger("dragstart");
-      cy.get(".burger-constructor_wrapper__hEXq5").trigger("drop");
+      cy.contains('[class^="burger-ingredients_item"]', "Мясо бессмертных моллюсков Protostomia").trigger("dragstart");
+      cy.get('[class^="burger-constructor_wrapper"]').trigger("drop");
 
-      cy.get(".burger-constructor_empty__DWOcZ").should("not.exist");
-      cy.get(".burger-constructor_topping__ueEuY").contains("Мясо бессмертных моллюсков Protostomia");
-      cy.get(".burger-constructor_pricing__HkT-- > .text").then(($totlaCost) => {
+      cy.get(empty).should("not.exist");
+      cy.get('[class^="burger-constructor_topping"]').contains("Мясо бессмертных моллюсков Protostomia");
+      cy.get(pricingText).then(($totlaCost) => {
         const totlaCost = $totlaCost.text().trim();
         expect(totlaCost).eq("0");
       });
       cy.wait(1000);
-      cy.get(".burger-constructor_pricing__HkT-- > .text").then(($totlaCost) => {
+      cy.get(pricingText).then(($totlaCost) => {
         const totlaCost = $totlaCost.text().trim();
         expect(totlaCost).eq("1337");
       });
@@ -57,10 +62,10 @@ describe("burger constructor", () => {
       const email = "anastasiya@anastasiya.com";
       const password = "anastasiya";
 
-      cy.visit("/login");
+      cy.visit("/#/login");
       cy.get("input").first().type(email);
       cy.get("input").last().type(password);
-      cy.get(".login_form__57CYN > .button").click();
+      cy.get('[class^="login_form"] > .button').click();
     });
 
     it("should made order", () => {
@@ -71,16 +76,18 @@ describe("burger constructor", () => {
         });
       }).as("createOrder");
 
-      cy.contains(".burger-ingredients_item__JizN0", "Биокотлета из марсианской Магнолии").as("topping1");
-      cy.contains(".burger-ingredients_item__JizN0", "Хрустящие минеральные кольца").as("topping2");
-      cy.contains(".burger-ingredients_item__JizN0", "Соус фирменный Space Sauce").as("topping3");
-      cy.contains(".burger-ingredients_item__JizN0", "Краторная булка N-200i").as("bun");
-      cy.get(".burger-constructor_wrapper__hEXq5").as("dropZone");
+      const item = '[class^="burger-ingredients_item"]';
 
-      cy.get(".burger-constructor_empty__DWOcZ").contains("Перетащи сюда!");
-      cy.get(".constructor-element_pos_top").should("not.exist");
-      cy.get(".constructor-element_pos_bottom").should("not.exist");
-      cy.get(".burger-constructor_pricing__HkT-- > .text").should("not.exist");
+      cy.contains(item, "Биокотлета из марсианской Магнолии").as("topping1");
+      cy.contains(item, "Хрустящие минеральные кольца").as("topping2");
+      cy.contains(item, "Соус фирменный Space Sauce").as("topping3");
+      cy.contains(item, "Краторная булка N-200i").as("bun");
+      cy.get('[class^="burger-constructor_wrapper"]').as("dropZone");
+
+      cy.get(empty).contains("Перетащи сюда!");
+      cy.get(elementTop).should("not.exist");
+      cy.get(elementBottom).should("not.exist");
+      cy.get(pricingText).should("not.exist");
 
       cy.get("@topping1").trigger("dragstart");
       cy.get("@dropZone").trigger("drop");
@@ -91,15 +98,15 @@ describe("burger constructor", () => {
       cy.get("@bun").trigger("dragstart");
       cy.get("@dropZone").trigger("drop");
 
-      cy.get(".burger-constructor_pricing__HkT-- > .button").click();
+      cy.get('[class^="burger-constructor_pricing"] > .button').click();
       cy.wait("@createOrder");
 
-      cy.get(".create-order_wrapper__JU8oQ").as("modal");
+      cy.get('[class^="create-order_wrapper"]').as("modal");
 
-      cy.get("@modal").find(".create-order_number__c4W3q").contains("2876");
+      cy.get("@modal").find('[class^="create-order_number"]').contains("2876");
       cy.get("@modal").find(".mt-15").contains("Ваш заказ начали готовить");
 
-      cy.get(".modal_closeButton__DsCEZ > svg").click();
+      cy.get('[class^="modal_closeButton"] > svg').click();
       cy.get("@modal").should("not.exist");
     });
   });

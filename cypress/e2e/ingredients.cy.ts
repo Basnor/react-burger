@@ -10,31 +10,33 @@ describe("burger ingredients", () => {
 
   describe("ingredient modal", () => {
     beforeEach(function () {
-      cy.get(".burger-ingredients_item__JizN0").first().click();
+      cy.get('[class^="burger-ingredients_item"]').first().click();
     });
 
     it("should open ingredient details", function () {
       cy.contains("Детали ингредиента");
 
-      cy.get('.modal_modal__4TXNT').contains("Краторная булка N-200i");
-      cy.get('.modal_modal__4TXNT').contains("Калории");
-      cy.get('.modal_modal__4TXNT').contains("420");
-      cy.get('.modal_modal__4TXNT').contains("Белки");
-      cy.get('.modal_modal__4TXNT').contains("80");
-      cy.get('.modal_modal__4TXNT').contains("Жиры");
-      cy.get('.modal_modal__4TXNT').contains("24");
-      cy.get('.modal_modal__4TXNT').contains("Углеводы");
-      cy.get('.modal_modal__4TXNT').contains("53");
+      const modal = '[class^="modal_modal"]';
+
+      cy.get(modal).contains("Краторная булка N-200i");
+      cy.get(modal).contains("Калории");
+      cy.get(modal).contains("Белки");
+      cy.get(modal).contains("80");
+      cy.get(modal).contains("Жиры");
+      cy.get(modal).contains("24");
+      cy.get(modal).contains("420");
+      cy.get(modal).contains("Углеводы");
+      cy.get(modal).contains("53");
     });
 
     it("should close ingredient details by button", function () {
-      cy.get(".modal_closeButton__DsCEZ > svg").click();
-      cy.get(".modal_modal__4TXNT").should("not.exist");
+      cy.get('[class^="modal_closeButton"] > svg').click();
+      cy.get('[class^="modal_modal"]').should("not.exist");
     });
 
     it("should close ingredient details by esc", () => {
       cy.get("body").type("{esc}");
-      cy.get(".modal_modal__4TXNT").should("not.exist");
+      cy.get('[class^="modal_modal"]').should("not.exist");
     });
   });
 
@@ -51,12 +53,12 @@ describe("burger ingredients", () => {
 
       const ingredientNames: string[] = [];
 
-      cy.get(".burger-ingredients_item__JizN0").each(($ingredient) => {
+      cy.get('[class^="burger-ingredients_item"]').each(($ingredient) => {
         const name = $ingredient.find(".text_type_main-default").text().trim();
         ingredientNames.push(name);
       });
 
-      cy.get(".burger-ingredients_wrapper__zjmOM").then(() => {
+      cy.get('[class^="burger-ingredients_wrapper"]').then(() => {
         expect(ingredientNames).to.include.members([
           "Краторная булка N-200i",
           "Биокотлета из марсианской Магнолии",
