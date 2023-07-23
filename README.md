@@ -1,5 +1,7 @@
 # Stellar Burgers
 
+[GitHub Pages](https://basnor.github.io/react-burger/)
+
 Stellar Burgers app from the practical part [Yandex Practicum](https://practicum.yandex.ru/react/). This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -3,7 +3,7 @@ import { useDrag, useDrop, XYCoord } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
 import { useAppDispatch } from "../../../hooks";
-import { moveBurgerIngredient } from "../../../services/burger-constructor";
+import { moveBurgerIngredient } from "../../../features/burger-constructor/burger-constructor-slice";
 import { DragType, IIngredient } from "../../../utils/types";
 import { ToppingItemProps } from "./topping-item";
 

@@ -9,7 +9,7 @@ import { OrderStatus } from "../../utils/types";
 
 function OrderDetails() {
   const { orderId } = useParams<{ orderId: string }>();
-  const ingredients = useAppSelector((store) => store.burgerIngredients.ingredients);
+  const ingredients = useAppSelector((store) => store.ingredients.ingredients);
   const orders = useAppSelector((store) => store.feed.orders);
 
   const order = orders?.find(({ _id }) => _id === orderId);

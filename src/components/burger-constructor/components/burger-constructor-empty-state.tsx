@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useAppSelector } from "../../../hooks";
-import { selectConstructorIngredients } from "../../../services/burger-constructor";
+import { selectConstructorIngredients } from "../../../features/burger-constructor/burger-constructor-slice";
 import styles from "../burger-constructor.module.css";
 
 interface BurgerConstructorEmptyStateProps {

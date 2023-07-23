@@ -9,20 +9,20 @@ import BurgerConstructorBuns from "./components/burger-constructor-buns";
 import { DragType, IIngredient } from "../../utils/types";
 import { useAppDispatch, useAppLocation, useAppSelector } from "../../hooks";
 import BurgerConstructorToppings from "./components/burger-constructor-toppings";
-import { addBurgerIngredient, resetBurgerIngredients, selectConstructorIngredients } from "../../services/burger-constructor";
-import { createOrder } from "../../services/order-details";
+import { addBurgerIngredient, resetBurgerIngredients, selectConstructorIngredients } from "../../features/burger-constructor/burger-constructor-slice";
+import { createOrder } from "../../features/create-order/create-order-slice";
 import BurgerConstructorPrice from "./components/burger-constructor-price";
 import BurgerConstructorEmptyState from "./components/burger-constructor-empty-state";
 import { ROUTES } from "../../utils/contants";
 import { getCookie } from "../../utils/cookie";
-import { getUser } from "../../services/user";
+import { getUser } from "../../features/user/user-slice";
 
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
   const location = useAppLocation();
   const navigate = useNavigate();
 
-  const { orderDetails, request } = useAppSelector((store) => store.orderDetails);
+  const { orderDetails, request } = useAppSelector((store) => store.createOrder);
   const { user } = useAppSelector((store) => store.user);
   const constructorIngredients = useAppSelector((store) => selectConstructorIngredients(store.burgerConstructor));
 

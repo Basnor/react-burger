@@ -18,7 +18,7 @@ function OrderFeedItem(props: OrderFeedItemProps) {
   const { order } = props;
 
   const location = useAppLocation();
-  const ingredients = useAppSelector((store) => store.burgerIngredients.ingredients);
+  const ingredients = useAppSelector((store) => store.ingredients.ingredients);
   const orderIngredients = ingredients.filter((ingredient) => order.ingredients.includes(ingredient._id));
   const orderPrice = orderIngredients.reduce((totalPrice, { price }) => totalPrice + price, 0);
 

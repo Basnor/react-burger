@@ -4,7 +4,7 @@ import styles from "./ingredient-details.module.css";
 import { useAppSelector } from "../../hooks";
 
 function IngredientDetails() {
-  const { ingredientDetails } = useAppSelector((store) => store.burgerIngredients);
+  const { ingredientDetails } = useAppSelector((store) => store.ingredients);
 
   const details = [
     {

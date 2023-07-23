@@ -31,7 +31,7 @@ const DraggableIngredientItem = draggable(IngredientItem);
 
 function BurgerIngredients() {
   const ingredientsRef = useRef<HTMLDivElement>(null);
-  const { ingredients, error } = useAppSelector((store) => store.burgerIngredients);
+  const { ingredients, error } = useAppSelector((store) => store.ingredients);
 
   const filteredIngredients = (type: IngredientType) => {
     if (error) {
